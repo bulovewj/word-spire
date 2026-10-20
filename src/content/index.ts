@@ -1,10 +1,12 @@
 import type { Passage, WordEntry } from './types'
 import { pack56, STARTER_DECK_56 } from './words/pack-5-6'
 import { bee1 } from './passages/bee-1'
+import { bee2 } from './passages/bee-2'
+import { bee3 } from './passages/bee-3'
 import { validateContent } from './validate'
 
 export const wordPacks: Record<string, WordEntry[]> = { 'words/pack-5-6': pack56 }
-export const passages: Passage[] = [bee1]
+export const passages: Passage[] = [bee1, bee2, bee3]
 export const starterDeck: string[] = STARTER_DECK_56
 
 /** 앱 시작 전에 부른다. 문제가 있으면 목록을 돌려준다. */
