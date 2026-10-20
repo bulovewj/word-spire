@@ -1,0 +1,44 @@
+출처: https://cau.scholarworks.kr/item/73b05ab9-002e-45c0-adae-8bba97f40bd4
+저장일: 2026-10-12
+---
+상세 보기
+잠재계층분석을 활용한 초등학교 6학년 학생들의 어휘 및 읽기이해력 분석
+Analysis of Vocabulary and Reading Comprehension Abilities of Elementary School 6th Grade Students Using the Latent Class Model
+김동일;
+이재호;
+김희주
+Citation
+Export
+초록
+본 연구에서는 초등학생의 어휘 및 읽기이해 능력을 분석하고자 잠재계층모형을 활용하여 집단별 특성을 살펴보고자 하였다. 이를 위하여 서울과 대구 두 지역에서 편의표집으로 초등학교 6학년 학생 524명을 선정하였으며, 표준화된 기초학습기능 어휘 검사와 읽기이해력 검사를 사용하여 잠재계층 분석을 실시하였다. 그 결과 어휘 검사와 읽기이해력 검사 모두 상위 집단과 하위 집단인 2개의 집단으로 구분할 수 있었다. 상위집단이 과반수로 대다수를 차지하였으며, 집단 간 하위 구인의 점수는 모두 유의미하게 차이가 있었다. 연구 결과 교육과정중심측정의 원리에 근거한 검사도구를 활용하여 어휘와 읽기이해에 어려움이 있는 학생들의 수를 잠재계층분석을 통하여 확인할 수 있었으며, 각 집단이 보이는 특징과 이들에게 제공할 교육적 중재에 대하여 논의와 시사점을 제시하였다.
+키워드
+Latent Class Analysis; Vocabulary; Reading Comprehension; At Risk Student with Learning Disability; 잠재계층분석; 어휘; 읽기이해; 학습장애 위험 학생
+제목
+잠재계층분석을 활용한 초등학교 6학년 학생들의 어휘 및 읽기이해력 분석
+제목 (타언어)
+Analysis of Vocabulary and Reading Comprehension Abilities of Elementary School 6th Grade Students Using the Latent Class Model
+저자
+김동일; 이재호; 김희주
+DOI
+10.24005/seci.2019.12.1.27
+발행일
+2019-03
+저널명
+특수교육교과교육연구
+권
+12
+호
+1
+페이지
+27 ~ 44
+언어
+KOR
+출판사
+한국특수교육교과교육학회
+발행국가
+대한민국
+분량
+18 페이지
+ISSN
+P 2005-6486
+더보기

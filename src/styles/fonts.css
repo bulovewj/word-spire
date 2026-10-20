@@ -1,0 +1,19 @@
+/* Galmuri (OFL) — woff2 3개만 쓴다 */
+@font-face {
+  font-family: 'Galmuri11';
+  src: url('galmuri/dist/Galmuri11.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Galmuri11';
+  src: url('galmuri/dist/Galmuri11-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Galmuri9';
+  src: url('galmuri/dist/Galmuri9.woff2') format('woff2');
+  font-weight: 400;
+  font-display: swap;
+}

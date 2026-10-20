@@ -1,0 +1,41 @@
+/* 원본 카드 프레임을 안쪽으로 맞추어 체크무늬 여백을 잘라낸다. */
+.hand { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:12px; align-items:stretch; }
+.card { position:relative; display:flex; flex-direction:column; gap:7px; min-width:0; padding:16px 15px 13px; border:0; border-radius:9px; text-align:left; color:var(--ink); background:#fff4da url("../assets/cards/card-base-lavender-v1.png") center/110% 112%; box-shadow:0 5px 0 #201b34aa,0 12px 20px #17102445; transition:transform .15s ease,box-shadow .15s ease,filter .15s ease; }
+button.card:hover:not(:disabled) { transform:translateY(-7px); box-shadow:0 5px 0 #201b34aa,0 17px 24px #17102455; z-index:1; }
+.card:focus-visible { outline:3px solid #ffe08a; outline-offset:4px; }
+.card.matched { box-shadow:0 0 0 2px #e8bb60,0 0 18px #ffd98c30,0 7px 0 #201b34aa; }
+.card.matched:hover:not(:disabled) { box-shadow:0 0 0 2px #f6d17c,0 0 25px #ffd98c40,0 10px 20px #17102455; }
+.card:disabled { filter:saturate(.4); color:#726a73; }
+.card:disabled::after { content:""; position:absolute; inset:0; border-radius:inherit; background:#27233715; pointer-events:none; }
+.card-topline { display:flex; align-items:center; justify-content:space-between; gap:4px; padding:0 3px; min-height:22px; }
+.card-cost { display:grid; place-items:center; width:25px; height:25px; border-radius:5px; background:#826899; color:#fff7e9; box-shadow:inset 0 0 0 1px #bbaac8; font-size:15px; font-weight:800; }
+.card-type { font-size:10px; letter-spacing:.08em; color:#88719b; }
+.card-art { display:block; width:100%; height:85px; margin-top:1px; border-radius:3px; background-image:url("../assets/concept/word-spire-battle-v1.png"); background-size:945% 804%; background-position-y:75.85%; background-repeat:no-repeat; border:1px solid #dfcbaa; }
+.art-c01 { background-position-x:18.6%; }
+.art-c02 { background-position-x:34.85%; }
+.art-c03 { background-position-x:51.1%; }
+.art-c17 { background-position-x:67.35%; }
+.art-c23 { background-position-x:83.6%; }
+.art-generic { display:flex; align-items:center; justify-content:center; color:#826d9b; background-image:linear-gradient(#fff4deaa,#fff4deaa),url("../assets/backgrounds/library-battle-v1.png"); background-size:cover; background-position:center; font-family:serif; font-size:25px; letter-spacing:.2em; }
+.card-word { display:block; min-height:40px; font-weight:800; font-size:15px; line-height:1.4; word-break:keep-all; text-wrap:balance; }
+.card-meaning { display:block; color:#776572; font-size:12px; line-height:1.45; flex:1; min-height:32px; word-break:keep-all; }
+.card-tags { display:block; color:#8d735a; font-size:10px; line-height:1.5; }
+.card-stats { display:flex; justify-content:space-between; align-items:center; gap:4px; padding-top:7px; border-top:1px solid #d8c8ac; font-weight:800; font-size:11px; }
+.card-grade { color:#8d7043; font-size:10px; }
+.card-effect { color:#73617d; font-size:10px; }
+.reward-offers { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px; margin:30px 0; }
+.reward-offers .card { min-height:320px; }
+.card-example { font-size:12px; line-height:1.7; color:#81717d; }
+.card-take-btn { margin-top:8px; min-height:44px; border:1px solid #a18b62; border-radius:5px; background:#4c6c54; color:#fff5df; font-weight:700; }
+.card-take-btn:disabled { opacity:.5; }
+@media(min-width:1500px) { .card-art { height:85px; } .card { padding:18px 17px 16px; } .card-word { font-size:17px; } .card-meaning { font-size:12px; } }
+@media(max-width:1000px) and (min-width:651px) { .hand { gap:9px; } .card { padding:14px 10px 12px; } .card-art { height:70px; } .card-word { font-size:13px; } .card-meaning { font-size:12px; } }
+@media(max-width:900px) { .hand { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media(max-width:650px) {
+  .hand { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+  .card { padding:15px 13px; gap:6px; }
+  .card-art { height:90px; }
+  .card-word { font-size:14px; min-height:38px; }
+  .card-meaning { font-size:12px; }
+  .reward-offers { grid-template-columns:1fr; max-width:270px; margin:24px auto; }
+}

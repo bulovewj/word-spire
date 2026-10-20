@@ -1,0 +1,28 @@
+/* 색·글꼴 변수. 화면 디자인은 M11에서 다듬는다 */
+:root {
+  --color-bg: #1d1b2b;
+  --color-panel: #2c2940;
+  --color-ink: #f3ecd9;
+  --color-muted: #a59fbf;
+  --color-accent: #f0c36a;
+  --color-hp: #e0605e;
+  --color-block: #6aa8e0;
+  --color-good: #7cc68a;
+  --color-weak: #e0b25e;
+  --color-fail: #8a8399;
+
+  --font-body: 'Galmuri11', system-ui, sans-serif;
+  --font-small: 'Galmuri9', system-ui, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: none;
+}

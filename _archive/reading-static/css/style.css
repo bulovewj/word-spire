@@ -1,0 +1,56 @@
+/* 공통 화면과 조작 요소. 외부 폰트·라이브러리 없이 오프라인 실행. */
+:root { color-scheme:light; --ink:#302c40; --cream:#fff4d8; --sage:#436756; --gold:#d8af65; --muted:#75667c; }
+* { box-sizing:border-box; }
+body { margin:0; color:var(--ink); background:#262737; font-family:"Apple SD Gothic Neo","Malgun Gothic",sans-serif; -webkit-font-smoothing:antialiased; }
+button { font:inherit; cursor:pointer; touch-action:manipulation; }
+button:disabled { cursor:default; }
+button:focus-visible { outline:3px solid #f1c966; outline-offset:4px; }
+button:not(:disabled):active { scale:.96; }
+[hidden] { display:none !important; }
+h1,h2,p { margin:0; }
+h1,h2 { text-wrap:balance; }
+p { text-wrap:pretty; }
+#app { min-height:100svh; }
+.screen { display:none; }
+.screen.active { display:block; }
+.eyebrow { font-size:11px; font-weight:800; letter-spacing:.12em; }
+.big-button { min-height:48px; padding:12px 24px; border:1px solid #9da57d; border-radius:8px; color:#fff7df; background:linear-gradient(#54755f,#365440); box-shadow:inset 0 0 0 3px #ffffff0c,0 4px 0 #223c32,0 8px 20px #17172125; font-weight:800; transition:background-color .15s,scale .15s,box-shadow .15s; }
+.big-button:not(:disabled):hover { background:#5a7b5d; box-shadow:inset 0 0 0 3px #ffffff17,0 4px 0 #223c32,0 8px 24px #17172140; }
+.big-button.secondary { background:#eee3cf; border-color:#d7c49d; color:#51445b; box-shadow:0 3px 0 #c5b58f; }
+.big-button.secondary:hover { background:#fff1d9; }
+.big-button:disabled { opacity:.5; }
+.text-button { padding:10px 12px; min-height:44px; background:none; border:0; color:inherit; font-weight:700; transition:scale .15s; }
+.text-button:hover { text-decoration:underline; text-underline-offset:4px; }
+.subtitle { color:#796b72; line-height:1.7; }
+#screen-title { min-height:100svh; padding:clamp(36px,8vw,120px); background:linear-gradient(90deg,#f7ebdfef 0%,#f7ebdfdc 24%,#f7ebdf00 65%),url("../assets/concept/word-spire-key-art-v1.png") center/cover; }
+.title-copy { max-width:365px; padding:5vh 0; }
+.title-copy .eyebrow { color:#6b596f; }
+.game-title { margin:16px 0 6px; font-family:serif; font-size:clamp(68px,7vw,106px); letter-spacing:-.07em; }
+.title-copy .subtitle { font-weight:700; font-size:20px; color:#514459; }
+.title-description { margin:22px 0 30px; line-height:1.8; color:#655568; }
+.title-copy .big-button { width:100%; margin:0 0 12px; }
+.title-copy .text-button { width:100%; font-size:14px; margin:10px 0; }
+.record { font-size:12px; text-align:center; color:#71606d; }
+.panel-screen { max-width:940px; margin:32px auto; padding:40px; background:#fff3dc; border:1px solid #d7bb83; border-radius:16px; box-shadow:0 16px 60px #09091950; text-align:center; }
+.panel-screen .eyebrow { color:#867048; margin-bottom:12px; }
+.section-title { font-size:32px; margin:0 0 12px; }
+.panel-screen>.big-button { margin-top:22px; }
+.battle-buttons { display:flex; justify-content:center; gap:12px; margin-top:20px; }
+.map-status { color:#776876; font-size:14px; }
+.map-list { display:flex; flex-direction:column; gap:8px; max-width:500px; margin:24px auto; }
+.map-node { text-align:left; padding:14px 20px; border:1px solid #d5c6ad; border-radius:6px; min-height:48px; background:#e9e0d2; color:#978f82; }
+.map-node-done { background:#e2e8d5; color:#5c7754; }
+.map-node-current { background:#486451; color:#fff1cd; font-weight:800; border:2px solid #c8a657; }
+.map-node-current:hover { background:#5c7c60; }
+.modal-box { width:min(480px,calc(100% - 32px)); max-height:80svh; border:2px solid #d2b98c; border-radius:12px; padding:24px; color:var(--ink); background:#fff4dc; box-shadow:0 24px 80px #15102366; }
+.modal-box::backdrop { background:#211a33aa; backdrop-filter:blur(4px); }
+.modal-heading { display:flex; gap:10px; align-items:center; justify-content:space-between; margin-bottom:14px; }
+.modal-heading h2 { font-size:20px; }
+.deck-list-row { display:flex; justify-content:space-between; gap:12px; padding:13px 0; border-bottom:1px solid #ded1b8; font-size:14px; }
+.deck-list-row small { color:#7f6b83; white-space:nowrap; }
+@media(max-width:700px) {
+  #screen-title { background-position:60% center; background-image:linear-gradient(90deg,#f7ebdff2,#f7ebdf99),url("../assets/concept/word-spire-key-art-v1.png"); }
+  .panel-screen { margin:12px; padding:26px 18px; }
+  .section-title { font-size:27px; }
+}
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { transition:none !important; animation:none !important; scroll-behavior:auto !important; } }
