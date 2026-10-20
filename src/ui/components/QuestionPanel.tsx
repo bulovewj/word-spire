@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import type { Question } from '../../content/types'
+import { BALANCE } from '../../engine/balance'
 import { previewDamage, type Confidence, type JudgeContext, type QuestionAnswer } from '../../engine/judge'
 import { maskFog } from '../fog'
 import './QuestionPanel.css'
@@ -25,7 +26,8 @@ export default function QuestionPanel({ question, order, evidence, ctx, fogWords
   const [confidence, setConfidence] = useState<Confidence | null>(null)
   const [attachedUid, setAttachedUid] = useState<string | undefined>(undefined)
   const attachedWordId = attachables.find((a) => a.uid === attachedUid)?.wordId
-  const ready = option !== null && evidence.length > 0 && confidence !== null
+  const need = BALANCE.minEvidence[question.type]
+  const ready = option !== null && evidence.length >= need && confidence !== null
   const preview = previewDamage(question, confidence ?? 'unsure', attachedWordId, ctx)
 
   return (
@@ -49,7 +51,7 @@ export default function QuestionPanel({ question, order, evidence, ctx, fogWords
       </div>
 
       <p className="qpanel-hint">
-        본문에서 근거 문장을 눌러 골라 봐. 고른 문장: {evidence.length > 0 ? [...evidence].sort((a, b) => a - b).map((i) => i + 1).join(', ') + '번' : '없음'}
+        본문에서 근거 문장을 {need > 1 ? `${need}개 이상` : '눌러'} 골라 봐. 고른 문장: {evidence.length > 0 ? [...evidence].sort((a, b) => a - b).map((i) => i + 1).join(', ') + '번' : '없음'}
       </p>
 
       {attachables.length > 0 && (

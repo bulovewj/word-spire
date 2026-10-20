@@ -1,4 +1,5 @@
 import type { Passage, Tower, WordEntry } from './types'
+import { BALANCE } from '../engine/balance'
 import { findStem } from './wordStem'
 
 // 콘텐츠 검사 (작업지시서 1-4). 문제마다 "어디: 무엇" 한 줄을 돌려준다.
@@ -66,6 +67,8 @@ export function validatePassage(p: Passage, knownWordIds: Set<string>): string[]
       errors.push(...checkIndexes(set, n, `${where}.evidence.required[${j}]`))
     })
     errors.push(...checkIndexes(q.evidence.allowed ?? [], n, `${where}.evidence.allowed`))
+    const need = BALANCE.minEvidence[q.type]
+    if (q.evidence.required.some((set) => set.length < need)) errors.push(`${where}: ${q.type} 질문의 필수 근거는 ${need}문장 이상`)
     for (const id of q.bonusWords ?? []) {
       if (!knownWordIds.has(id)) errors.push(`${where}.bonusWords: 모르는 낱말 id ${id}`)
     }

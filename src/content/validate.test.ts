@@ -65,6 +65,11 @@ describe('틀린 데이터를 잡는다', () => {
     p.lockedWords[0]!.card.example = '꿀벌이 줄면 밥상이 위협받는다.'
     expect(validatePassage(p, ids)).toEqual([])
   })
+  it('연결 질문의 필수 근거가 1문장이면', () => {
+    const p = copy()
+    p.questions[1]!.evidence = { required: [[4]] }
+    expect(validatePassage(p, ids).join()).toContain('connect 질문의 필수 근거는 2문장 이상')
+  })
   it('적 대사가 비었거나 탑이 없으면', () => {
     const p = copy()
     p.enemy.sealLine = ''

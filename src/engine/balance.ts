@@ -13,6 +13,7 @@ export const BALANCE = {
   sureMultiplier: 1.5,          // 정타 + 확실 (반올림)
   surePenalty: 3,               // 확실인데 약타·실패면 적의 다음 공격 +
   fogShield: 2,                 // 잠긴 낱말이 남아 있는 동안 질문 피해 -
+  minEvidence: { literal: 1, connect: 2, author: 1 } satisfies Record<QuestionType, number>,   // 근거 문장 최소 개수(기획안 6-2)
 
   fogCost: 1,
   wordCardCost: 1,

@@ -7,7 +7,8 @@ export function eventText(e: BattleEvent): string {
   switch (e.kind) {
     case 'question': {
       const penalty = e.enemyAttackBonus > 0 ? ` · 확실했는데 틀려서 적의 다음 공격 +${e.enemyAttackBonus}` : ''
-      return `${GRADE[e.grade]}! 피해 ${e.damage}${penalty}`
+      const why = e.grade === 'weak' ? ' — 답은 맞았는데 근거 문장이 모자라거나 맞지 않아' : e.grade === 'miss' ? ' — 고른 답이 글의 내용과 달라' : ''
+      return `${GRADE[e.grade]}! 피해 ${e.damage}${why}${penalty}`
     }
     case 'word': {
       const word = findWord(e.wordId)?.word ?? e.wordId
