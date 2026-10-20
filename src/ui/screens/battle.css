@@ -195,3 +195,74 @@
   border-color: var(--color-accent);
   background: var(--color-select);
 }
+
+/* 낱말 카드 패널 */
+.wpanel {
+  display: grid;
+  gap: 8px;
+}
+
+.wpanel h3 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.wpanel p {
+  margin: 0;
+}
+
+.winput {
+  font: inherit;
+  font-size: 16px;
+  color: var(--color-ink);
+  background: var(--color-bg);
+  border: 2px solid var(--color-muted);
+  padding: 8px;
+}
+
+.winput:focus {
+  outline: none;
+  border-color: var(--color-block);
+}
+
+.battle button.link {
+  justify-self: start;
+  border: none;
+  background: none;
+  padding: 0;
+  color: var(--color-block);
+  text-decoration: underline;
+}
+
+.wexample,
+.wanswer {
+  color: var(--color-muted);
+}
+
+.wpanel.is-pass { border-color: var(--color-good); }
+.wpanel.is-fail { border-color: var(--color-hp); }
+.is-pass .wresult { color: var(--color-good); }
+.is-fail .wresult { color: var(--color-hp); }
+
+.meter {
+  display: grid;
+  gap: 4px;
+}
+
+.meter-label {
+  font-family: var(--font-small);
+  color: var(--color-muted);
+}
+
+.meter-bar {
+  display: block;
+  height: 12px;
+  border: 2px solid var(--color-ink);
+  background: var(--color-bg);
+}
+
+.meter-bar > span {
+  display: block;
+  height: 100%;
+  background: var(--color-block);
+}

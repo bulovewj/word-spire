@@ -19,3 +19,14 @@ const allWords = new Map<string, WordEntry>(
 export function findWord(id: string): WordEntry | undefined {
   return allWords.get(id)
 }
+
+/** 이 탑에서 나올 수 있는 낱말 전부: 기본 팩 + 이 탑 글들의 안개 낱말 */
+export function towerWords(towerId: string): WordEntry[] {
+  const tower = passages.filter((p) => p.towerId === towerId).flatMap((p) => p.lockedWords.map((lw) => lw.card))
+  return [...Object.values(wordPacks).flat(), ...tower]
+}
+
+/** 낱말 뜻 채점의 비교 대상: towerWords에서 자기 자신 제외 (기획안 7장) */
+export function compareWords(wordId: string, towerId: string): WordEntry[] {
+  return towerWords(towerId).filter((w) => w.id !== wordId)
+}

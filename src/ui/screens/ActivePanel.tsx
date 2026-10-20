@@ -44,6 +44,7 @@ export default function ActivePanel({ state, target, evidence, dispatch, onClose
       <WordPanel
         key={card.uid}
         entry={entry}
+        towerId={state.passage.towerId}
         onCancel={onClose}
         onDone={(pass, answer) => dispatch({ type: 'resolveWordCard', uid: card.uid, pass, answer })}
       />

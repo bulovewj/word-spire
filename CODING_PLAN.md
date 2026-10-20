@@ -42,12 +42,12 @@
 - 확인: 1층을 질문·낱말 카드로 적 체력 1까지 몰 수 있고, 틀리면 진다.
 
 ## M5. 의미 채점기 + 낱말 카드
-- [ ] 라이브러리 설치(사용자 확인 후): `@huggingface/transformers`
-- [ ] `grading/embed.worker.ts`, `grading/embedder.ts`(로딩 상태·진행률·캐시), `grading/cosine.ts`, `grading/policy.ts`
-- [ ] `grading/word.ts`(작업지시서 2-1), 간이 채점(2-3)
-- [ ] 낱말 카드 모달(F4)로 M4의 임시 버튼 교체, 화면 위 채점 배지
-- [ ] 채점 점검 화면 F10(낱말만)
-- [ ] 테스트: 사전 검사, 판정 순서(가짜 유사도 값으로), 간이 채점
+- [x] 라이브러리 설치(사용자 확인 후): `@huggingface/transformers`
+- [x] `grading/embed.worker.ts`, `grading/embedder.ts`(로딩 상태·진행률·캐시), `grading/cosine.ts`, `grading/policy.ts`
+- [x] `grading/word.ts`(작업지시서 2-1), 간이 채점(2-3)
+- [x] 낱말 카드 모달(F4)로 M4의 임시 버튼 교체, 화면 위 채점 배지
+- [x] 채점 점검 화면 F10(낱말만)
+- [x] 테스트: 사전 검사, 판정 순서(가짜 유사도 값으로), 간이 채점
 - 확인: 점검 화면에서 "발이 넓다"에 "친구가 많다"는 통과, "발이 크다"·"모르겠어요"는 실패.
 
 ## M6. 요약 봉인
