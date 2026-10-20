@@ -18,11 +18,11 @@
 - 확인: `npm run dev` → 픽셀 폰트로 "낱말탑"이 보인다. `npm test`, `npm run build` 통과. 첫 커밋 `M1: 빈 앱`.
 
 ## M2. 데이터와 본문 화면
-- [ ] `content/types.ts` (작업지시서 1-1, 1-2)
-- [ ] `data/pack-5-6.ts`를 `src/content/words/pack-5-6.ts`로 옮김(이미 v2 형식, import 경로만 확인)
-- [ ] `content/passages/bee-1.ts` (작업지시서 1-3 그대로)
-- [ ] `content/validate.ts` + 테스트(일부러 틀린 데이터로 오류 나는지 포함)
-- [ ] 본문 패널 컴포넌트: 번호 붙은 문장, 잠긴 낱말 `▒▒`, 문장 탭 선택/해제(선택 상태만, 아직 쓰임 없음)
+- [x] `content/types.ts` (작업지시서 1-1, 1-2)
+- [x] `data/pack-5-6.ts`를 `src/content/words/pack-5-6.ts`로 옮김(이미 v2 형식, import 경로만 확인)
+- [x] `content/passages/bee-1.ts` (작업지시서 1-3 그대로)
+- [x] `content/validate.ts` + 테스트(일부러 틀린 데이터로 오류 나는지 포함)
+- [x] 본문 패널 컴포넌트: 번호 붙은 문장, 잠긴 낱말 `▒▒`, 문장 탭 선택/해제(선택 상태만, 아직 쓰임 없음)
 - 확인: 첫 화면에 꿀벌 글 5문장이 번호와 함께, "위협"은 안개로 보인다. 문장을 탭하면 강조된다.
 
 ## M3. 질문 판정 엔진

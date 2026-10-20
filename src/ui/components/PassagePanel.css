@@ -1,0 +1,57 @@
+.passage {
+  background: var(--color-panel);
+  padding: 12px;
+  border: 2px solid var(--color-muted);
+}
+
+.passage-title {
+  margin: 0 0 8px;
+  font-size: 18px;
+}
+
+.passage-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.sentence {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  text-align: left;
+  font: inherit;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-ink);
+  background: transparent;
+  border: 2px solid transparent;
+  padding: 4px 6px;
+  cursor: pointer;
+}
+
+.sentence:disabled {
+  cursor: default;
+}
+
+.sentence:not(:disabled):hover {
+  border-color: var(--color-muted);
+}
+
+.sentence.is-selected {
+  border-color: var(--color-accent);
+  background: rgba(240, 195, 106, 0.15);
+}
+
+.sentence-no {
+  flex: none;
+  min-width: 1.5em;
+  color: var(--color-accent);
+}
+
+.fog {
+  color: var(--color-muted);
+  letter-spacing: -1px;
+}

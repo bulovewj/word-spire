@@ -23,7 +23,6 @@ src/
   ui/        screens/, components/, sprites/
   styles/    tokens.css
 docs/        기획안.md(읽기 전용), 작업지시서.md
-data/        pack-5-6.ts (M2에서 src/content/words/로 옮김)
 references/  문해력 근거 자료(기획안 4장)
 _archive/    옛 게임 코드·원화. 참고·빌드 대상 아님
 ```
@@ -57,7 +56,7 @@ _archive/    옛 게임 코드·원화. 참고·빌드 대상 아님
 | 마일스톤 | 내용 | 상태 |
 |---|---|---|
 | M1 | 빈 앱 | ✅ |
-| M2 | 데이터와 본문 화면 | ⬜ |
+| M2 | 데이터와 본문 화면 | ✅ |
 | M3 | 질문 판정 엔진 | ⬜ |
 | M4 | 전투 루프 | ⬜ |
 | M5 | 의미 채점기 + 낱말 카드 | ⬜ |
