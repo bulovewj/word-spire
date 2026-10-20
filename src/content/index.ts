@@ -34,3 +34,16 @@ export function towerWords(towerId: string): WordEntry[] {
 export function compareWords(wordId: string, towerId: string): WordEntry[] {
   return towerWords(towerId).filter((w) => w.id !== wordId)
 }
+
+/** 탑의 글을 층 순서대로 */
+export function towerFloors(towerId: string): Passage[] {
+  return passages.filter((p) => p.towerId === towerId).sort((a, b) => a.floor - b.floor)
+}
+
+export function findTower(id: string): Tower | undefined {
+  return towers.find((t) => t.id === id)
+}
+
+export function findPassage(id: string): Passage | undefined {
+  return passages.find((p) => p.id === id)
+}

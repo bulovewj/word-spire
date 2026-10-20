@@ -1,0 +1,55 @@
+/* 타이틀·탑 소개·보상·완료 화면. 디자인은 M11 */
+.screen {
+  max-width: 560px;
+  margin: 24px auto;
+  padding: 16px;
+  background: var(--color-panel);
+  border: 2px solid var(--color-muted);
+  display: grid;
+  gap: 12px;
+}
+
+.screen h2,
+.screen h3,
+.screen p {
+  margin: 0;
+}
+
+.screen button {
+  font: inherit;
+  color: var(--color-ink);
+  background: var(--color-bg);
+  border: 2px solid var(--color-muted);
+  padding: 8px 12px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.screen button.primary {
+  border-color: var(--color-accent);
+  background: var(--color-select);
+  justify-self: start;
+}
+
+.story {
+  font-style: italic;
+}
+
+.tower-list,
+.word-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.tower-list button {
+  width: 100%;
+}
+
+.warn,
+.muted {
+  font-family: var(--font-small);
+  color: var(--color-muted);
+}

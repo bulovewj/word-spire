@@ -13,11 +13,13 @@ import './battle.css'
 interface Props {
   state: GameState
   dispatch: (a: Action) => void
-  onRestart: () => void
+  lastFloor: boolean          // 3층이면 이긴 뒤 "탑 완료"
+  onWon: () => void           // 이긴 전투를 마치고 보상으로
+  onRetry: () => void         // 진 층을 다시
 }
 
 /** 전투 화면. 상태는 그리기만 하고 바꾸는 건 action으로만 */
-export default function BattleScreen({ state, dispatch, onRestart }: Props) {
+export default function BattleScreen({ state, dispatch, lastFloor, onWon, onRetry }: Props) {
   const [target, setTarget] = useState<PanelTarget | null>(null)
   const [evidence, setEvidence] = useState<number[]>([])
   const p = state.passage
@@ -57,12 +59,12 @@ export default function BattleScreen({ state, dispatch, onRestart }: Props) {
           <div className="overlay overlay-won">
             <p className="unit-line">“{p.enemy.sealLine}”</p>
             <p><strong>{p.enemy.name}</strong> — {STORY.sealed}</p>
-            <button type="button" onClick={() => { close(); onRestart() }}>처음부터 다시 하기</button>
+            <button type="button" autoFocus onClick={() => { close(); onWon() }}>{lastFloor ? '탑 완료' : '보상 받기'}</button>
           </div>
         ) : state.outcome === 'lost' ? (
           <div className="overlay">
             <p>{STORY.defeatLine}</p>
-            <button type="button" onClick={() => { close(); onRestart() }}>이 층 다시 하기</button>
+            <button type="button" autoFocus onClick={() => { close(); onRetry() }}>이 층 다시 하기</button>
           </div>
         ) : target ? (
           <ActivePanel state={state} target={target} evidence={evidence} dispatch={send} act={dispatch} onClose={close} />
