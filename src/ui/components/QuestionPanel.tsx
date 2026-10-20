@@ -11,17 +11,22 @@ interface Props {
   ctx: JudgeContext
   fogWords: string[]           // 안개가 남은 낱말: 질문·보기에서도 가린다
   attachables?: Attachable[]   // 붙일 수 있는 손패 낱말 카드 (author 전용)
+  hint: HintInfo               // 단서 보기 상태
   onSubmit: (answer: QuestionAnswer, attachedUid?: string) => void
   onCancel?: () => void
 }
 
 export interface Attachable { uid: string; wordId: string; word: string }
 
+/** dimmed: 지운 보기 index / cost: 이번 단서 비용 / usable: 지금 쓸 수 있는지 */
+export interface HintInfo { dimmed?: number; cost: number; usable: boolean; onUse: () => void }
+
 const MARKS = ['①', '②', '③', '④']
 const TYPE_LABEL = { literal: '거기 있음', connect: '연결', author: '글쓴이와 나' } as const
 
-export default function QuestionPanel({ question, order, evidence, ctx, fogWords, attachables = [], onSubmit, onCancel }: Props) {
-  const [option, setOption] = useState<number | null>(null)
+export default function QuestionPanel({ question, order, evidence, ctx, fogWords, attachables = [], hint, onSubmit, onCancel }: Props) {
+  const [picked, setOption] = useState<number | null>(null)
+  const option = picked === hint.dimmed ? null : picked   // 지워진 보기는 고를 수 없다
   const [confidence, setConfidence] = useState<Confidence | null>(null)
   const [attachedUid, setAttachedUid] = useState<string | undefined>(undefined)
   const attachedWordId = attachables.find((a) => a.uid === attachedUid)?.wordId
@@ -41,12 +46,19 @@ export default function QuestionPanel({ question, order, evidence, ctx, fogWords
             type="button"
             role="radio"
             aria-checked={option === idx}
-            className={`qopt${option === idx ? ' is-on' : ''}`}
+            className={`qopt${option === idx ? ' is-on' : ''}${hint.dimmed === idx ? ' is-dim' : ''}`}
+            disabled={hint.dimmed === idx}
             onClick={() => setOption(idx)}
           >
             {MARKS[pos]} {maskFog(question.options[idx] ?? '', fogWords)}
           </button>
         ))}
+      </div>
+
+      <div className="qpanel-cluebar">
+        <button type="button" className="qclue" disabled={!hint.usable} onClick={hint.onUse}>
+          {hint.dimmed !== undefined ? '단서 보기 (이미 씀)' : `단서 보기 (${hint.cost === 0 ? '공짜' : `생각력 ${hint.cost}`})`}
+        </button>
       </div>
 
       <p className="qpanel-hint">

@@ -1,11 +1,12 @@
-// 전투 상태와 reduce (기획안 6장 · 작업지시서 F2-1, F4, F6)
+// 전투 상태와 reduce (기획안 6장 · 작업지시서 F2-1, F4, F6). 안개·단서는 support.ts
 import type { Passage } from '../content/types'
 import { BALANCE } from './balance'
 import { discardHand, enemyAttack, nextEnemyAttack, openWhenQuestionsExhausted, startTurn, unlockSummaryIfLow } from './battle'
 import { judgeQuestion, type Confidence, type Grade } from './judge'
 import { shuffle } from './rng'
+import { resolveFog, useHint } from './support'
 
-export const STATE_VERSION = 4
+export const STATE_VERSION = 5
 
 export interface WordCardInstance { uid: string; wordId: string }
 
@@ -23,6 +24,8 @@ export type BattleEvent =
   | { kind: 'summaryUnlocked' }
   | { kind: 'summary'; pass: boolean }
   | { kind: 'retry'; questionIds: string[] }
+  | { kind: 'fog'; pass: boolean; wordId: string }
+  | { kind: 'hint'; questionId: string; free: boolean }
 
 export interface GameState {
   version: number
@@ -32,7 +35,9 @@ export interface GameState {
   think: number
   player: { hp: number; maxHp: number; block: number }
   enemy: { hp: number; maxHp: number; patternIndex: number; attackBonus: number }
-  fogCleared: number[]
+  fogCleared: number[]                      // 안개를 걷은 lockedWords index
+  reservedWords: string[]                   // 안개를 걷어 이 층 보상으로 받을 낱말 id (M8에서 덱에)
+  hints: Record<string, number>             // 질문별 단서 보기로 지운 보기 index (= 도움받음)
   optionOrder: Record<string, number[]>     // 질문별 보기 표시 순서
   textCards: TextCard[]
   hand: WordCardInstance[]
@@ -46,7 +51,9 @@ export interface GameState {
 }
 
 export type Action =
-  | { type: 'resolveQuestion'; questionId: string; option: number; evidence: number[]; confidence: Confidence; usedHint: boolean; attachedWordUid?: string }
+  | { type: 'resolveQuestion'; questionId: string; option: number; evidence: number[]; confidence: Confidence; attachedWordUid?: string }
+  | { type: 'useHint'; questionId: string }
+  | { type: 'resolveFog'; wordIndex: number; sentence: number }
   | { type: 'resolveWordCard'; uid: string; pass: boolean; answer: string }
   | { type: 'resolveSummary'; pass: boolean; answer: string }
   | { type: 'endTurn' }
@@ -67,7 +74,7 @@ export function createBattle({ passage, deck, seed, playerHp, playerMaxHp }: Bat
     version: STATE_VERSION, rng: next, passage, turn: 0, think: 0,
     player: { hp: playerHp, maxHp: playerMaxHp, block: 0 },
     enemy: { hp: passage.enemy.maxHp, maxHp: passage.enemy.maxHp, patternIndex: 0, attackBonus: 0 },
-    fogCleared: [], optionOrder,
+    fogCleared: [], reservedWords: [], hints: {}, optionOrder,
     textCards: [
       ...passage.questions.map((q) => ({ kind: 'question' as const, refId: q.id, lockedThisTurn: false, retry: false })),
       ...passage.lockedWords.map((_, i) => ({ kind: 'fog' as const, refId: String(i), lockedThisTurn: false, retry: false })),
@@ -116,6 +123,10 @@ export function reduce(s: GameState, a: Action): GameState {
       next = unlockSummaryIfLow(next)
       return openWhenQuestionsExhausted(next)
     }
+    case 'useHint':
+      return useHint(s, a.questionId)
+    case 'resolveFog':
+      return resolveFog(s, a.wordIndex, a.sentence)
     case 'resolveWordCard': {
       const card = s.hand.find((w) => w.uid === a.uid)
       if (!card || s.think < BALANCE.wordCardCost) return s

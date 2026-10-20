@@ -17,7 +17,7 @@
 ```
 src/
   content/   types.ts, validate.ts, index.ts(콘텐츠 모음·findWord), story.ts(주인공 '나'·공통 문구), words/(낱말 팩), passages/(글), towers/(탑 문구)
-  engine/    balance.ts(숫자), judge.ts(판정), state.ts(GameState·reduce), battle.ts(턴 단계), rng.ts — React·DOM 의존 금지
+  engine/    balance.ts(숫자), judge.ts(판정), state.ts(GameState·reduce), battle.ts(턴 단계), support.ts(안개 걷기·단서 보기), rng.ts — React·DOM 의존 금지
   grading/   embed.worker.ts, embedder.ts, cosine.ts, policy.ts(기준값), word.ts, summary.ts
   storage/   store.ts
   ui/        App.tsx(게임 상태를 여기 한곳에), screens/, components/, sprites/, eventText.ts(사건 → 문구)
@@ -62,7 +62,7 @@ _archive/    옛 게임 코드·원화. 참고·빌드 대상 아님
 | M4 | 전투 루프 | ✅ |
 | M5 | 의미 채점기 + 낱말 카드 | ✅ |
 | M6 | 요약 봉인 | ✅ |
-| M7 | 안개 걷기 + 단서 보기 | ⬜ |
+| M7 | 안개 걷기 + 단서 보기 | ✅ |
 | M8 | 탑 3층 + 저장 | ⬜ |
 | M9 | 기록·스탯·결과 코드 | ⬜ |
 | M10 | 교사 화면 | ⬜ |
@@ -72,7 +72,7 @@ _archive/    옛 게임 코드·원화. 참고·빌드 대상 아님
 ### 다음 세션 메모
 - Codex 스토리·bee-2/3 작업은 main에 병합됨(요청 1 닫힘). 다시 맡길 땐 `docs/codex-요청.md`에 요청 추가 → Codex가 `git merge main` 후 처리.
 - 남은 이야기 연결: 탑 `intro`/`outro`는 M8 탑 흐름 때 화면에(적 `sealLine`은 M6에서 연결됨).
-- M7부터(안개 걷기 + 단서 보기). Codex는 요청 2(2·3층 근거 재검토) 작업 중 → 그동안 `bee-2·3.ts`, `docs/스토리.md`는 건드리지 않는다.
+- M8부터(탑 3층 + 저장): `reservedWords` → 층 보상으로 덱에, 탑 `intro`/`outro` 화면, `GameState.passage` 통째 저장을 id로 바꿀지 결정. 2·3층 근거는 Codex 요청 2 결과를 병합한 뒤 시뮬레이션. Codex는 요청 2(2·3층 근거 재검토) 작업 중 → 그동안 `bee-2·3.ts`, `docs/스토리.md`는 건드리지 않는다.
 - 디자인 피드백은 CODING_PLAN M11에 모아 둠. 디자인은 M11 전까지 손대지 않는다.
 - 실행 엔진 wasm은 `onnxruntime-web` 일반판을 앱에 묶어 씀(CDN 요청 없음, jsdelivr 차단 상태로 확인). 빌드에 안 쓰는 asyncify wasm(27MB)도 같이 나옴 → M12에서 정리.
 - 브라우저 점검 스크립트로 버튼 누를 때 본문 문장에 같은 글자가 있으면 오클릭한다("계속", "농약…"). 셀렉터로 범위를 좁힐 것.

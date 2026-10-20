@@ -17,9 +17,9 @@ const goodEvidence = (id: string) => {
   return picked
 }
 const right = (id: string, confidence: 'sure' | 'unsure' = 'sure'): QAction =>
-  ({ type: 'resolveQuestion', questionId: id, option: q(id).answer, evidence: goodEvidence(id), confidence, usedHint: false })
+  ({ type: 'resolveQuestion', questionId: id, option: q(id).answer, evidence: goodEvidence(id), confidence })
 const wrong = (id: string, confidence: 'sure' | 'unsure' = 'sure'): QAction =>
-  ({ type: 'resolveQuestion', questionId: id, option: (q(id).answer + 1) % 4, evidence: [0], confidence, usedHint: false })
+  ({ type: 'resolveQuestion', questionId: id, option: (q(id).answer + 1) % 4, evidence: [0], confidence })
 const run = (s: GameState, ...actions: Action[]) => actions.reduce(reduce, s)
 const end: Action = { type: 'endTurn' }
 

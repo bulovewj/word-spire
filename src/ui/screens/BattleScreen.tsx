@@ -25,11 +25,13 @@ export default function BattleScreen({ state, dispatch, onRestart }: Props) {
   const close = () => { setTarget(null); setEvidence([]) }
   const send = (a: Action) => { dispatch(a); close() }
   const open = (t: PanelTarget) => { setEvidence([]); setTarget(t) }
-  const cap = target?.kind === 'question' ? p.questions.find((q) => q.id === target.id)?.evidence.count ?? 0 : 0
-  // 근거는 정해진 개수까지만 고를 수 있다. 바꾸려면 고른 문장을 다시 눌러 뺀다
-  const toggle = (i: number) => setEvidence((s) => (s.includes(i) ? s.filter((x) => x !== i) : s.length < cap ? [...s, i] : s))
+  const cap = target?.kind === 'question' ? p.questions.find((q) => q.id === target.id)?.evidence.count ?? 0
+    : target?.kind === 'fog' ? 1 : 0
+  // 근거는 정해진 개수까지만 고를 수 있다(1개면 다른 문장을 누르면 바뀜). 바꾸려면 고른 문장을 다시 눌러 뺀다
+  const toggle = (i: number) => setEvidence((s) =>
+    s.includes(i) ? s.filter((x) => x !== i) : s.length < cap ? [...s, i] : cap === 1 ? [i] : s)
   const fog = p.lockedWords.filter((_, i) => !state.fogCleared.includes(i))
-  const picking = target?.kind === 'question'
+  const picking = target?.kind === 'question' || target?.kind === 'fog'
   const playing = state.outcome === 'playing'   // 끝난 전투에는 예고를 보이지 않는다
 
   return (
@@ -63,7 +65,7 @@ export default function BattleScreen({ state, dispatch, onRestart }: Props) {
             <button type="button" onClick={() => { close(); onRestart() }}>이 층 다시 하기</button>
           </div>
         ) : target ? (
-          <ActivePanel state={state} target={target} evidence={evidence} dispatch={send} onClose={close} />
+          <ActivePanel state={state} target={target} evidence={evidence} dispatch={send} act={dispatch} onClose={close} />
         ) : (
           <>
             <Hand cards={buildHandCards(state)} onPick={(c) => open(c.target)} />

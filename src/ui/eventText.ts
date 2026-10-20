@@ -20,6 +20,12 @@ export function eventText(e: BattleEvent): string {
       return e.pass ? '요약 봉인 성공!' : '요약 봉인 실패. 다음 턴에 다시 도전해 봐.'
     case 'summaryUnlocked':
       return '요약 봉인 카드가 나타났어!'
+    case 'fog': {
+      const word = findWord(e.wordId)?.word ?? e.wordId
+      return e.pass ? `안개가 걷혔어! "${word}" 낱말 카드를 이 층 보상으로 얻을 거야. 보호막도 사라졌어.` : '안개 걷기 실패. 다음 턴에 다시 해 봐.'
+    }
+    case 'hint':
+      return e.free ? '단서 보기(공짜): 틀린 보기 하나를 지웠어.' : '단서 보기: 틀린 보기 하나를 지웠어.'
     case 'retry':
       return `틀렸던 질문 ${e.questionIds.length}개가 "다시 보기"로 돌아왔어 (피해 절반)`
   }

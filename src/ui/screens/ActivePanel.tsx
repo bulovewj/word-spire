@@ -1,21 +1,25 @@
 import { findWord } from '../../content'
+import { BALANCE } from '../../engine/balance'
 import { hasShield, type Action, type GameState } from '../../engine/state'
+import { hintCost } from '../../engine/support'
+import FogPanel from '../components/FogPanel'
 import QuestionPanel from '../components/QuestionPanel'
 import SummaryPanel from '../components/SummaryPanel'
-import { activeFogWords } from '../fog'
 import WordPanel from '../components/WordPanel'
+import { activeFogWords } from '../fog'
 import type { PanelTarget } from './handCards'
 
 interface Props {
   state: GameState
   target: PanelTarget
   evidence: number[]
-  dispatch: (a: Action) => void
+  dispatch: (a: Action) => void     // 카드를 내고 패널을 닫는다
+  act: (a: Action) => void          // 패널을 연 채로 보내는 action (단서 보기)
   onClose: () => void
 }
 
-/** 손패에서 고른 카드의 패널. 열 수 없는 카드면 안내 문구 */
-export default function ActivePanel({ state, target, evidence, dispatch, onClose }: Props) {
+/** 손패에서 고른 카드의 패널 */
+export default function ActivePanel({ state, target, evidence, dispatch, act, onClose }: Props) {
   if (target.kind === 'question') {
     const question = state.passage.questions.find((q) => q.id === target.id)
     const card = state.textCards.find((c) => c.kind === 'question' && c.refId === target.id)
@@ -24,6 +28,8 @@ export default function ActivePanel({ state, target, evidence, dispatch, onClose
       ? state.hand.filter((w) => question.bonusWords?.includes(w.wordId))
         .map((w) => ({ uid: w.uid, wordId: w.wordId, word: findWord(w.wordId)?.word ?? w.wordId }))
       : []
+    const dimmed = state.hints[question.id]
+    const cost = hintCost(state)
     return (
       <QuestionPanel
         key={question.id}
@@ -33,9 +39,14 @@ export default function ActivePanel({ state, target, evidence, dispatch, onClose
         ctx={{ shield: hasShield(state), retry: card.retry }}
         fogWords={activeFogWords(state)}
         attachables={attachables}
+        hint={{
+          dimmed, cost,
+          usable: dimmed === undefined && state.think >= cost + BALANCE.questionCost[question.type],
+          onUse: () => act({ type: 'useHint', questionId: question.id }),
+        }}
         onCancel={onClose}
         onSubmit={(a, attachedWordUid) => dispatch({ type: 'resolveQuestion', questionId: question.id,
-          option: a.option, evidence: a.evidence, confidence: a.confidence, usedHint: false, attachedWordUid })}
+          option: a.option, evidence: a.evidence, confidence: a.confidence, attachedWordUid })}
       />
     )
   }
@@ -62,11 +73,14 @@ export default function ActivePanel({ state, target, evidence, dispatch, onClose
       />
     )
   }
-  const text = '안개 걷기는 M7에서 만든다.'
+  const lw = state.passage.lockedWords[target.index]
+  if (!lw) return null
   return (
-    <section className="wpanel">
-      <p>{text}</p>
-      <div className="row"><button type="button" onClick={onClose}>닫기</button></div>
-    </section>
+    <FogPanel
+      sentenceNo={lw.sentence + 1}
+      picked={evidence[0]}
+      onCancel={onClose}
+      onSubmit={(sentence) => dispatch({ type: 'resolveFog', wordIndex: target.index, sentence })}
+    />
   )
 }

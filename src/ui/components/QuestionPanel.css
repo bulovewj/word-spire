@@ -69,3 +69,18 @@
   display: grid;
   gap: 4px;
 }
+
+.qpanel button.is-dim {
+  text-decoration: line-through;
+  opacity: 0.35;
+}
+
+.qpanel-cluebar {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.qpanel .qclue {
+  font-family: var(--font-small);
+  border-style: dashed;
+}
