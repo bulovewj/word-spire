@@ -1,0 +1,66 @@
+.qpanel {
+  background: var(--color-panel);
+  border: 2px solid var(--color-accent);
+  padding: 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.qpanel-type {
+  margin: 0;
+  font-family: var(--font-small);
+  color: var(--color-accent);
+}
+
+.qpanel-prompt {
+  margin: 0;
+  font-size: 16px;
+}
+
+.qpanel-options,
+.qpanel-conf {
+  display: grid;
+  gap: 4px;
+}
+
+.qpanel-conf {
+  grid-template-columns: 1fr 1fr;
+}
+
+.qpanel button {
+  font: inherit;
+  color: var(--color-ink);
+  background: var(--color-bg);
+  border: 2px solid var(--color-muted);
+  padding: 6px 8px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.qpanel button.is-on {
+  border-color: var(--color-accent);
+  background: rgba(240, 195, 106, 0.15);
+}
+
+.qpanel button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.qpanel-hint,
+.qpanel-preview {
+  margin: 0;
+  font-family: var(--font-small);
+  color: var(--color-muted);
+}
+
+.qpanel-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.qpanel .qsubmit {
+  text-align: center;
+  min-width: 96px;
+}
