@@ -2,6 +2,7 @@ import { findWord } from '../../content'
 import { BALANCE } from '../../engine/balance'
 import type { GameState } from '../../engine/state'
 import type { HandCard } from '../components/Hand'
+import { activeFogWords, maskFog } from '../fog'
 
 /** 손패에서 고른 것. 활성 패널이 무엇을 열지 정한다 */
 export type PanelTarget =
@@ -13,13 +14,14 @@ export type PanelTarget =
 export const TYPE_LABEL = { literal: '거기 있음', connect: '연결', author: '글쓴이와 나' } as const
 
 export function buildHandCards(s: GameState): HandCard[] {
+  const fog = activeFogWords(s)
   const text = s.textCards.map((c): HandCard => {
     if (c.kind === 'question') {
       const q = s.passage.questions.find((x) => x.id === c.refId)
       const cost = q ? BALANCE.questionCost[q.type] : 0
       return {
         key: `q-${c.refId}`, kind: 'question', cost, target: { kind: 'question', id: c.refId },
-        title: `질문: ${q ? TYPE_LABEL[q.type] : ''}`, sub: q?.prompt ?? '',
+        title: `질문: ${q ? TYPE_LABEL[q.type] : ''}`, sub: maskFog(q?.prompt ?? '', fog),
         disabled: s.think < cost || c.lockedThisTurn, badge: c.retry ? '다시 보기' : undefined,
       }
     }

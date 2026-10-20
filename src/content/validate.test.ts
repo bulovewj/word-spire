@@ -55,6 +55,13 @@ describe('틀린 데이터를 잡는다', () => {
     expect(errors).toContain('words/test: 낱말 id 중복 g01')
     expect(errors.join()).toContain('words/test [1] g01: accepts가 1개 이상이어야 함')
   })
+  it('예문에 낱말이 없으면(미리 가려 쓴 예문)', () => {
+    const p = copy()
+    p.lockedWords[0]!.card.example = '밥상이 ○○받는다.'
+    expect(validatePassage(p, ids).join()).toContain('예문에 "위협"가 없음')
+    p.lockedWords[0]!.card.example = '꿀벌이 줄면 밥상이 위협받는다.'
+    expect(validatePassage(p, ids)).toEqual([])
+  })
   it('안개 낱말 카드 id가 팩과 겹침', () => {
     const p = copy()
     p.lockedWords[0]!.card.id = 'h01'

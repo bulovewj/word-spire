@@ -1,6 +1,7 @@
 import { findWord } from '../../content'
 import { hasShield, type Action, type GameState } from '../../engine/state'
 import QuestionPanel from '../components/QuestionPanel'
+import { activeFogWords } from '../fog'
 import WordPanel from '../components/WordPanel'
 import type { PanelTarget } from './handCards'
 
@@ -29,6 +30,7 @@ export default function ActivePanel({ state, target, evidence, dispatch, onClose
         order={state.optionOrder[question.id] ?? question.options.map((_, i) => i)}
         evidence={evidence}
         ctx={{ shield: hasShield(state), retry: card.retry }}
+        fogWords={activeFogWords(state)}
         attachables={attachables}
         onCancel={onClose}
         onSubmit={(a, attachedWordUid) => dispatch({ type: 'resolveQuestion', questionId: question.id,

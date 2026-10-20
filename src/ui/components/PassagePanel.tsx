@@ -1,3 +1,4 @@
+import { FOG } from '../fog'
 import './PassagePanel.css'
 
 export interface FogMark {
@@ -12,8 +13,6 @@ interface Props {
   selected: number[]          // 선택한 문장 index
   onToggle?: (index: number) => void   // 없으면 탭할 수 없다
 }
-
-const FOG = '▒▒'
 
 function renderSentence(text: string, words: string[]) {
   if (words.length === 0) return text
