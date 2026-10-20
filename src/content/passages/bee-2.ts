@@ -38,7 +38,7 @@ export const bee2: Passage = {
         '꽃이 지는 시기가 되면 꿀벌의 먹이 찾는 활동도 끝나서',
         '꽃에서 먹이를 얻는데 다른 꽃이 한동안 피지 않을 수 있어서',
       ],
-      answer: 3, evidence: { count: 2, required: [[2], [3]], allowed: [0, 4, 5] },
+      answer: 3, evidence: { count: 2, required: [[2], [3]], allowed: [0, 1, 4, 5] },
     },
     {
       id: 'bee-2-q3', type: 'author', prompt: '글쓴이의 생각에 맞게 꿀벌을 위한 꽃밭을 가꾸려면?',
@@ -48,7 +48,7 @@ export const bee2: Passage = {
         '피는 시기가 서로 다른 꽃들을 이어 피게 심어.',
         '피는 시기보다 꽃잎의 색깔을 먼저 보고 심어.',
       ],
-      answer: 2, evidence: { count: 1, required: [[1], [2], [3], [4], [5], [6]] }, bonusWords: ['bee-w1'],
+      answer: 2, evidence: { count: 1, required: [[3], [6]] }, bonusWords: ['bee-w1'],
     },
   ],
   summary: {
