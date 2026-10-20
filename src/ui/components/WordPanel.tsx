@@ -4,6 +4,7 @@ import { BALANCE } from '../../engine/balance'
 import { gradeWordAuto } from '../../grading/auto'
 import { meterValue, type WordGrade } from '../../grading/word'
 import { maskExample } from '../maskExample'
+import './WordPanel.css'
 
 interface Props {
   entry: WordEntry
