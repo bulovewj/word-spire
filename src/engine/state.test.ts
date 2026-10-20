@@ -57,6 +57,16 @@ describe('질문 카드', () => {
     expect(s.hand.map((w) => w.uid)).not.toContain(uid)
     expect(s.discardPile.map((w) => w.uid)).toContain(uid)
   })
+  it('관련 없는 낱말 카드나 author가 아닌 질문에는 붙지 않고 손패에 남는다', () => {
+    const s0 = setup(bee1, ['h02', 'h01'])
+    const unrelated = s0.hand.find((w) => w.wordId === 'h02')!.uid
+    const related = s0.hand.find((w) => w.wordId === 'h01')!.uid
+    const a = run(s0, { ...right('q3', 'unsure'), attachedWordUid: unrelated })
+    expect(a.enemy.hp).toBe(40 - (14 - 2))
+    expect(a.hand.map((w) => w.uid)).toContain(unrelated)
+    const b = run(s0, { ...right('q1', 'unsure'), attachedWordUid: related })
+    expect(b.hand.map((w) => w.uid)).toContain(related)
+  })
 })
 
 describe('턴 끝과 적', () => {
@@ -102,6 +112,13 @@ describe('다시 보기', () => {
     const s = run(setup(), right('q1'), wrong('q2', 'unsure'), end, wrong('q3', 'unsure'))
     const back = s.textCards.filter((c) => c.kind === 'question')
     expect(back.map((c) => [c.refId, c.retry])).toEqual([['q2', true], ['q3', true]])
+    expect(s.textCards.some((c) => c.kind === 'summary')).toBe(true)
+  })
+  it('다 맞혔는데 피해가 모자라도 질문을 다 쓰면 요약 봉인이 열린다 (다시 보기는 없음)', () => {
+    const boss = { ...bee1, enemy: { ...bee1.enemy, maxHp: 55 } }
+    const s = run(setup(boss), right('q1', 'unsure'), right('q2', 'unsure'), end, right('q3', 'unsure'))
+    expect(s.enemy.hp).toBe(55 - 24)
+    expect(s.textCards.map((c) => c.kind)).toEqual(['fog', 'summary'])
   })
   it('다시 보기 피해는 절반', () => {
     const s = run(setup(), wrong('q1', 'unsure'), wrong('q2', 'unsure'), end, wrong('q3', 'unsure'))
