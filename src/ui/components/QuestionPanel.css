@@ -64,3 +64,8 @@
   text-align: center;
   min-width: 96px;
 }
+
+.qpanel-attach {
+  display: grid;
+  gap: 4px;
+}

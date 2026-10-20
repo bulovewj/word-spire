@@ -8,17 +8,21 @@ interface Props {
   order: number[]              // 보기 표시 순서(options index)
   evidence: number[]           // 본문에서 고른 근거 문장
   ctx: JudgeContext
-  attachedWordId?: string
-  onSubmit: (answer: QuestionAnswer) => void
+  attachables?: Attachable[]   // 붙일 수 있는 손패 낱말 카드 (author 전용)
+  onSubmit: (answer: QuestionAnswer, attachedUid?: string) => void
   onCancel?: () => void
 }
+
+export interface Attachable { uid: string; wordId: string; word: string }
 
 const MARKS = ['①', '②', '③', '④']
 const TYPE_LABEL = { literal: '거기 있음', connect: '연결', author: '글쓴이와 나' } as const
 
-export default function QuestionPanel({ question, order, evidence, ctx, attachedWordId, onSubmit, onCancel }: Props) {
+export default function QuestionPanel({ question, order, evidence, ctx, attachables = [], onSubmit, onCancel }: Props) {
   const [option, setOption] = useState<number | null>(null)
   const [confidence, setConfidence] = useState<Confidence | null>(null)
+  const [attachedUid, setAttachedUid] = useState<string | undefined>(undefined)
+  const attachedWordId = attachables.find((a) => a.uid === attachedUid)?.wordId
   const ready = option !== null && evidence.length > 0 && confidence !== null
   const preview = previewDamage(question, confidence ?? 'unsure', attachedWordId, ctx)
 
@@ -46,6 +50,22 @@ export default function QuestionPanel({ question, order, evidence, ctx, attached
         본문에서 근거 문장을 눌러 골라 봐. 고른 문장: {evidence.length > 0 ? [...evidence].sort((a, b) => a - b).map((i) => i + 1).join(', ') + '번' : '없음'}
       </p>
 
+      {attachables.length > 0 && (
+        <div className="qpanel-attach">
+          {attachables.map((a) => (
+            <button
+              key={a.uid}
+              type="button"
+              aria-pressed={attachedUid === a.uid}
+              className={attachedUid === a.uid ? 'is-on' : ''}
+              onClick={() => setAttachedUid((u) => (u === a.uid ? undefined : a.uid))}
+            >
+              낱말 카드 붙이기: {a.word} (+4)
+            </button>
+          ))}
+        </div>
+      )}
+
       <div className="qpanel-conf" role="radiogroup" aria-label="확신도">
         {(['sure', 'unsure'] as const).map((c) => (
           <button
@@ -71,7 +91,7 @@ export default function QuestionPanel({ question, order, evidence, ctx, attached
           disabled={!ready}
           onClick={() => {
             if (option === null || confidence === null) return
-            onSubmit({ option, evidence, confidence, attachedWordId })
+            onSubmit({ option, evidence, confidence, attachedWordId }, attachedUid)
           }}
         >
           제출

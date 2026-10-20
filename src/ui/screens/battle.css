@@ -1,0 +1,192 @@
+/* 회색 박스 수준 배치. 도트 디자인은 M11 */
+.battle {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 12px;
+  padding: 12px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+@media (max-width: 720px) {
+  .battle {
+    grid-template-columns: 1fr;
+  }
+}
+
+.battle-field {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+}
+
+.battle button {
+  font: inherit;
+  color: var(--color-ink);
+  background: var(--color-bg);
+  border: 2px solid var(--color-muted);
+  padding: 6px 10px;
+  cursor: pointer;
+}
+
+.battle button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.unit {
+  background: var(--color-panel);
+  border: 2px solid var(--color-muted);
+  padding: 8px;
+  display: grid;
+  gap: 6px;
+}
+
+.unit-head {
+  display: flex;
+  gap: 12px;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.intent,
+.incoming {
+  color: var(--color-hp);
+}
+
+.unit-note {
+  margin: 0;
+  font-family: var(--font-small);
+  color: var(--color-muted);
+}
+
+.hpbar {
+  position: relative;
+  height: 18px;
+  background: var(--color-bg);
+  border: 2px solid var(--color-ink);
+}
+
+.hpbar-fill,
+.hpbar-preview {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.hpbar-preview {
+  background: repeating-linear-gradient(90deg, var(--color-hp) 0 4px, transparent 4px 8px);
+}
+
+.hpbar-text {
+  position: relative;
+  display: block;
+  text-align: center;
+  font-family: var(--font-small);
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.think {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+}
+
+.gem {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--color-accent);
+}
+
+.gem.is-on {
+  background: var(--color-accent);
+}
+
+.think-text {
+  margin-left: 6px;
+  font-family: var(--font-small);
+}
+
+.events {
+  margin: 0;
+  padding: 6px 8px 6px 24px;
+  background: var(--color-panel);
+  border-left: 4px solid var(--color-accent);
+}
+
+.hand {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 6px;
+}
+
+.battle .card {
+  position: relative;
+  display: grid;
+  gap: 4px;
+  text-align: left;
+  min-height: 96px;
+  align-content: start;
+}
+
+.card-question { border-color: var(--color-accent); }
+.card-fog { border-color: var(--color-muted); }
+.card-summary { border-color: var(--color-hp); }
+.card-word { border-color: var(--color-block); }
+
+.card-cost {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  color: var(--color-accent);
+}
+
+.card-title { font-weight: 700; padding-right: 16px; }
+.card-sub { font-family: var(--font-small); color: var(--color-muted); }
+.card-badge { font-family: var(--font-small); color: var(--color-weak); }
+
+.row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.turn {
+  margin-right: auto;
+  color: var(--color-muted);
+}
+
+.notice {
+  margin: 0;
+  color: var(--color-weak);
+}
+
+.wpanel,
+.overlay {
+  background: var(--color-panel);
+  border: 2px solid var(--color-block);
+  padding: 12px;
+}
+
+.overlay {
+  border-color: var(--color-hp);
+  text-align: center;
+}
+
+/* 본문 문장은 전투 버튼 모양을 따르지 않는다. 다시 읽기는 언제나 또렷하게 */
+.battle .sentence {
+  border-color: transparent;
+  background: transparent;
+}
+
+.battle .sentence:disabled {
+  opacity: 1;
+}
+
+.battle .sentence.is-selected {
+  border-color: var(--color-accent);
+  background: rgba(240, 195, 106, 0.15);
+}

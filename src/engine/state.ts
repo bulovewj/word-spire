@@ -1,0 +1,135 @@
+// 전투 상태와 reduce (기획안 6장 · 작업지시서 F2-1, F4, F6)
+import type { Passage } from '../content/types'
+import { BALANCE } from './balance'
+import { addRetriesIfStuck, discardHand, enemyAttack, nextEnemyAttack, startTurn, unlockSummaryIfLow } from './battle'
+import { judgeQuestion, type Confidence, type Grade } from './judge'
+import { shuffle } from './rng'
+
+export const STATE_VERSION = 1
+
+export interface WordCardInstance { uid: string; wordId: string }
+
+export interface TextCard {
+  kind: 'question' | 'fog' | 'summary'
+  refId: string               // question id / lockedWords index / passage id
+  lockedThisTurn: boolean
+  retry: boolean              // "다시 보기"로 돌아온 질문
+}
+
+export type BattleEvent =
+  | { kind: 'question'; questionId: string; grade: Grade; damage: number; enemyAttackBonus: number }
+  | { kind: 'word'; wordId: string; pass: boolean; block: number }
+  | { kind: 'enemy'; attack: number; damage: number }
+  | { kind: 'summaryUnlocked' }
+  | { kind: 'retry'; questionIds: string[] }
+
+export interface GameState {
+  version: number
+  rng: number
+  passage: Passage
+  turn: number
+  think: number
+  player: { hp: number; maxHp: number; block: number }
+  enemy: { hp: number; maxHp: number; patternIndex: number; attackBonus: number }
+  fogCleared: number[]
+  optionOrder: Record<string, number[]>     // 질문별 보기 표시 순서
+  textCards: TextCard[]
+  hand: WordCardInstance[]
+  drawPile: WordCardInstance[]
+  discardPile: WordCardInstance[]
+  lastGrades: Record<string, Grade>         // 질문별 마지막 판정 (다시 보기용)
+  freeHint: boolean
+  nextUid: number
+  outcome: 'playing' | 'won' | 'lost'
+  events: BattleEvent[]                     // 방금 action에서 일어난 일 (화면 연출용)
+}
+
+export type Action =
+  | { type: 'resolveQuestion'; questionId: string; option: number; evidence: number[]; confidence: Confidence; usedHint: boolean; attachedWordUid?: string }
+  | { type: 'resolveWordCard'; uid: string; pass: boolean; answer: string }
+  | { type: 'endTurn' }
+
+export interface BattleSetup { passage: Passage; deck: string[]; seed: number; playerHp: number; playerMaxHp: number }
+
+export function createBattle({ passage, deck, seed, playerHp, playerMaxHp }: BattleSetup): GameState {
+  let rng = seed >>> 0
+  const optionOrder: Record<string, number[]> = {}
+  for (const q of passage.questions) {
+    const [order, next] = shuffle(q.options.map((_, i) => i), rng)
+    optionOrder[q.id] = order
+    rng = next
+  }
+  const cards = deck.map((wordId, i) => ({ uid: `w${i}`, wordId }))
+  const [drawPile, next] = shuffle(cards, rng)
+  const state: GameState = {
+    version: STATE_VERSION, rng: next, passage, turn: 0, think: 0,
+    player: { hp: playerHp, maxHp: playerMaxHp, block: 0 },
+    enemy: { hp: passage.enemy.maxHp, maxHp: passage.enemy.maxHp, patternIndex: 0, attackBonus: 0 },
+    fogCleared: [], optionOrder,
+    textCards: [
+      ...passage.questions.map((q) => ({ kind: 'question' as const, refId: q.id, lockedThisTurn: false, retry: false })),
+      ...passage.lockedWords.map((_, i) => ({ kind: 'fog' as const, refId: String(i), lockedThisTurn: false, retry: false })),
+    ],
+    hand: [], drawPile, discardPile: [], lastGrades: {}, freeHint: false,
+    nextUid: cards.length, outcome: 'playing', events: [],
+  }
+  return startTurn(state)
+}
+
+/** 내 체력바에 미리 보여 줄 받을 피해 */
+export function incomingDamage(s: GameState): number {
+  return Math.max(0, nextEnemyAttack(s) - s.player.block)
+}
+
+export function hasShield(s: GameState): boolean {
+  return s.fogCleared.length < s.passage.lockedWords.length
+}
+
+export function reduce(s: GameState, a: Action): GameState {
+  if (s.outcome !== 'playing') return s
+  switch (a.type) {
+    case 'resolveQuestion': {
+      const card = s.textCards.find((c) => c.kind === 'question' && c.refId === a.questionId)
+      const q = s.passage.questions.find((x) => x.id === a.questionId)
+      if (!card || !q || card.lockedThisTurn) return s
+      const cost = BALANCE.questionCost[q.type]
+      if (s.think < cost) return s
+      const attached = s.hand.find((w) => w.uid === a.attachedWordUid)
+      const r = judgeQuestion(q, { option: a.option, evidence: a.evidence, confidence: a.confidence, attachedWordId: attached?.wordId },
+        { shield: hasShield(s), retry: card.retry })
+      let next: GameState = {
+        ...s,
+        think: s.think - cost,
+        enemy: { ...s.enemy, hp: Math.max(1, s.enemy.hp - r.damage), attackBonus: s.enemy.attackBonus + r.enemyAttackBonus },
+        textCards: s.textCards.filter((c) => c !== card),
+        hand: attached ? s.hand.filter((w) => w !== attached) : s.hand,
+        discardPile: attached ? [...s.discardPile, attached] : s.discardPile,
+        lastGrades: { ...s.lastGrades, [q.id]: r.grade },
+        freeHint: r.freeHint || s.freeHint,
+        events: [{ kind: 'question', questionId: q.id, grade: r.grade, damage: r.damage, enemyAttackBonus: r.enemyAttackBonus }],
+      }
+      next = unlockSummaryIfLow(next)
+      return addRetriesIfStuck(next)
+    }
+    case 'resolveWordCard': {
+      const card = s.hand.find((w) => w.uid === a.uid)
+      if (!card || s.think < BALANCE.wordCardCost) return s
+      const block = a.pass ? BALANCE.wordCardBlock : 0
+      return {
+        ...s,
+        think: s.think - BALANCE.wordCardCost,
+        player: { ...s.player, block: s.player.block + block },
+        hand: s.hand.filter((w) => w !== card),
+        discardPile: [...s.discardPile, card],
+        events: [{ kind: 'word', wordId: card.wordId, pass: a.pass, block }],
+      }
+    }
+    case 'endTurn': {
+      const attacked = enemyAttack(discardHand({ ...s, events: [] }))
+      if (attacked.outcome === 'lost') return attacked
+      return startTurn(attacked)
+    }
+  }
+}
+
+export { nextEnemyAttack }

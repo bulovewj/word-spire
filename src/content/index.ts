@@ -11,3 +11,11 @@ export const starterDeck: string[] = STARTER_DECK_56
 export function checkContent(): string[] {
   return validateContent(wordPacks, passages)
 }
+
+const allWords = new Map<string, WordEntry>(
+  [...Object.values(wordPacks).flat(), ...passages.flatMap((p) => p.lockedWords.map((lw) => lw.card))].map((w) => [w.id, w]),
+)
+
+export function findWord(id: string): WordEntry | undefined {
+  return allWords.get(id)
+}
