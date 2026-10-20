@@ -19,7 +19,7 @@ export const bee2: Passage = {
       id: 'bee-w2', kind: '한자어', word: '공급', meaning: '필요한 물건이나 먹이 등을 대어 주는 것.',
       accepts: ['필요한 것을 마련해서 주는 것', '쓸 물건이나 먹을 것을 계속 대어 주는 것'],
       rejects: ['필요한 것을 주지 않고 거두어 가는 것', '공을 다른 사람에게 던져 주는 것'],
-      example: '수도관은 집집마다 물을 ○○해 줘.',
+      example: '수도관은 집집마다 물을 공급해 줘.',
     },
   }],
   questions: [

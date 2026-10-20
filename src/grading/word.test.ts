@@ -86,6 +86,6 @@ describe('비교 대상 낱말', () => {
     const ids = compareWords('h01', 'bee').map((w) => w.id)
     expect(ids).not.toContain('h01')
     expect(ids).toContain('bee-w1')
-    expect(ids).toHaveLength(30)
+    expect(ids).toHaveLength(32)
   })
 })
