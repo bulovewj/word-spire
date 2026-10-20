@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { STORY } from '../../content/story'
 import { BALANCE } from '../../engine/balance'
 import { hasShield, incomingDamage, nextEnemyAttack, type Action, type GameState } from '../../engine/state'
 import { EnemyPanel, PlayerPanel } from '../components/BattleBars'
@@ -36,7 +37,8 @@ export default function BattleScreen({ state, dispatch, onRestart }: Props) {
       </div>
       <div className="battle-field">
         <EnemyPanel name={p.enemy.name} hp={state.enemy.hp} maxHp={state.enemy.maxHp}
-          nextAttack={nextEnemyAttack(state)} shield={hasShield(state)} />
+          nextAttack={nextEnemyAttack(state)} shield={hasShield(state)}
+          line={state.turn === 1 && state.events.length === 0 ? p.enemy.introLine : undefined} />
         <PlayerPanel hp={state.player.hp} maxHp={state.player.maxHp} block={state.player.block}
           incoming={incomingDamage(state)} think={state.think} maxThink={BALANCE.thinkPerTurn} />
 
@@ -48,7 +50,7 @@ export default function BattleScreen({ state, dispatch, onRestart }: Props) {
 
         {state.outcome === 'lost' ? (
           <div className="overlay">
-            <p>쓰러졌어… 다시 읽고 도전해 보자.</p>
+            <p>{STORY.defeatLine}</p>
             <button type="button" onClick={() => { close(); onRestart() }}>이 층 다시 하기</button>
           </div>
         ) : target ? (

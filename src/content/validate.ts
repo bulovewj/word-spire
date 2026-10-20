@@ -1,4 +1,4 @@
-import type { Passage, WordEntry } from './types'
+import type { Passage, Tower, WordEntry } from './types'
 import { findStem } from './wordStem'
 
 // 콘텐츠 검사 (작업지시서 1-4). 문제마다 "어디: 무엇" 한 줄을 돌려준다.
@@ -40,6 +40,7 @@ export function validatePassage(p: Passage, knownWordIds: Set<string>): string[]
   if (n < 1) errors.push(at('sentences: 문장이 없음'))
   if (p.enemy.maxHp <= 0) errors.push(at('enemy.maxHp: 0보다 커야 함'))
   if (p.enemy.pattern.length < 1) errors.push(at('enemy.pattern: 비어 있음'))
+  if (!p.enemy.introLine || !p.enemy.sealLine) errors.push(at('enemy: introLine·sealLine이 필요함'))
 
   p.lockedWords.forEach((lw, i) => {
     const where = at(`lockedWords[${i}]`)
@@ -59,11 +60,12 @@ export function validatePassage(p: Passage, knownWordIds: Set<string>): string[]
     if (!Number.isInteger(q.answer) || q.answer < 0 || q.answer >= q.options.length) {
       errors.push(`${where}: answer ${q.answer}는 보기 범위 밖`)
     }
-    if (q.evidence.length < 1) errors.push(`${where}: evidence 조합이 없음`)
-    q.evidence.forEach((set, j) => {
-      if (set.length < 1) errors.push(`${where}.evidence[${j}]: 비어 있음`)
-      errors.push(...checkIndexes(set, n, `${where}.evidence[${j}]`))
+    if (q.evidence.required.length < 1) errors.push(`${where}: evidence.required가 없음`)
+    q.evidence.required.forEach((set, j) => {
+      if (set.length < 1) errors.push(`${where}.evidence.required[${j}]: 비어 있음`)
+      errors.push(...checkIndexes(set, n, `${where}.evidence.required[${j}]`))
     })
+    errors.push(...checkIndexes(q.evidence.allowed ?? [], n, `${where}.evidence.allowed`))
     for (const id of q.bonusWords ?? []) {
       if (!knownWordIds.has(id)) errors.push(`${where}.bonusWords: 모르는 낱말 id ${id}`)
     }
@@ -81,7 +83,19 @@ export function validatePassage(p: Passage, knownWordIds: Set<string>): string[]
   return errors
 }
 
-export function validateContent(packs: Record<string, WordEntry[]>, passages: Passage[]): string[] {
+export function validateTowers(towers: Tower[], passages: Passage[]): string[] {
+  const errors: string[] = []
+  const ids = new Set(towers.map((t) => t.id))
+  for (const t of towers) {
+    if (t.intro.length < 1 || t.outro.length < 1) errors.push(`towers/${t.id}: intro·outro가 필요함`)
+  }
+  for (const p of passages) {
+    if (!ids.has(p.towerId)) errors.push(`passages/${p.id}: 모르는 탑 ${p.towerId}`)
+  }
+  return errors
+}
+
+export function validateContent(packs: Record<string, WordEntry[]>, passages: Passage[], towers: Tower[] = []): string[] {
   const errors = Object.entries(packs).flatMap(([file, words]) => validateWords(words, file))
   const ids = new Set(Object.values(packs).flat().map((w) => w.id))
   for (const p of passages) {
@@ -91,5 +105,6 @@ export function validateContent(packs: Record<string, WordEntry[]>, passages: Pa
     }
   }
   for (const p of passages) errors.push(...validatePassage(p, ids))
+  if (towers.length > 0) errors.push(...validateTowers(towers, passages))
   return errors
 }

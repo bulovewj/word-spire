@@ -18,15 +18,16 @@ export function HpBar({ label, hp, maxHp, color, preview = 0 }: BarProps) {
   )
 }
 
-interface EnemyProps { name: string; hp: number; maxHp: number; nextAttack: number; shield: boolean }
+interface EnemyProps { name: string; hp: number; maxHp: number; nextAttack: number; shield: boolean; line?: string }
 
-export function EnemyPanel({ name, hp, maxHp, nextAttack, shield }: EnemyProps) {
+export function EnemyPanel({ name, hp, maxHp, nextAttack, shield, line }: EnemyProps) {
   return (
     <section className="unit unit-enemy" aria-label="적">
       <div className="unit-head">
         <strong>{name}</strong>
         <span className="intent">다음 공격 ⚔ {nextAttack}</span>
       </div>
+      {line && <p className="unit-line">“{line}”</p>}
       <HpBar label="적 체력" hp={hp} maxHp={maxHp} color="var(--color-hp)" />
       {shield && <p className="unit-note">안개 보호막: 질문 피해 -2</p>}
     </section>

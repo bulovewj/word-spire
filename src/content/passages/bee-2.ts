@@ -3,7 +3,8 @@ import type { Passage } from '../types'
 // 문장별 사실 출처와 검수 메모: docs/스토리.md 7장
 export const bee2: Passage = {
   id: 'bee-2', towerId: 'bee', floor: 2, title: '꽃이 이어져야 꿀벌도 산다',
-  enemy: { name: '빈꽃 도깨비', sprite: 'bloomgap', maxHp: 45, pattern: [7, 5, 9] },
+  enemy: { name: '빈꽃 도깨비', sprite: 'bloomgap', maxHp: 45, pattern: [7, 5, 9],
+    introLine: '여긴 내가 지키는 층이야!', sealLine: '앗, 몸이 종이처럼 접혀!' },
   sentences: [
     '꿀벌은 꽃에서 얻은 꽃꿀과 꽃가루를 먹이로 삼는다.',
     '꽃이 피는 시기는 식물의 종류에 따라 다르다.',
@@ -26,7 +27,7 @@ export const bee2: Passage = {
     {
       id: 'bee-2-q1', type: 'literal', prompt: '꿀벌이 꽃에서 얻는 먹이는 무엇일까?',
       options: ['꽃잎과 꽃줄기', '꽃꿀과 꽃가루', '꽃뿌리와 꽃씨', '꽃받침과 꽃봉오리'],
-      answer: 1, evidence: [[0]],
+      answer: 1, evidence: { required: [[0]] },
     },
     {
       id: 'bee-2-q2', type: 'connect',
@@ -37,7 +38,7 @@ export const bee2: Passage = {
         '꽃이 지는 시기가 되면 꿀벌의 먹이 찾는 활동도 끝나서',
         '꽃에서 먹이를 얻는데 다른 꽃이 한동안 피지 않을 수 있어서',
       ],
-      answer: 3, evidence: [[0, 2]],
+      answer: 3, evidence: { required: [[0, 2]] },
     },
     {
       id: 'bee-2-q3', type: 'author', prompt: '글쓴이의 생각에 맞게 꿀벌을 위한 꽃밭을 가꾸려면?',
@@ -47,7 +48,7 @@ export const bee2: Passage = {
         '피는 시기가 서로 다른 꽃들을 이어 피게 심어.',
         '피는 시기보다 꽃잎의 색깔을 먼저 보고 심어.',
       ],
-      answer: 2, evidence: [[6], [3, 4], [3, 5], [3, 4, 6]], bonusWords: ['bee-w1'],
+      answer: 2, evidence: { required: [[6], [3, 4], [3, 5]] }, bonusWords: ['bee-w1'],
     },
   ],
   summary: {

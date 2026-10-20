@@ -3,7 +3,7 @@ import { checkContent, wordPacks } from './index'
 import { bee1 } from './passages/bee-1'
 import { STARTER_DECK_56, pack56 } from './words/pack-5-6'
 import type { Passage } from './types'
-import { validateContent, validatePassage, validateWords } from './validate'
+import { validateContent, validatePassage, validateTowers, validateWords } from './validate'
 
 const ids = new Set([...pack56.map((w) => w.id), 'bee-w1'])
 const copy = (): Passage => structuredClone(bee1)
@@ -21,8 +21,11 @@ describe('실제 콘텐츠', () => {
 describe('틀린 데이터를 잡는다', () => {
   it('문장 index 범위 밖 근거', () => {
     const p = copy()
-    p.questions[0]!.evidence = [[9]]
-    expect(validatePassage(p, ids)).toEqual(['passages/bee-1 questions[0] q1.evidence[0]: 문장 index 9는 범위(0~4) 밖'])
+    p.questions[0]!.evidence = { required: [[9]], allowed: [7] }
+    expect(validatePassage(p, ids)).toEqual([
+      'passages/bee-1 questions[0] q1.evidence.required[0]: 문장 index 9는 범위(0~4) 밖',
+      'passages/bee-1 questions[0] q1.evidence.allowed: 문장 index 7는 범위(0~4) 밖',
+    ])
   })
   it('answer 범위 밖', () => {
     const p = copy()
@@ -61,6 +64,12 @@ describe('틀린 데이터를 잡는다', () => {
     expect(validatePassage(p, ids).join()).toContain('예문에 "위협"가 없음')
     p.lockedWords[0]!.card.example = '꿀벌이 줄면 밥상이 위협받는다.'
     expect(validatePassage(p, ids)).toEqual([])
+  })
+  it('적 대사가 비었거나 탑이 없으면', () => {
+    const p = copy()
+    p.enemy.sealLine = ''
+    expect(validatePassage(p, ids).join()).toContain('introLine·sealLine이 필요함')
+    expect(validateTowers([], [bee1])).toEqual(['passages/bee-1: 모르는 탑 bee'])
   })
   it('안개 낱말 카드 id가 팩과 겹침', () => {
     const p = copy()

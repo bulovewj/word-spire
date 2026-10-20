@@ -19,6 +19,16 @@ export interface Enemy {
   sprite: string
   maxHp: number
   pattern: number[]        // 턴별 공격값, 반복
+  introLine: string        // 층에 들어설 때 한 줄 (낱말 뜻·정답의 단서 금지)
+  sealLine: string         // 봉인될 때 한 줄
+}
+
+/** 탑 = 화제 하나, 3층. 이야기 문구는 짧게(기획안 6-6) */
+export interface Tower {
+  id: string
+  title: string
+  intro: string[]          // 탑에 들어갈 때 2줄
+  outro: string[]          // 3층 봉인 뒤 2줄
 }
 
 export interface LockedWord {
@@ -28,13 +38,19 @@ export interface LockedWord {
   card: WordEntry          // 성공 시 덱에 들어갈 낱말 카드
 }
 
+/** 근거 판정(기획안 7장): required 중 하나를 다 고르고, 나머지는 관련 문장(required 전체 + allowed) 안에서만 */
+export interface Evidence {
+  required: number[][]     // 꼭 들어가야 할 문장 묶음 후보. 하나만 만족하면 된다
+  allowed?: number[]       // 더 골라도 되는 문장
+}
+
 export interface Question {
   id: string
   type: QuestionType
   prompt: string
   options: string[]        // 4개
   answer: number           // options index
-  evidence: number[][]     // 허용 근거 조합
+  evidence: Evidence
   bonusWords?: string[]    // author 전용. 이 낱말 카드를 붙이면 +4
 }
 

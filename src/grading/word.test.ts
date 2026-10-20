@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { compareWords } from '../content'
+import { compareWords, passages } from '../content'
 import { pack56 } from '../content/words/pack-5-6'
 import type { WordEntry } from '../content/types'
 import { charSimilarity, cosine } from './cosine'
@@ -84,8 +84,10 @@ describe('유사도 도구', () => {
 describe('비교 대상 낱말', () => {
   it('기본 팩 + 이 탑 안개 낱말, 자기 자신 제외', () => {
     const ids = compareWords('h01', 'bee').map((w) => w.id)
+    const expected = [...pack56.map((w) => w.id), ...passages.filter((p) => p.towerId === 'bee')
+      .flatMap((p) => p.lockedWords.map((lw) => lw.card.id))].filter((id) => id !== 'h01')
     expect(ids).not.toContain('h01')
     expect(ids).toContain('bee-w1')
-    expect(ids).toHaveLength(32)
+    expect([...ids].sort()).toEqual(expected.sort())
   })
 })

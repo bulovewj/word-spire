@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest'
 import { bee1 } from '../content/passages/bee-1'
 import type { Question } from '../content/types'
-import { judgeQuestion, previewDamage } from './judge'
+import { evidenceOk, judgeQuestion, previewDamage } from './judge'
 
 const [q1, q2, q3] = bee1.questions as [Question, Question, Question]
 const open = { shield: false, retry: false }
@@ -61,12 +61,34 @@ describe('보호막과 다시 보기', () => {
     expect(judgeQuestion(q1, { option: 0, evidence: [3], confidence: 'sure' }, fogged).damage).toBe(7)
   })
   it('보호막은 0 밑으로 안 내린다', () => {
-    const tiny = { ...q1, evidence: [[3]] }
+    const tiny = { ...q1, evidence: { required: [[3]] } }
     const r = judgeQuestion(tiny, { option: 0, evidence: [0], confidence: 'unsure' }, { shield: true, retry: true })
     expect(r.damage).toBe(0)   // 6 → 약타 3 → 다시 보기 1 → 보호막 0
   })
   it('다시 보기는 피해 절반', () => {
     expect(judgeQuestion(q2, { option: 0, evidence: [1, 4], confidence: 'unsure' }, { shield: false, retry: true }).damage).toBe(5)
+  })
+})
+
+describe('근거 판정 (필수 + 허용)', () => {
+  const spec = { required: [[6], [3, 4]], allowed: [5] }
+  it('필수 묶음 하나를 다 고르면 정답', () => {
+    expect(evidenceOk(spec, [6])).toBe(true)
+    expect(evidenceOk(spec, [4, 3])).toBe(true)
+  })
+  it('관련 문장(다른 필수 후보·허용)을 더 골라도 정답', () => {
+    expect(evidenceOk(spec, [4, 6])).toBe(true)
+    expect(evidenceOk(spec, [3, 4, 5, 6])).toBe(true)
+  })
+  it('필수 묶음을 다 못 채우면 오답', () => {
+    expect(evidenceOk(spec, [3])).toBe(false)
+    expect(evidenceOk(spec, [5])).toBe(false)
+  })
+  it('관련 없는 문장을 섞으면 오답', () => {
+    expect(evidenceOk(spec, [6, 0])).toBe(false)
+  })
+  it('아무것도 안 고르면 오답', () => {
+    expect(evidenceOk(spec, [])).toBe(false)
   })
 })
 

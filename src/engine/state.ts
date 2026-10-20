@@ -5,7 +5,7 @@ import { discardHand, enemyAttack, nextEnemyAttack, openWhenQuestionsExhausted, 
 import { judgeQuestion, type Confidence, type Grade } from './judge'
 import { shuffle } from './rng'
 
-export const STATE_VERSION = 1
+export const STATE_VERSION = 2
 
 export interface WordCardInstance { uid: string; wordId: string }
 

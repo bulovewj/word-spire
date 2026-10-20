@@ -16,7 +16,7 @@
 ## 폴더 구조
 ```
 src/
-  content/   types.ts, validate.ts, index.ts(콘텐츠 모음·findWord), words/(낱말 팩), passages/(글)
+  content/   types.ts, validate.ts, index.ts(콘텐츠 모음·findWord), story.ts(주인공 '나'·공통 문구), words/(낱말 팩), passages/(글), towers/(탑 문구)
   engine/    balance.ts(숫자), judge.ts(판정), state.ts(GameState·reduce), battle.ts(턴 단계), rng.ts — React·DOM 의존 금지
   grading/   embed.worker.ts, embedder.ts, cosine.ts, policy.ts(기준값), word.ts, summary.ts
   storage/   store.ts
@@ -69,7 +69,8 @@ _archive/    옛 게임 코드·원화. 참고·빌드 대상 아님
 | M12 | 정리·배포 | ⬜ |
 
 ### 다음 세션 메모
-- Codex가 `story` 브랜치(`../word-spire-story`)에서 스토리·bee-2/3 글 작업 중. 그동안 `docs/스토리*.md`, `passages/bee-2·3.ts`는 건드리지 않는다. 병합 절차는 `docs/협업-가이드.md`.
+- Codex 스토리·bee-2/3 작업은 main에 병합됨(요청 1 닫힘). 다시 맡길 땐 `docs/codex-요청.md`에 요청 추가 → Codex가 `git merge main` 후 처리.
+- 남은 이야기 연결: 적 `sealLine`은 M6 봉인 때, 탑 `intro`/`outro`는 M8 탑 흐름 때 화면에.
 - M6부터. 요약 채점은 `grading/word.ts`처럼 유사도 주입형으로, 기준값은 `policy.ts`. 점검 화면(`?dev=grading`)에 요약 추가 후 사용자가 답 20개 이상으로 기준 확정.
 - 실행 엔진 wasm은 `onnxruntime-web` 일반판을 앱에 묶어 씀(CDN 요청 없음, jsdelivr 차단 상태로 확인). 빌드에 안 쓰는 asyncify wasm(27MB)도 같이 나옴 → M12에서 정리.
 - 브라우저 점검 스크립트로 버튼 누를 때 본문 문장에 같은 글자가 있으면 오클릭한다("계속", "농약…"). 셀렉터로 범위를 좁힐 것.

@@ -1,5 +1,5 @@
 // 질문 판정 (기획안 6-2, 6-3 · 작업지시서 F2). 순수 함수만.
-import type { Question } from '../content/types'
+import type { Evidence, Question } from '../content/types'
 import { BALANCE } from './balance'
 
 export type Grade = 'hit' | 'weak' | 'miss'          // 정타 / 약타 / 실패
@@ -24,15 +24,17 @@ export interface QuestionResult {
   freeHint: boolean         // 애매로 틀렸으면 다음 단서 보기 공짜
 }
 
-function sameSet(a: number[], b: number[]): boolean {
-  const sa = new Set(a)
-  const sb = new Set(b)
-  return sa.size === sb.size && [...sa].every((x) => sb.has(x))
+/** 근거가 맞는지: 필수 묶음 하나를 다 포함하고, 고른 문장이 모두 관련 문장 안에 있을 것 */
+export function evidenceOk(spec: Evidence, chosen: number[]): boolean {
+  const related = new Set([...spec.required.flat(), ...(spec.allowed ?? [])])
+  return chosen.length > 0
+    && chosen.every((i) => related.has(i))
+    && spec.required.some((set) => set.every((i) => chosen.includes(i)))
 }
 
 export function gradeQuestion(q: Question, option: number, evidence: number[]): Grade {
   if (option !== q.answer) return 'miss'
-  return q.evidence.some((set) => sameSet(set, evidence)) ? 'hit' : 'weak'
+  return evidenceOk(q.evidence, evidence) ? 'hit' : 'weak'
 }
 
 /** 피해 계산 순서: 기본 → 보너스 낱말 → 약타 절반 → 다시 보기 절반 → 정타+확실 ×1.5 → 보호막 */

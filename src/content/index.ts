@@ -1,17 +1,19 @@
-import type { Passage, WordEntry } from './types'
+import type { Passage, Tower, WordEntry } from './types'
 import { pack56, STARTER_DECK_56 } from './words/pack-5-6'
 import { bee1 } from './passages/bee-1'
 import { bee2 } from './passages/bee-2'
 import { bee3 } from './passages/bee-3'
+import { beeTower } from './towers/bee'
 import { validateContent } from './validate'
 
 export const wordPacks: Record<string, WordEntry[]> = { 'words/pack-5-6': pack56 }
 export const passages: Passage[] = [bee1, bee2, bee3]
 export const starterDeck: string[] = STARTER_DECK_56
+export const towers: Tower[] = [beeTower]
 
 /** 앱 시작 전에 부른다. 문제가 있으면 목록을 돌려준다. */
 export function checkContent(): string[] {
-  return validateContent(wordPacks, passages)
+  return validateContent(wordPacks, passages, towers)
 }
 
 const allWords = new Map<string, WordEntry>(

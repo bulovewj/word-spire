@@ -54,6 +54,8 @@
   color: var(--color-hp);
 }
 
+.unit-line { margin: 0; font-style: italic; }
+
 .unit-note {
   margin: 0;
   font-family: var(--font-small);

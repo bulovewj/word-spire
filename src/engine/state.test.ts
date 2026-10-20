@@ -10,7 +10,7 @@ const setup = (passage: Passage = bee1, deck: string[] = STARTER_DECK_56) =>
 const q = (id: string) => bee1.questions.find((x) => x.id === id) as Question
 type QAction = Extract<Action, { type: 'resolveQuestion' }>
 const right = (id: string, confidence: 'sure' | 'unsure' = 'sure'): QAction =>
-  ({ type: 'resolveQuestion', questionId: id, option: q(id).answer, evidence: q(id).evidence[0] ?? [], confidence, usedHint: false })
+  ({ type: 'resolveQuestion', questionId: id, option: q(id).answer, evidence: q(id).evidence.required[0] ?? [], confidence, usedHint: false })
 const wrong = (id: string, confidence: 'sure' | 'unsure' = 'sure'): QAction =>
   ({ type: 'resolveQuestion', questionId: id, option: (q(id).answer + 1) % 4, evidence: [0], confidence, usedHint: false })
 const run = (s: GameState, ...actions: Action[]) => actions.reduce(reduce, s)
