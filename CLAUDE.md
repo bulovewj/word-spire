@@ -69,10 +69,12 @@ _archive/    옛 게임 코드·원화. 참고·빌드 대상 아님
 | M12 | 정리·배포 | ⬜ |
 
 ### 다음 세션 메모
-- M5부터. 시작 전에 `@huggingface/transformers` 설치 허락받기.
+- Codex가 `story` 브랜치(`../word-spire-story`)에서 스토리·bee-2/3 글 작업 중. 그동안 `docs/스토리*.md`, `passages/bee-2·3.ts`는 건드리지 않는다. 병합 절차는 `docs/협업-가이드.md`.
+- M5부터. `@huggingface/transformers` 4.x 설치 완료(사용자 허락함).
 - 전투 상태는 `engine/state.ts`(타입·reduce) + `engine/battle.ts`(턴 단계). 보기 순서는 전투 시작 때 rng로 섞어 `optionOrder`에 둔다(데이터 정답이 늘 ①이라서).
 - 가정값(사용자 플레이테스트 후 조정): 낱말 붙이기 +4 규칙, 다시 보기 절반은 약타 절반 다음에 적용, 채점 비교 대상 낱말 범위.
 - `GameState.passage`에 글 데이터를 통째로 넣어 둠. M8 저장 때 id로 바꿀지 결정.
 
 ## 참조
 상세 명세는 `docs/작업지시서.md`, 마일스톤 상세는 `CODING_PLAN.md`. 필요할 때만 읽을 것.
+다른 에이전트용 안내는 `AGENTS.md`, 협업 방식은 `docs/협업-가이드.md`.
