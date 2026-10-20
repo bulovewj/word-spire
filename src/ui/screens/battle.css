@@ -34,83 +34,6 @@
   cursor: default;
 }
 
-.unit {
-  background: var(--color-panel);
-  border: 2px solid var(--color-muted);
-  padding: 8px;
-  display: grid;
-  gap: 6px;
-}
-
-.unit-head {
-  display: flex;
-  gap: 12px;
-  align-items: baseline;
-  flex-wrap: wrap;
-}
-
-.intent,
-.incoming {
-  color: var(--color-hp);
-}
-
-.unit-line { margin: 0; font-style: italic; }
-
-.unit-note {
-  margin: 0;
-  font-family: var(--font-small);
-  color: var(--color-muted);
-}
-
-.hpbar {
-  position: relative;
-  height: 18px;
-  background: var(--color-bg);
-  border: 2px solid var(--color-ink);
-}
-
-.hpbar-fill,
-.hpbar-preview {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-}
-
-.hpbar-preview {
-  background: repeating-linear-gradient(90deg, var(--color-hp) 0 4px, transparent 4px 8px);
-}
-
-.hpbar-text {
-  position: relative;
-  display: block;
-  text-align: center;
-  font-family: var(--font-small);
-  font-size: 12px;
-  line-height: 14px;
-}
-
-.think {
-  display: flex;
-  gap: 4px;
-  align-items: center;
-}
-
-.gem {
-  width: 14px;
-  height: 14px;
-  border: 2px solid var(--color-accent);
-}
-
-.gem.is-on {
-  background: var(--color-accent);
-}
-
-.think-text {
-  margin-left: 6px;
-  font-family: var(--font-small);
-}
-
 .events {
   margin: 0;
   padding: 6px 8px 6px 24px;
@@ -147,10 +70,12 @@
   position: absolute;
   top: 4px;
   right: 6px;
+  font-family: var(--font-small);
+  font-size: 11px;
   color: var(--color-accent);
 }
 
-.card-title { font-weight: 700; padding-right: 16px; }
+.card-title { font-weight: 700; padding-right: 52px; }
 .card-sub { font-family: var(--font-small); color: var(--color-muted); }
 .card-badge { font-family: var(--font-small); color: var(--color-weak); }
 

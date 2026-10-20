@@ -19,7 +19,8 @@ export const POLICY = {
   simpleBigramWeight: 0.6,
   simpleWordMin: 0.42,
 
-  // 요약 (작업지시서 2-2). summaryOwnMin은 M6 점검 화면에서 사용자가 확정한다 — 지금은 처음 값
+  // 요약 (작업지시서 2-2). summaryOwnMin 0.86 유지(사용자 확정 2026-10-20). 의미 점수는 맞는/틀린 요약이 겹쳐서
+  // 실제 거름망은 핵심 개념. 억울한 답이 나오면 기준값이 아니라 글 데이터의 개념 동의어를 넓힌다
   summaryMinLength: 10,          // 공백 뺀 글자 수
   summaryMaxLength: 60,
   summaryOwnMin: 0.86,

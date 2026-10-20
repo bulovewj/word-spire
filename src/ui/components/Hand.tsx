@@ -22,7 +22,7 @@ export default function Hand({ cards, onPick }: Props) {
       {cards.map((c) => (
         <li key={c.key}>
           <button type="button" className={`card card-${c.kind}`} disabled={c.disabled} onClick={() => onPick(c)}>
-            <span className="card-cost" aria-label={`생각력 ${c.cost}`}>{c.cost}</span>
+            <span className="card-cost">생각력 {c.cost}</span>
             <span className="card-title">{c.title}</span>
             <span className="card-sub">{c.sub}</span>
             {c.badge && <span className="card-badge">{c.badge}</span>}
