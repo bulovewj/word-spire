@@ -16,11 +16,11 @@
 ## 폴더 구조
 ```
 src/
-  content/   types.ts, validate.ts, words/(낱말 팩), passages/(글)
-  engine/    balance.ts(숫자), judge.ts(판정), state.ts(reduce), rng.ts — React·DOM 의존 금지
+  content/   types.ts, validate.ts, index.ts(콘텐츠 모음·findWord), words/(낱말 팩), passages/(글)
+  engine/    balance.ts(숫자), judge.ts(판정), state.ts(GameState·reduce), battle.ts(턴 단계), rng.ts — React·DOM 의존 금지
   grading/   embed.worker.ts, embedder.ts, cosine.ts, policy.ts(기준값), word.ts, summary.ts
   storage/   store.ts
-  ui/        screens/, components/, sprites/
+  ui/        App.tsx(게임 상태를 여기 한곳에), screens/, components/, sprites/, eventText.ts(사건 → 문구)
   styles/    tokens.css
 docs/        기획안.md(읽기 전용), 작업지시서.md
 references/  문해력 근거 자료(기획안 4장)
@@ -59,7 +59,7 @@ _archive/    옛 게임 코드·원화. 참고·빌드 대상 아님
 | M2 | 데이터와 본문 화면 | ✅ |
 | M3 | 질문 판정 엔진 | ✅ |
 | M4 | 전투 루프 | ✅ |
-| M5 | 의미 채점기 + 낱말 카드 | ⬜ |
+| M5 | 의미 채점기 + 낱말 카드 | ✅ |
 | M6 | 요약 봉인 | ⬜ |
 | M7 | 안개 걷기 + 단서 보기 | ⬜ |
 | M8 | 탑 3층 + 저장 | ⬜ |
@@ -70,8 +70,9 @@ _archive/    옛 게임 코드·원화. 참고·빌드 대상 아님
 
 ### 다음 세션 메모
 - Codex가 `story` 브랜치(`../word-spire-story`)에서 스토리·bee-2/3 글 작업 중. 그동안 `docs/스토리*.md`, `passages/bee-2·3.ts`는 건드리지 않는다. 병합 절차는 `docs/협업-가이드.md`.
-- M5부터. `@huggingface/transformers` 4.x 설치 완료(사용자 허락함).
-- 전투 상태는 `engine/state.ts`(타입·reduce) + `engine/battle.ts`(턴 단계). 보기 순서는 전투 시작 때 rng로 섞어 `optionOrder`에 둔다(데이터 정답이 늘 ①이라서).
+- M6부터. 요약 채점은 `grading/word.ts`처럼 유사도 주입형으로, 기준값은 `policy.ts`. 점검 화면(`?dev=grading`)에 요약 추가 후 사용자가 답 20개 이상으로 기준 확정.
+- 실행 엔진 wasm은 `onnxruntime-web` 일반판을 앱에 묶어 씀(CDN 요청 없음, jsdelivr 차단 상태로 확인). 빌드에 안 쓰는 asyncify wasm(27MB)도 같이 나옴 → M12에서 정리.
+- 브라우저 점검 스크립트로 버튼 누를 때 본문 문장에 같은 글자가 있으면 오클릭한다("계속", "농약…"). 셀렉터로 범위를 좁힐 것.
 - 가정값(사용자 플레이테스트 후 조정): 낱말 붙이기 +4 규칙, 다시 보기 절반은 약타 절반 다음에 적용, 채점 비교 대상 낱말 범위.
 - `GameState.passage`에 글 데이터를 통째로 넣어 둠. M8 저장 때 id로 바꿀지 결정.
 

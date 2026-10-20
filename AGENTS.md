@@ -10,13 +10,14 @@
 2. `docs/기획안.md` — 무엇을 만드는가 (게임 규칙은 6장). **읽기 전용, 수정 금지**
 3. `docs/작업지시서.md` 1장 — 데이터 형식(`WordEntry`, `Passage`)
 4. 맡은 일의 작업지시서 (스토리 담당이면 `docs/스토리-작업지시서.md`)
+5. **`docs/codex-요청.md` — Claude Code가 남긴 요청. 작업 시작 때 `git merge main` 후 "열림" 요청부터 처리한다.**
 
 ## 역할과 쓸 수 있는 곳
 
 | 역할 | 일하는 폴더·브랜치 | 고쳐도 되는 파일 | 고치면 안 되는 파일 |
 |---|---|---|---|
 | Claude Code (개발) | `word-spire/` · `main` | 전부 (CLAUDE.md 규칙 안에서) | — |
-| Codex (스토리·글 데이터) | `word-spire-story/` · `story` | `docs/스토리.md`, `docs/스토리-작업지시서.md`의 "질문과 답" 칸, `src/content/passages/bee-2.ts`, `src/content/passages/bee-3.ts`, `src/content/index.ts`의 `passages` 배열 한 줄 | 그 밖의 전부. 특히 `src/engine/`, `src/ui/`, `src/grading/`, `src/content/types.ts`, `src/content/validate.ts`, `CLAUDE.md`, `CODING_PLAN.md`, `docs/기획안.md`, `docs/작업지시서.md` |
+| Codex (스토리·글 데이터) | `word-spire-story/` · `story` | `docs/스토리.md`, `docs/codex-요청.md`의 "처리 결과" 칸, `docs/스토리-작업지시서.md`의 "질문과 답" 칸, `src/content/passages/bee-2.ts`, `src/content/passages/bee-3.ts`, `src/content/index.ts`의 `passages` 배열 한 줄 | 그 밖의 전부. 특히 `src/engine/`, `src/ui/`, `src/grading/`, `src/content/types.ts`, `src/content/validate.ts`, `CLAUDE.md`, `CODING_PLAN.md`, `docs/기획안.md`, `docs/작업지시서.md` |
 
 데이터 형식을 바꿔야 할 것 같으면 **코드를 고치지 말고** `docs/스토리.md`의 "데이터 칸 제안"에 적는다. 반영은 사용자 승인 뒤 Claude Code가 한다.
 

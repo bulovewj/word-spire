@@ -1,4 +1,5 @@
 import type { Passage, WordEntry } from './types'
+import { findStem } from './wordStem'
 
 // 콘텐츠 검사 (작업지시서 1-4). 문제마다 "어디: 무엇" 한 줄을 돌려준다.
 
@@ -9,6 +10,9 @@ function checkWord(w: WordEntry, where: string): string[] {
   if (!w.meaning) errors.push(`${where}: meaning이 비어 있음`)
   if (w.accepts.length < 1) errors.push(`${where}: accepts가 1개 이상이어야 함`)
   if (w.rejects.length < 1) errors.push(`${where}: rejects가 1개 이상이어야 함`)
+  if (w.example && !findStem(w.example, w.word)) {
+    errors.push(`${where}: 예문에 "${w.word}"가 없음(가리지 말고 그대로 쓸 것. 화면이 가린다)`)
+  }
   return errors
 }
 

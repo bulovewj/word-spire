@@ -58,18 +58,23 @@ function summaryOpen(s: GameState): boolean {
   return s.textCards.some((c) => c.kind === 'summary')
 }
 
-/** 적 체력이 40% 이하가 되면 요약 봉인 카드를 손패에 */
-export function unlockSummaryIfLow(s: GameState): GameState {
-  if (summaryOpen(s) || s.enemy.hp > s.enemy.maxHp * BALANCE.summaryUnlockRatio) return s
+function withSummaryCard(s: GameState): GameState {
   const card: TextCard = { kind: 'summary', refId: s.passage.id, lockedThisTurn: false, retry: false }
   return { ...s, textCards: [...s.textCards, card], events: [...s.events, { kind: 'summaryUnlocked' }] }
 }
 
-/** 질문을 다 썼는데 요약 봉인이 안 열렸으면 약타·실패 질문을 "다시 보기"로 돌려준다 */
-export function addRetriesIfStuck(s: GameState): GameState {
+/** 적 체력이 40% 이하가 되면 요약 봉인 카드를 손패에 */
+export function unlockSummaryIfLow(s: GameState): GameState {
+  if (summaryOpen(s) || s.enemy.hp > s.enemy.maxHp * BALANCE.summaryUnlockRatio) return s
+  return withSummaryCard(s)
+}
+
+/** 질문을 다 썼는데 요약 봉인이 안 열렸으면: 요약 봉인을 열고 약타·실패 질문을 "다시 보기"로 돌려준다 */
+export function openWhenQuestionsExhausted(s: GameState): GameState {
   if (summaryOpen(s) || s.textCards.some((c) => c.kind === 'question')) return s
+  const opened = withSummaryCard(s)
   const ids = s.passage.questions.map((q) => q.id).filter((id) => s.lastGrades[id] !== 'hit')
-  if (ids.length === 0) return s
+  if (ids.length === 0) return opened
   const cards: TextCard[] = ids.map((id) => ({ kind: 'question', refId: id, lockedThisTurn: false, retry: true }))
-  return { ...s, textCards: [...s.textCards, ...cards], events: [...s.events, { kind: 'retry', questionIds: ids }] }
+  return { ...opened, textCards: [...opened.textCards, ...cards], events: [...opened.events, { kind: 'retry', questionIds: ids }] }
 }

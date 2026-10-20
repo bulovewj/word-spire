@@ -1,0 +1,50 @@
+.gcheck {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 16px;
+  display: grid;
+  gap: 10px;
+}
+
+.gcheck h1 {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  margin: 0;
+}
+
+.gcheck textarea,
+.gcheck select,
+.gcheck button {
+  font: inherit;
+  color: var(--color-ink);
+  background: var(--color-panel);
+  border: 2px solid var(--color-muted);
+  padding: 6px;
+}
+
+.gcheck button {
+  justify-self: start;
+  cursor: pointer;
+}
+
+.gmeaning {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.gcheck table {
+  border-collapse: collapse;
+  width: 100%;
+  font-family: var(--font-small);
+}
+
+.gcheck th,
+.gcheck td {
+  border: 1px solid var(--color-muted);
+  padding: 4px 6px;
+  text-align: left;
+}
+
+.gcheck tr.pass td:nth-child(6) { color: var(--color-good); }
+.gcheck tr.fail td:nth-child(6) { color: var(--color-hp); }

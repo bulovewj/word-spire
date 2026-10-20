@@ -1,0 +1,18 @@
+.badge {
+  font-family: var(--font-small);
+  font-size: 12px;
+  padding: 2px 8px;
+  border: 2px solid var(--color-muted);
+  color: var(--color-muted);
+  background: var(--color-panel);
+}
+
+.badge-ready {
+  border-color: var(--color-good);
+  color: var(--color-ink);
+}
+
+.badge-failed {
+  border-color: var(--color-weak);
+  color: var(--color-weak);
+}

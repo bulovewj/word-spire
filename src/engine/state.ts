@@ -1,7 +1,7 @@
 // 전투 상태와 reduce (기획안 6장 · 작업지시서 F2-1, F4, F6)
 import type { Passage } from '../content/types'
 import { BALANCE } from './balance'
-import { addRetriesIfStuck, discardHand, enemyAttack, nextEnemyAttack, startTurn, unlockSummaryIfLow } from './battle'
+import { discardHand, enemyAttack, nextEnemyAttack, openWhenQuestionsExhausted, startTurn, unlockSummaryIfLow } from './battle'
 import { judgeQuestion, type Confidence, type Grade } from './judge'
 import { shuffle } from './rng'
 
@@ -94,7 +94,10 @@ export function reduce(s: GameState, a: Action): GameState {
       if (!card || !q || card.lockedThisTurn) return s
       const cost = BALANCE.questionCost[q.type]
       if (s.think < cost) return s
-      const attached = s.hand.find((w) => w.uid === a.attachedWordUid)
+      // 붙이기는 author 질문의 관련 낱말 카드만. 아니면 무시하고 카드는 손패에 남긴다
+      const attached = q.type === 'author'
+        ? s.hand.find((w) => w.uid === a.attachedWordUid && q.bonusWords?.includes(w.wordId))
+        : undefined
       const r = judgeQuestion(q, { option: a.option, evidence: a.evidence, confidence: a.confidence, attachedWordId: attached?.wordId },
         { shield: hasShield(s), retry: card.retry })
       let next: GameState = {
@@ -109,7 +112,7 @@ export function reduce(s: GameState, a: Action): GameState {
         events: [{ kind: 'question', questionId: q.id, grade: r.grade, damage: r.damage, enemyAttackBonus: r.enemyAttackBonus }],
       }
       next = unlockSummaryIfLow(next)
-      return addRetriesIfStuck(next)
+      return openWhenQuestionsExhausted(next)
     }
     case 'resolveWordCard': {
       const card = s.hand.find((w) => w.uid === a.uid)
