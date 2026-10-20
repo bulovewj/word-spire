@@ -28,6 +28,7 @@ export default function BattleScreen({ state, dispatch, onRestart }: Props) {
   const toggle = (i: number) => setEvidence((s) => (s.includes(i) ? s.filter((x) => x !== i) : [...s, i]))
   const fog = p.lockedWords.filter((_, i) => !state.fogCleared.includes(i))
   const picking = target?.kind === 'question'
+  const playing = state.outcome === 'playing'   // 끝난 전투에는 예고를 보이지 않는다
 
   return (
     <div className="battle">
@@ -37,10 +38,10 @@ export default function BattleScreen({ state, dispatch, onRestart }: Props) {
       </div>
       <div className="battle-field">
         <EnemyPanel name={p.enemy.name} hp={state.enemy.hp} maxHp={state.enemy.maxHp}
-          nextAttack={nextEnemyAttack(state)} shield={hasShield(state)}
+          nextAttack={playing ? nextEnemyAttack(state) : undefined} shield={playing && hasShield(state)}
           line={state.turn === 1 && state.events.length === 0 ? p.enemy.introLine : undefined} />
         <PlayerPanel hp={state.player.hp} maxHp={state.player.maxHp} block={state.player.block}
-          incoming={incomingDamage(state)} think={state.think} maxThink={BALANCE.thinkPerTurn} />
+          incoming={playing ? incomingDamage(state) : undefined} think={state.think} maxThink={BALANCE.thinkPerTurn} />
 
         {state.events.length > 0 && (
           <ul className="events" role="status">
@@ -48,7 +49,13 @@ export default function BattleScreen({ state, dispatch, onRestart }: Props) {
           </ul>
         )}
 
-        {state.outcome === 'lost' ? (
+        {state.outcome === 'won' ? (
+          <div className="overlay overlay-won">
+            <p className="unit-line">“{p.enemy.sealLine}”</p>
+            <p><strong>{p.enemy.name}</strong> — {STORY.sealed}</p>
+            <button type="button" onClick={() => { close(); onRestart() }}>처음부터 다시 하기</button>
+          </div>
+        ) : state.outcome === 'lost' ? (
           <div className="overlay">
             <p>{STORY.defeatLine}</p>
             <button type="button" onClick={() => { close(); onRestart() }}>이 층 다시 하기</button>

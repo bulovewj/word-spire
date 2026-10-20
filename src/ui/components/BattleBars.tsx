@@ -18,14 +18,14 @@ export function HpBar({ label, hp, maxHp, color, preview = 0 }: BarProps) {
   )
 }
 
-interface EnemyProps { name: string; hp: number; maxHp: number; nextAttack: number; shield: boolean; line?: string }
+interface EnemyProps { name: string; hp: number; maxHp: number; nextAttack?: number; shield: boolean; line?: string }
 
 export function EnemyPanel({ name, hp, maxHp, nextAttack, shield, line }: EnemyProps) {
   return (
     <section className="unit unit-enemy" aria-label="적">
       <div className="unit-head">
         <strong>{name}</strong>
-        <span className="intent">다음 공격 ⚔ {nextAttack}</span>
+        {nextAttack !== undefined && <span className="intent">다음 공격 ⚔ {nextAttack}</span>}
       </div>
       {line && <p className="unit-line">“{line}”</p>}
       <HpBar label="적 체력" hp={hp} maxHp={maxHp} color="var(--color-hp)" />
@@ -34,7 +34,7 @@ export function EnemyPanel({ name, hp, maxHp, nextAttack, shield, line }: EnemyP
   )
 }
 
-interface PlayerProps { hp: number; maxHp: number; block: number; incoming: number; think: number; maxThink: number }
+interface PlayerProps { hp: number; maxHp: number; block: number; incoming?: number; think: number; maxThink: number }
 
 export function PlayerPanel({ hp, maxHp, block, incoming, think, maxThink }: PlayerProps) {
   return (
@@ -42,7 +42,7 @@ export function PlayerPanel({ hp, maxHp, block, incoming, think, maxThink }: Pla
       <div className="unit-head">
         <strong>나</strong>
         <span>방어 🛡 {block}</span>
-        <span className="incoming">받을 피해 {incoming}</span>
+        {incoming !== undefined && <span className="incoming">받을 피해 {incoming}</span>}
       </div>
       <HpBar label="내 체력" hp={hp} maxHp={maxHp} color="var(--color-good)" preview={incoming} />
       <div className="think" aria-label={`생각력 ${think} / ${maxThink}`}>

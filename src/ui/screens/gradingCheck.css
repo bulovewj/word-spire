@@ -48,3 +48,22 @@
 
 .gcheck tr.pass td:nth-child(6) { color: var(--color-good); }
 .gcheck tr.fail td:nth-child(6) { color: var(--color-hp); }
+
+.gcheck-body {
+  display: grid;
+  gap: 10px;
+}
+
+.gcheck-body p {
+  margin: 0;
+}
+
+.gtabs {
+  display: flex;
+  gap: 6px;
+}
+
+.gtabs button[aria-selected='true'] {
+  border-color: var(--color-accent);
+  background: var(--color-select);
+}

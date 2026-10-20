@@ -107,6 +107,31 @@ describe('턴 끝과 적', () => {
   })
 })
 
+describe('요약 봉인', () => {
+  const opened = () => run(setup(), right('q1'), right('q2'), end, right('q3'), end)   // 적 체력 1, 요약 열림, 3턴 시작
+  const summary = (pass: boolean): Action => ({ type: 'resolveSummary', pass, answer: '' })
+
+  it('통과하면 적을 봉인하고 이긴다', () => {
+    const s = run(opened(), summary(true))
+    expect(s).toMatchObject({ outcome: 'won', think: 1, enemy: { hp: 0 } })
+    expect(s.events).toEqual([{ kind: 'summary', pass: true }])
+    expect(run(s, end)).toBe(s)
+  })
+  it('실패하면 이번 턴 동안 잠기고 다음 턴에 다시 낼 수 있다', () => {
+    const s = run(opened(), summary(false))
+    expect(s.textCards.find((c) => c.kind === 'summary')?.lockedThisTurn).toBe(true)
+    expect(run(s, summary(true))).toBe(s)
+    expect(run(s, end, summary(true)).outcome).toBe('won')
+  })
+  it('요약 봉인이 열리기 전에는 낼 수 없다', () => {
+    const s = setup()
+    expect(run(s, summary(true))).toBe(s)
+  })
+  it('요약 없이는 이길 수 없다: 질문을 다 맞혀도 적 체력 1', () => {
+    expect(opened()).toMatchObject({ outcome: 'playing', enemy: { hp: 1 } })
+  })
+})
+
 describe('다시 보기', () => {
   it('질문을 다 썼는데 요약이 안 열리면 약타·실패 질문이 다시 보기로 돌아온다', () => {
     const s = run(setup(), right('q1'), wrong('q2', 'unsure'), end, wrong('q3', 'unsure'))

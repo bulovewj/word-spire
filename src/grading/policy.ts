@@ -19,6 +19,11 @@ export const POLICY = {
   simpleBigramWeight: 0.6,
   simpleWordMin: 0.42,
 
+  // 요약 (작업지시서 2-2). summaryOwnMin은 M6 점검 화면에서 사용자가 확정한다 — 지금은 처음 값
+  summaryMinLength: 10,          // 공백 뺀 글자 수
+  summaryMaxLength: 60,
+  summaryOwnMin: 0.86,
+
   // 뜻 가까움 미터 표시 범위 [0%, 100%]
   meterSemantic: [0.75, 0.95],
   meterSimple: [0, 0.8],

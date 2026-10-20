@@ -15,6 +15,8 @@ export function eventText(e: BattleEvent): string {
     }
     case 'enemy':
       return `적의 공격 ${e.attack} → ${e.damage} 받음`
+    case 'summary':
+      return e.pass ? '요약 봉인 성공!' : '요약 봉인 실패. 다음 턴에 다시 도전해 봐.'
     case 'summaryUnlocked':
       return '요약 봉인 카드가 나타났어!'
     case 'retry':

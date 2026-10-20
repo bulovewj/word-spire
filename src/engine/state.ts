@@ -5,7 +5,7 @@ import { discardHand, enemyAttack, nextEnemyAttack, openWhenQuestionsExhausted, 
 import { judgeQuestion, type Confidence, type Grade } from './judge'
 import { shuffle } from './rng'
 
-export const STATE_VERSION = 2
+export const STATE_VERSION = 3
 
 export interface WordCardInstance { uid: string; wordId: string }
 
@@ -21,6 +21,7 @@ export type BattleEvent =
   | { kind: 'word'; wordId: string; pass: boolean; block: number }
   | { kind: 'enemy'; attack: number; damage: number }
   | { kind: 'summaryUnlocked' }
+  | { kind: 'summary'; pass: boolean }
   | { kind: 'retry'; questionIds: string[] }
 
 export interface GameState {
@@ -47,6 +48,7 @@ export interface GameState {
 export type Action =
   | { type: 'resolveQuestion'; questionId: string; option: number; evidence: number[]; confidence: Confidence; usedHint: boolean; attachedWordUid?: string }
   | { type: 'resolveWordCard'; uid: string; pass: boolean; answer: string }
+  | { type: 'resolveSummary'; pass: boolean; answer: string }
   | { type: 'endTurn' }
 
 export interface BattleSetup { passage: Passage; deck: string[]; seed: number; playerHp: number; playerMaxHp: number }
@@ -126,6 +128,17 @@ export function reduce(s: GameState, a: Action): GameState {
         discardPile: [...s.discardPile, card],
         events: [{ kind: 'word', wordId: card.wordId, pass: a.pass, block }],
       }
+    }
+    case 'resolveSummary': {
+      // 요약 봉인 (기획안 6-2, F5): 통과하면 적을 봉인, 실패하면 이번 턴 동안 잠김
+      const card = s.textCards.find((c) => c.kind === 'summary')
+      if (!card || card.lockedThisTurn || s.think < BALANCE.summaryCost) return s
+      const think = s.think - BALANCE.summaryCost
+      const events: BattleEvent[] = [{ kind: 'summary', pass: a.pass }]
+      if (a.pass) {
+        return { ...s, think, enemy: { ...s.enemy, hp: 0 }, textCards: s.textCards.filter((c) => c !== card), outcome: 'won', events }
+      }
+      return { ...s, think, textCards: s.textCards.map((c) => (c === card ? { ...c, lockedThisTurn: true } : c)), events }
     }
     case 'endTurn': {
       const attacked = enemyAttack(discardHand({ ...s, events: [] }))

@@ -178,10 +178,8 @@
   padding: 12px;
 }
 
-.overlay {
-  border-color: var(--color-hp);
-  text-align: center;
-}
+.overlay { border-color: var(--color-hp); text-align: center; }
+.overlay-won { border-color: var(--color-good); }
 
 /* 본문 문장은 전투 버튼 모양을 따르지 않는다. 다시 읽기는 언제나 또렷하게 */
 .battle .sentence {

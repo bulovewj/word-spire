@@ -1,6 +1,7 @@
 import { findWord } from '../../content'
 import { hasShield, type Action, type GameState } from '../../engine/state'
 import QuestionPanel from '../components/QuestionPanel'
+import SummaryPanel from '../components/SummaryPanel'
 import { activeFogWords } from '../fog'
 import WordPanel from '../components/WordPanel'
 import type { PanelTarget } from './handCards'
@@ -52,7 +53,16 @@ export default function ActivePanel({ state, target, evidence, dispatch, onClose
       />
     )
   }
-  const text = target.kind === 'fog' ? '안개 걷기는 M7에서 만든다.' : '요약 봉인은 M6에서 만든다.'
+  if (target.kind === 'summary') {
+    return (
+      <SummaryPanel
+        spec={state.passage.summary}
+        onCancel={onClose}
+        onDone={(pass, answer) => dispatch({ type: 'resolveSummary', pass, answer })}
+      />
+    )
+  }
+  const text = '안개 걷기는 M7에서 만든다.'
   return (
     <section className="wpanel">
       <p>{text}</p>
