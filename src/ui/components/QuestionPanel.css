@@ -39,7 +39,7 @@
 
 .qpanel button.is-on {
   border-color: var(--color-accent);
-  background: rgba(240, 195, 106, 0.15);
+  background: var(--color-select);
 }
 
 .qpanel button:disabled {

@@ -42,7 +42,7 @@
 
 .sentence.is-selected {
   border-color: var(--color-accent);
-  background: rgba(240, 195, 106, 0.15);
+  background: var(--color-select);
 }
 
 .sentence-no {
