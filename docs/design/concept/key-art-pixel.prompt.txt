@@ -1,0 +1,2 @@
+원본 생성·수정 프롬프트는 key-art.prompt.txt와 generated/keyart-initial-source.prompt.txt에 보관.
+최종 격자 정리본 지시문: source/key-art.mjs로 종이 도서관 기둥·책장 계단·백지 카드와 탐험가·위층 세 실루엣·각진 안개를 384×216 정수 좌표에 새로 그린다. 기존 신규32/48px 스프라이트를 배치하고 글자를 넣지 않는다. 단색 면만 사용하고 6배 nearest neighbor로2304×1296 PNG를 출력한다. 원본 PNG를 편집한 것이 아닌 코드로 새로 작성한 장면이다.

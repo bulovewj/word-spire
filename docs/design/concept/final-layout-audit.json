@@ -1,0 +1,33 @@
+[
+  {
+    "name": "battle-final",
+    "styles": [
+      {
+        "class": "enemy paper",
+        "height": 132,
+        "font": "18px"
+      },
+      {
+        "class": "player paper",
+        "height": 171,
+        "font": "18px"
+      },
+      {
+        "class": "cards",
+        "height": 245,
+        "font": "18px"
+      },
+      {
+        "class": "turn-row",
+        "height": 44,
+        "font": "15px"
+      }
+    ],
+    "width": 1280,
+    "scrollWidth": 1280,
+    "height": 800,
+    "font": true,
+    "turnBottom": 793.265625,
+    "smallTargets": []
+  }
+]

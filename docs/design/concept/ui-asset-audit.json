@@ -1,0 +1,20 @@
+[
+{"path": "literal.png", "width": 104, "height": 56, "channels": 4, "transparentPixels": 286, "partialAlphaPixels": 0, "opaqueColors": ["2f2a3d", "a8741a", "fffaf0"]},
+{"path": "connect.png", "width": 104, "height": 56, "channels": 4, "transparentPixels": 286, "partialAlphaPixels": 0, "opaqueColors": ["2f2a3d", "a8741a", "fffaf0"]},
+{"path": "author.png", "width": 104, "height": 56, "channels": 4, "transparentPixels": 286, "partialAlphaPixels": 0, "opaqueColors": ["2f2a3d", "a8741a", "fffaf0"]},
+{"path": "fog.png", "width": 104, "height": 56, "channels": 4, "transparentPixels": 286, "partialAlphaPixels": 0, "opaqueColors": ["2f2a3d", "7a7393", "fffaf0"]},
+{"path": "seal.png", "width": 104, "height": 56, "channels": 4, "transparentPixels": 286, "partialAlphaPixels": 0, "opaqueColors": ["2f2a3d", "a8741a", "fffaf0"]},
+{"path": "word.png", "width": 104, "height": 56, "channels": 4, "transparentPixels": 286, "partialAlphaPixels": 0, "opaqueColors": ["2f2a3d", "3c648f", "fffaf0"]},
+{"path": "think.png", "width": 16, "height": 16, "channels": 4, "transparentPixels": 147, "partialAlphaPixels": 0, "opaqueColors": ["2f2a3d", "a8741a"]},
+{"path": "damage.png", "width": 16, "height": 16, "channels": 4, "transparentPixels": 144, "partialAlphaPixels": 0, "opaqueColors": ["2f2a3d", "c34e49"]},
+{"path": "defense.png", "width": 16, "height": 16, "channels": 4, "transparentPixels": 150, "partialAlphaPixels": 0, "opaqueColors": ["2f2a3d", "3c648f"]},
+{"path": "fog.png", "width": 16, "height": 16, "channels": 4, "transparentPixels": 127, "partialAlphaPixels": 0, "opaqueColors": ["2f2a3d", "7a7393"]},
+{"path": "evidence.png", "width": 16, "height": 16, "channels": 4, "transparentPixels": 97, "partialAlphaPixels": 0, "opaqueColors": ["2f2a3d", "fffaf0"]},
+{"path": "clue.png", "width": 16, "height": 16, "channels": 4, "transparentPixels": 120, "partialAlphaPixels": 0, "opaqueColors": ["2f2a3d", "a8741a"]},
+{"path": "sure.png", "width": 16, "height": 16, "channels": 4, "transparentPixels": 72, "partialAlphaPixels": 0, "opaqueColors": ["2f2a3d", "a8741a"]},
+{"path": "unsure.png", "width": 16, "height": 16, "channels": 4, "transparentPixels": 144, "partialAlphaPixels": 0, "opaqueColors": ["2f2a3d", "7a7393"]},
+{"path": "seal.png", "width": 16, "height": 16, "channels": 4, "transparentPixels": 126, "partialAlphaPixels": 0, "opaqueColors": ["2f2a3d", "a8741a"]},
+{"path": "hit.png", "width": 16, "height": 16, "channels": 4, "transparentPixels": 198, "partialAlphaPixels": 0, "opaqueColors": ["2f2a3d", "a8741a"]},
+{"path": "weak.png", "width": 16, "height": 16, "channels": 4, "transparentPixels": 210, "partialAlphaPixels": 0, "opaqueColors": ["2f2a3d", "a8741a"]},
+{"path": "fail.png", "width": 16, "height": 16, "channels": 4, "transparentPixels": 93, "partialAlphaPixels": 0, "opaqueColors": ["2f2a3d", "7a7393"]}
+]

@@ -1,0 +1,1 @@
+완성 전투 시안 렌더 지시문: preview.html?art=1을 실제 Chrome 1280×800, deviceScaleFactor=1로 렌더한다. 1단계 배치·문구·행동 순서를 유지한다. src/ui/sprites/reader.png와 drought.png의 첫 프레임, cards/의 6종 틀 중 현재 카드에 해당하는 틀, icons/의16×16 PNG를 실제로 배치한다. 한글은 Galmuri로 조판하고 그림 생성 모델에 텍스트를 그리게 하지 않는다. 본문에 장식을 겹치지 않는다. 실제 게임의 코드·채점·저장과 연결하지 않은 디자인 시안이다.

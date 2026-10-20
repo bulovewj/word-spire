@@ -1,0 +1,58 @@
+[
+  {
+    "path": "reader.png",
+    "width": 128,
+    "height": 32,
+    "channels": 4,
+    "transparentPixels": 2056,
+    "partialAlphaPixels": 0,
+    "opaqueColors": [
+      "2f2a3d",
+      "6faa76",
+      "a8741a",
+      "fffaf0"
+    ]
+  },
+  {
+    "path": "drought.png",
+    "width": 160,
+    "height": 32,
+    "channels": 4,
+    "transparentPixels": 3907,
+    "partialAlphaPixels": 0,
+    "opaqueColors": [
+      "2f2a3d",
+      "7a7393",
+      "a8741a",
+      "fffaf0"
+    ]
+  },
+  {
+    "path": "bloomgap.png",
+    "width": 160,
+    "height": 32,
+    "channels": 4,
+    "transparentPixels": 3583,
+    "partialAlphaPixels": 0,
+    "opaqueColors": [
+      "2f2a3d",
+      "6faa76",
+      "7a7393",
+      "fffaf0"
+    ]
+  },
+  {
+    "path": "erasure.png",
+    "width": 240,
+    "height": 48,
+    "channels": 4,
+    "transparentPixels": 7637,
+    "partialAlphaPixels": 0,
+    "opaqueColors": [
+      "2f2a3d",
+      "7a7393",
+      "a8741a",
+      "fffaf0"
+    ]
+  }
+]

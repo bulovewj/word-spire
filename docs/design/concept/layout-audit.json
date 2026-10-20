@@ -1,0 +1,37 @@
+[
+  {
+    "name": "battle-desktop",
+    "width": 1280,
+    "scrollWidth": 1280,
+    "height": 800,
+    "font": true,
+    "turnBottom": 789.453125,
+    "smallTargets": []
+  },
+  {
+    "name": "battle-mobile",
+    "width": 390,
+    "scrollWidth": 390,
+    "height": 1458,
+    "font": true,
+    "turnBottom": 1442.328125,
+    "smallTargets": [],
+    "folded": {
+      "expanded": "false",
+      "hidden": "none"
+    }
+  },
+  {
+    "name": "question-detail",
+    "width": 900,
+    "scrollWidth": 900,
+    "height": 1000,
+    "font": true,
+    "smallTargets": [],
+    "selection": {
+      "option": "true",
+      "preview": "정타 4/약타 1/실패 0",
+      "eliminated": true
+    }
+  }
+]

@@ -1,0 +1,1 @@
+1단계 시안 렌더 지시문(이미지 생성 AI 미사용). preview.html + preview.css + preview-responsive.css + preview.js를 Chrome에서 실제 Galmuri11/Galmuri9 로드 후 1280×800, deviceScaleFactor=1로 렌더한다. 종이빛 탐험노트, 본문 왼쪽 496px, 적→나→사건→손패→턴 종료 순서, 생각력 비용 전체 라벨, 다음 공격 피해 6, 체력 40→34 예상 피해 줄무늬, 방어 별도 파란 배지. 정답 암시 없이 중립 카드. 인물은 배치용 실루엣. 최종 2단계 아트와 구분한다.

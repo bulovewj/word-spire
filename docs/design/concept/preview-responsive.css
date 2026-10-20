@@ -1,0 +1,142 @@
+@media(max-width:720px){body{font-size:16px}
+.topbar{height:64px;padding:0 16px;gap:12px}
+.brand{gap:7px;font-size:22px}
+.brand>svg{width:28px;height:28px}
+.location{font-size:12px;gap:6px}
+.location b{padding:3px 6px}
+.grading{font-size:11px;gap:4px}
+.grading .icon{width:13px;height:13px}
+.battle-layout{display:flex;flex-direction:column;gap:16px;padding:16px;max-width:500px}
+.passage{min-height:0;padding:16px 12px}
+.paper-head{margin-bottom:4px}
+.collapse{display:block}
+.eyebrow{font-size:12px}
+.passage h1{font-size:23px}
+.reading-rule{margin:12px 0 10px;height:3px;width:40px}
+.passage ol{gap:4px}
+.sentence{font-size:18px;line-height:1.6;grid-template-columns:24px 1fr;gap:8px;padding:8px 4px;min-height:48px}
+.sentence-no{width:24px;height:24px;font-size:13px;line-height:23px;margin-top:3px}
+.paper-foot{margin-top:14px;padding-top:12px;font-size:12px}
+.folded ol,.folded .paper-foot,.folded .reading-rule{display:none}
+.folded h1{font-size:19px;margin-top:5px}
+.battle-field{gap:12px}
+.enemy{padding:12px;grid-template-columns:48px 1fr;gap:10px;min-height:140px}
+.creature{width:48px;height:48px}
+.enemy-drawing{padding-right:8px}
+.unit-title{font-size:16px;gap:6px}
+.attack{padding:5px;font-size:11px;gap:3px}
+.attack b{font-size:16px}
+.attack .icon{width:13px;height:13px}
+.dialogue{font-size:12px;margin-top:7px}
+.bar-label{font-size:12px}
+.shield-note{font-size:11px;gap:4px}
+.player{padding:12px}
+.player .unit-title{gap:7px;margin-bottom:10px}
+.defense{padding:4px 6px;font-size:12px}
+.incoming{font-size:12px;white-space:nowrap}
+.incoming b{font-size:16px}
+.hp-caption{font-size:10px;gap:4px}
+.pattern-key{width:10px;height:10px}
+.think-row{gap:6px;font-size:13px}
+.gems{gap:3px}
+.gems .icon{width:19px;height:19px}
+.think-note{font-size:10px}
+.event-line{font-size:12px;line-height:1.6;padding:9px}
+.event-line>.icon{width:16px;height:16px}
+.section-head{margin:4px 0 10px}
+.section-head h2{font-size:16px}
+.section-head>span{font-size:11px}
+.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.card{min-height:122px;padding:10px;gap:8px}
+.card>strong{font-size:15px}
+.card-top{font-size:10px;gap:4px}
+.card-top>.icon{width:14px;height:14px}
+.cost{font-size:11px}
+.cost b{font-size:15px}
+.card-description{font-size:12px;line-height:1.7}
+.turn-row{margin-top:14px}
+.end-turn{font-size:15px;padding:10px 14px}
+.qpanel{padding:16px;gap:12px}
+.qpanel h2{font-size:20px}
+.option{grid-template-columns:24px 1fr 20px;gap:8px;padding:12px 10px;min-height:72px;font-size:16px}
+.option.eliminated .option-mark{font-size:0}
+.option.eliminated .option-mark:after{content:'×';font:18px Galmuri11}
+.evidence-callout{font-size:15px;gap:5px}
+.evidence-count{margin-left:28px}
+.confidence-note{font-size:12px}
+.preview{font-size:14px;padding:10px;gap:5px}
+.preview span{margin:0 3px}
+.primary{min-width:148px}
+.question-actions{gap:10px}
+}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+button:active:not(:disabled){transform:none}
+}
+@media(min-width:721px){.enemy{padding:10px 16px;min-height:120px}
+.unit-title{font-size:18px}
+.attack{padding:3px 8px}
+.attack b{font-size:18px}
+.dialogue{font-size:13px;line-height:1.25;margin:4px 0}
+.bar-label{font-size:12px;line-height:1;margin-bottom:4px}
+.enemy-hp{height:12px}
+.shield-note{font-size:12px;line-height:1.25;margin-top:4px}
+.player{padding:10px 18px}
+.player .unit-title{margin-bottom:8px}
+.defense{padding:2px 8px}
+.incoming{font-size:13px}
+.player-hp{height:20px}
+.hp-caption{font-size:11px;line-height:1.2;margin-top:4px}
+.think-row{font-size:14px;line-height:1.2;margin-top:6px;padding-top:6px}
+.gems .icon{width:20px;height:20px}
+.think-note{font-size:11px}
+}
+.card-description{font:14px/1.4 Galmuri9;letter-spacing:-.3px}
+.cost{font-size:14px}
+.hp-caption{font:13px/1.4 Galmuri9}
+.bar-label{font-size:13px}
+.bar-label b{font:16px/1 Galmuri11}
+.card-top{font-size:12px}
+@media(max-width:720px){.cost{font-size:13px}
+.card-top{font-size:11px}
+.card-description{font-size:14px;line-height:1.45}
+.hp-caption{font-size:11px}
+.bar-label{font-size:12px}
+.bar-label b{font-size:15px}
+}
+.passage:after{content:"";position:absolute;right:18px;top:-2px;width:14px;height:20px;background:#e8c66d;border:2px solid var(--color-ink);border-top:0;clip-path:polygon(0 0,100% 0,100% 100%,50% 76%,0 100%)}
+@media(max-width:720px){.passage{position:sticky;top:8px;z-index:10}
+.passage ol{max-height:236px;overflow-y:auto;overscroll-behavior-y:contain;scrollbar-width:thin;scrollbar-color:#b7a98d #f1eadc}
+.paper-foot{margin-top:10px;padding-top:8px;font-size:12px}
+.paper-foot:after{content:"↕ 5문장";margin-left:auto;white-space:nowrap}
+.folded .paper-foot{display:none}
+.incoming{font-size:14px}
+.defense{font-size:14px}
+.hp-caption{font-size:12px}
+.grading{font-size:12px}
+.passage:after{right:86px;width:12px;height:16px}
+}
+@media(max-width:720px) and (max-height:480px){.passage{position:static}
+.passage ol{max-height:none;overflow:visible}
+}
+.with-art .sprite{display:inline-block;flex:none;image-rendering:pixelated;background-repeat:no-repeat}
+.with-art .sprite-drought{width:64px;height:64px;background-image:url('../../../src/ui/sprites/drought.png');background-size:320px 64px}
+.with-art .sprite-reader{width:32px;height:32px;background-image:url('../../../src/ui/sprites/reader.png');background-size:128px 32px}
+.with-art .player .unit-title strong{display:flex;gap:8px;align-items:center}
+.with-art .pixel-icon{width:16px!important;height:16px!important;image-rendering:pixelated;object-fit:contain}
+.with-art .gems .pixel-icon{width:32px!important;height:32px!important}
+.with-art .battle-field{gap:10px}
+.with-art .turn-row{margin-top:12px}
+.with-art .end-turn{min-height:44px;padding-top:8px;padding-bottom:8px}
+.with-art .card{border:0;padding:12px;background-size:100% 100%;background-repeat:no-repeat;box-shadow:none}
+.with-art .card:after{display:none}
+.with-art .card-literal{background-image:url('cards/literal.png')}
+.with-art .card-connect{background-image:url('cards/connect.png')}
+.with-art .card-author{background-image:url('cards/author.png')}
+.with-art .card-fog{background-image:url('cards/fog.png')}
+.with-art .card-shield{background-image:url('cards/word.png')}
+.with-art .card-top{padding-left:20px;position:relative;min-height:20px;gap:0}
+.with-art .card-top>.icon{position:absolute;left:0;top:0}
+.with-art .cost{font-size:13px}
+
+.with-art .card{image-rendering:pixelated}
+.with-art .battle-layout{padding-bottom:6px}
