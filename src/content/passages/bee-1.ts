@@ -20,15 +20,15 @@ export const bee1: Passage = {
   questions: [
     { id: 'q1', type: 'literal', prompt: '과학자들이 꼽은, 꿀벌이 줄어드는 원인은?',
       options: ['농약 사용과 기후 변화', '꽃이 줄어든 것', '사람들이 꿀을 많이 먹은 것', '열매가 맺히지 않은 것'],
-      answer: 0, evidence: { required: [[3]] } },
+      answer: 0, evidence: { count: 1, required: [[3]] } },
     { id: 'q2', type: 'connect', prompt: '꿀벌이 줄면 왜 사람의 밥상이 위협받을까?',
       options: ['과일과 채소가 꿀벌의 도움으로 자라는데 꿀벌이 줄기 때문에', '꿀을 먹을 수 없게 되기 때문에',
         '농약이 밥상에 남기 때문에', '날씨가 더워지기 때문에'],
-      answer: 0, evidence: { required: [[1, 4]], allowed: [0] } },
+      answer: 0, evidence: { count: 2, required: [[1]], allowed: [0, 2] } },
     { id: 'q3', type: 'author', prompt: '글쓴이가 이 글을 쓴 까닭으로 가장 알맞은 것은?',
       options: ['꿀벌을 지키는 일이 우리 밥상을 지키는 일임을 알리려고', '꿀벌 기르는 방법을 알려 주려고',
         '과일과 채소를 많이 먹자고 하려고', '과학자들이 하는 일을 소개하려고'],
-      answer: 0, evidence: { required: [[4]], allowed: [1] }, bonusWords: ['h01'] },
+      answer: 0, evidence: { count: 1, required: [[4]] }, bonusWords: ['h01'] },
   ],
   summary: {
     models: [

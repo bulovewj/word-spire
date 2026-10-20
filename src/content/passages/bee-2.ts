@@ -27,7 +27,7 @@ export const bee2: Passage = {
     {
       id: 'bee-2-q1', type: 'literal', prompt: '꿀벌이 꽃에서 얻는 먹이는 무엇일까?',
       options: ['꽃잎과 꽃줄기', '꽃꿀과 꽃가루', '꽃뿌리와 꽃씨', '꽃받침과 꽃봉오리'],
-      answer: 1, evidence: { required: [[0]] },
+      answer: 1, evidence: { count: 1, required: [[0]] },
     },
     {
       id: 'bee-2-q2', type: 'connect',
@@ -38,7 +38,7 @@ export const bee2: Passage = {
         '꽃이 지는 시기가 되면 꿀벌의 먹이 찾는 활동도 끝나서',
         '꽃에서 먹이를 얻는데 다른 꽃이 한동안 피지 않을 수 있어서',
       ],
-      answer: 3, evidence: { required: [[0, 2]] },
+      answer: 3, evidence: { count: 2, required: [[0, 2]] },
     },
     {
       id: 'bee-2-q3', type: 'author', prompt: '글쓴이의 생각에 맞게 꿀벌을 위한 꽃밭을 가꾸려면?',
@@ -48,7 +48,7 @@ export const bee2: Passage = {
         '피는 시기가 서로 다른 꽃들을 이어 피게 심어.',
         '피는 시기보다 꽃잎의 색깔을 먼저 보고 심어.',
       ],
-      answer: 2, evidence: { required: [[6], [3, 4], [3, 5]] }, bonusWords: ['bee-w1'],
+      answer: 2, evidence: { count: 2, required: [[6], [3, 4], [3, 5]] }, bonusWords: ['bee-w1'],
     },
   ],
   summary: {

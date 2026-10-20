@@ -9,8 +9,15 @@ const setup = (passage: Passage = bee1, deck: string[] = STARTER_DECK_56) =>
 
 const q = (id: string) => bee1.questions.find((x) => x.id === id) as Question
 type QAction = Extract<Action, { type: 'resolveQuestion' }>
+/** 정답 근거 한 벌: 첫 필수 묶음 + 관련 문장으로 count개 채우기 */
+const goodEvidence = (id: string) => {
+  const ev = q(id).evidence
+  const picked = [...(ev.required[0] ?? [])]
+  for (const i of [...ev.required.flat(), ...(ev.allowed ?? [])]) if (picked.length < ev.count && !picked.includes(i)) picked.push(i)
+  return picked
+}
 const right = (id: string, confidence: 'sure' | 'unsure' = 'sure'): QAction =>
-  ({ type: 'resolveQuestion', questionId: id, option: q(id).answer, evidence: q(id).evidence.required[0] ?? [], confidence, usedHint: false })
+  ({ type: 'resolveQuestion', questionId: id, option: q(id).answer, evidence: goodEvidence(id), confidence, usedHint: false })
 const wrong = (id: string, confidence: 'sure' | 'unsure' = 'sure'): QAction =>
   ({ type: 'resolveQuestion', questionId: id, option: (q(id).answer + 1) % 4, evidence: [0], confidence, usedHint: false })
 const run = (s: GameState, ...actions: Action[]) => actions.reduce(reduce, s)

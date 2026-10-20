@@ -1,5 +1,4 @@
 import type { Passage, Tower, WordEntry } from './types'
-import { BALANCE } from '../engine/balance'
 import { findStem } from './wordStem'
 
 // 콘텐츠 검사 (작업지시서 1-4). 문제마다 "어디: 무엇" 한 줄을 돌려준다.
@@ -67,8 +66,12 @@ export function validatePassage(p: Passage, knownWordIds: Set<string>): string[]
       errors.push(...checkIndexes(set, n, `${where}.evidence.required[${j}]`))
     })
     errors.push(...checkIndexes(q.evidence.allowed ?? [], n, `${where}.evidence.allowed`))
-    const need = BALANCE.minEvidence[q.type]
-    if (q.evidence.required.some((set) => set.length < need)) errors.push(`${where}: ${q.type} 질문의 필수 근거는 ${need}문장 이상`)
+    const ev = q.evidence
+    const related = new Set([...ev.required.flat(), ...(ev.allowed ?? [])])
+    if (q.type === 'literal' && ev.count !== 1) errors.push(`${where}: literal 질문의 근거 개수(count)는 1`)
+    if (q.type === 'connect' && ev.count < 2) errors.push(`${where}: connect 질문의 근거 개수(count)는 2 이상`)
+    if (ev.required.some((set) => set.length > ev.count)) errors.push(`${where}: 필수 묶음이 count(${ev.count})보다 큼`)
+    if (related.size < ev.count) errors.push(`${where}: 관련 문장(필수+허용)이 count(${ev.count})보다 적음`)
     for (const id of q.bonusWords ?? []) {
       if (!knownWordIds.has(id)) errors.push(`${where}.bonusWords: 모르는 낱말 id ${id}`)
     }

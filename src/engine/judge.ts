@@ -24,10 +24,10 @@ export interface QuestionResult {
   freeHint: boolean         // 애매로 틀렸으면 다음 단서 보기 공짜
 }
 
-/** 근거가 맞는지: 필수 묶음 하나를 다 포함하고, 고른 문장이 모두 관련 문장 안에 있을 것 */
+/** 근거가 맞는지: 정확히 count개, 필수 묶음 하나를 다 포함, 고른 문장이 모두 관련 문장 안 */
 export function evidenceOk(spec: Evidence, chosen: number[]): boolean {
   const related = new Set([...spec.required.flat(), ...(spec.allowed ?? [])])
-  return chosen.length > 0
+  return new Set(chosen).size === spec.count
     && chosen.every((i) => related.has(i))
     && spec.required.some((set) => set.every((i) => chosen.includes(i)))
 }

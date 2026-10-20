@@ -21,7 +21,7 @@ describe('실제 콘텐츠', () => {
 describe('틀린 데이터를 잡는다', () => {
   it('문장 index 범위 밖 근거', () => {
     const p = copy()
-    p.questions[0]!.evidence = { required: [[9]], allowed: [7] }
+    p.questions[0]!.evidence = { count: 1, required: [[9]], allowed: [7] }
     expect(validatePassage(p, ids)).toEqual([
       'passages/bee-1 questions[0] q1.evidence.required[0]: 문장 index 9는 범위(0~4) 밖',
       'passages/bee-1 questions[0] q1.evidence.allowed: 문장 index 7는 범위(0~4) 밖',
@@ -65,10 +65,15 @@ describe('틀린 데이터를 잡는다', () => {
     p.lockedWords[0]!.card.example = '꿀벌이 줄면 밥상이 위협받는다.'
     expect(validatePassage(p, ids)).toEqual([])
   })
-  it('연결 질문의 필수 근거가 1문장이면', () => {
+  it('근거 개수(count)가 유형·필수·관련 문장과 안 맞으면', () => {
     const p = copy()
-    p.questions[1]!.evidence = { required: [[4]] }
-    expect(validatePassage(p, ids).join()).toContain('connect 질문의 필수 근거는 2문장 이상')
+    p.questions[0]!.evidence = { count: 2, required: [[3]], allowed: [4] }
+    p.questions[1]!.evidence = { count: 1, required: [[1]] }
+    p.questions[2]!.evidence = { count: 2, required: [[4]] }
+    const e = validatePassage(p, ids).join('\n')
+    expect(e).toContain('literal 질문의 근거 개수(count)는 1')
+    expect(e).toContain('connect 질문의 근거 개수(count)는 2 이상')
+    expect(e).toContain('q3: 관련 문장(필수+허용)이 count(2)보다 적음')
   })
   it('적 대사가 비었거나 탑이 없으면', () => {
     const p = copy()

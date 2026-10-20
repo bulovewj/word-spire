@@ -33,7 +33,7 @@ export const bee3: Passage = {
         '꽃꿀과 꽃가루, 꽃에서 얻은 먹이',
         '벌통과 꿀병, 꿀을 모아 두는 그릇',
       ],
-      answer: 0, evidence: { required: [[4]] },
+      answer: 0, evidence: { count: 1, required: [[4]] },
     },
     {
       id: 'bee-3-q2', type: 'connect', prompt: '동물들이 살아갈 곳을 지키는 일이 꽃가루받이를 안정적으로 이어 가는 데 도움이 되는 까닭은?',
@@ -43,7 +43,7 @@ export const bee3: Passage = {
         '사는 곳을 지키면 여러 동물이 같은 꽃만 같은 시기에 찾게 되기 때문에',
         '사는 곳을 지키면 꿀벌의 수만 늘려 다른 동물의 역할을 대신할 수 있기 때문에',
       ],
-      answer: 1, evidence: { required: [[2, 6]], allowed: [1, 4, 5, 7] },
+      answer: 1, evidence: { count: 2, required: [[2, 6]], allowed: [1, 4, 5, 7] },
     },
     {
       id: 'bee-3-q3', type: 'author', prompt: '먹거리를 지키려고 꿀벌통만 늘리자는 계획에 글쓴이가 덧붙일 말로 가장 알맞은 것은?',
@@ -53,7 +53,7 @@ export const bee3: Passage = {
         '꿀벌의 수를 늘리기 위해 튼튼한 벌통을 더 마련하자.',
         '여러 동물의 먹이와 살 곳을 위해 주변 환경도 지키자.',
       ],
-      answer: 3, evidence: { required: [[7], [2, 6]], allowed: [0] }, bonusWords: ['bee-w2'],
+      answer: 3, evidence: { count: 2, required: [[7], [2, 6]], allowed: [0] }, bonusWords: ['bee-w2'],
     },
   ],
   summary: {

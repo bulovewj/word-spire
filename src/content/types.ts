@@ -38,10 +38,14 @@ export interface LockedWord {
   card: WordEntry          // 성공 시 덱에 들어갈 낱말 카드
 }
 
-/** 근거 판정(기획안 7장): required 중 하나를 다 고르고, 나머지는 관련 문장(required 전체 + allowed) 안에서만 */
+/**
+ * 근거 판정(기획안 7장): 정확히 count개를 고르고, required 후보 중 하나를 다 포함하고,
+ * 고른 문장이 모두 관련 문장(required 전체 + allowed) 안에 있으면 근거 정답
+ */
 export interface Evidence {
+  count: number            // 학생이 고를 문장 수. 화면에 "N개를 골라 봐"로 안내
   required: number[][]     // 꼭 들어가야 할 문장 묶음 후보. 하나만 만족하면 된다
-  allowed?: number[]       // 더 골라도 되는 문장
+  allowed?: number[]       // 함께 골라도 되는 문장
 }
 
 export interface Question {
