@@ -31,14 +31,14 @@ export const bee2: Passage = {
     },
     {
       id: 'bee-2-q2', type: 'connect',
-      prompt: '한 가지 꽃만 많은 곳에서 그 꽃이 지면 꿀벌이 어려움을 겪을 수 있는 까닭은?',
+      prompt: '한 가지 꽃만 많은 곳이 꿀벌에게 불리할 수 있는 까닭은?',
       options: [
         '꽃의 종류가 하나이면 꿀벌이 그 꽃에서 먹이를 모을 수 없어서',
         '꽃이 한꺼번에 지면 꿀벌이 모아 둔 먹이도 모두 없어져서',
         '꽃이 지는 시기가 되면 꿀벌의 먹이 찾는 활동도 끝나서',
         '꽃에서 먹이를 얻는데 다른 꽃이 한동안 피지 않을 수 있어서',
       ],
-      answer: 3, evidence: { count: 2, required: [[0, 2]] },
+      answer: 3, evidence: { count: 2, required: [[2], [3]], allowed: [0, 4, 5] },
     },
     {
       id: 'bee-2-q3', type: 'author', prompt: '글쓴이의 생각에 맞게 꿀벌을 위한 꽃밭을 가꾸려면?',
@@ -48,7 +48,7 @@ export const bee2: Passage = {
         '피는 시기가 서로 다른 꽃들을 이어 피게 심어.',
         '피는 시기보다 꽃잎의 색깔을 먼저 보고 심어.',
       ],
-      answer: 2, evidence: { count: 2, required: [[6], [3, 4], [3, 5]] }, bonusWords: ['bee-w1'],
+      answer: 2, evidence: { count: 1, required: [[1], [2], [3], [4], [5], [6]] }, bonusWords: ['bee-w1'],
     },
   ],
   summary: {
