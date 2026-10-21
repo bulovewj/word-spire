@@ -1,0 +1,18 @@
+검토용 키 아트 v2 · 2026-10-21
+도구: 기본 image_gen (기존 key-art.png를 편집 대상으로 사용).
+요청: 기존 구도·종이 탑·색감을 유지하고 작은 픽셀과 세부 묘사로 밀도를 높임.
+참조: docs/design/concept/key-art.png
+산출물: docs/design/concept/key-art-v2.png
+실제 PNG: 1672×941 RGB. 생성 프롬프트의 희망 출력 크기(3840×2160)와 다름.
+후처리·단순 업스케일 없음. 기존 파일을 대체하지 않은 검토용 변형이다.
+
+실제 최종 생성 프롬프트:
+Use case: style-transfer, editing the supplied key art.
+Asset type: high-resolution pixel-art key illustration for the original Korean children's literacy web game "낱말탑".
+Input image 1 is the EDIT TARGET. Preserve its wide 16:9 composition, camera angle, warm cream library tower interior, ascending book-lined stairs and curving balconies, hanging gold lanterns, sage vines, lavender mist, explorer low in the frame looking upward, and exactly three friendly whimsical enemies on upper levels. Do not change this into a different scene.
+Primary change: RE-DRAW at a much finer pixel density, with richer deliberate detail. The user likes this illustration but says its pixels need not be so few or coarse. This is a finer, higher-resolution pixel painting, not a simple enlargement of the big existing blocks. Aim for a 960x540 logical-art density with small crisp pixel clusters and a large 3840x2160 16:9 export if possible. Remove the old tiny 320x180 / low-detail restriction. Fine stair-stepped contours, small individual book volumes, page edges, tiered architectural trim, paper folds in the cape, tiny pouch seams and card edges, clearer lantern construction. Keep large quiet cream shapes between details so the scene stays readable.
+Style: polished detailed 2D pixel illustration, sharp square pixel clusters and controlled stepped outlines. Use a richer but harmonious limited palette from cream, paper beige, sage green, lavender, muted gold and dark ink #2f2a3d. Flat color regions and a few discrete hard-edged shade levels only. No airbrush, no Gaussian blur, no soft gradients, no watercolor/painterly strokes, no photo texture, no antialiased vector look. Smaller pixels and more crafted detail, not noisier surfaces.
+Character invariants: a small anonymous gender-neutral explorer in cream clothes and a short sage cape, no hat, a small crossbody pouch, holding an open blank word card, looking up. Keep the explorer human-readable in its existing lower-center position. Three enemies remain friendly and paper-like: left a single low round cream earth creature with lavender shadow, tiny gold eyes, one central crack and round folded-paper ears, no horns or teeth; middle a hollow flower-ring creature with a clearly empty center, short mist tail and two curled paper ties; upper-right a wide lavender cloak king, cream face and folded gold paper crown with tiny distinct circle, square and triangle windows. Their silhouettes and locations must remain close to the supplied image. Ink outline plus two or three main colors per character.
+Mood: cozy magical school-age exploration and curiosity, no fear or violence. Refine the space's depth and architectural craft without adding new subjects.
+Text: NONE. All book spines and word cards remain completely blank; fog hides blank page surfaces rather than readable words.
+Avoid: text, letters, numbers, logos, signatures, watermarks, checkerboard, weapons, blood, injury, extra creatures, named-game references, copied existing game designs.
