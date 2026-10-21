@@ -5,12 +5,13 @@ import { BALANCE } from './balance'
 import { enemyAttack, nextEnemyAttack, openWhenQuestionsExhausted, startTurn, unlockSummaryIfLow } from './battle'
 import { judgeQuestion, type Confidence, type Grade } from './judge'
 import { shuffle } from './rng'
+import { resolveRumor, type RumorState } from './rumor'
 import { resolveFog, useHint } from './support'
 
-export const STATE_VERSION = 6
+export const STATE_VERSION = 7
 
 export interface TextCard {
-  kind: 'question' | 'fog' | 'summary'
+  kind: 'question' | 'fog' | 'summary' | 'rumor'
   refId: string               // question id / lockedWords index / passage id
   lockedThisTurn: boolean
 }
@@ -23,6 +24,7 @@ export type BattleEvent =
   | { kind: 'summary'; pass: boolean }
   | { kind: 'fog'; pass: boolean; wordId: string }
   | { kind: 'hint'; questionId: string; free: boolean }
+  | { kind: 'rumor'; grade: Grade; damage: number }
 
 export interface GameState {
   version: number
@@ -40,6 +42,7 @@ export interface GameState {
   deck: string[]                            // 내 낱말 묶음 (낱말 id)
   wordUses: Record<string, number>          // 낱말별 이번 탑에 남은 사용 횟수
   freeHint: boolean
+  rumor: RumorState                         // 헛소문: 없음 / 살아 있음 / 봉인 / 퍼짐
   outcome: 'playing' | 'won' | 'lost'
   events: BattleEvent[]                     // 방금 action에서 일어난 일 (화면 연출용)
 }
@@ -50,6 +53,7 @@ export type Action =
   | { type: 'resolveFog'; wordIndex: number; sentence: number }
   | { type: 'resolveWordCard'; wordId: string; pass: boolean; answer: string }
   | { type: 'resolveSummary'; pass: boolean; answer: string }
+  | { type: 'resolveRumor'; evidence: number[]; pass: boolean; answer: string }
   | { type: 'endTurn' }
 
 export interface BattleSetup {
@@ -72,8 +76,9 @@ export function createBattle({ passage, deck, wordUses, seed, playerHp, playerMa
     textCards: [
       ...passage.questions.map((q) => ({ kind: 'question' as const, refId: q.id, lockedThisTurn: false })),
       ...passage.lockedWords.map((_, i) => ({ kind: 'fog' as const, refId: String(i), lockedThisTurn: false })),
+      ...(passage.rumor ? [{ kind: 'rumor' as const, refId: passage.id, lockedThisTurn: false }] : []),
     ],
-    deck: [...deck], wordUses: { ...wordUses }, freeHint: false, outcome: 'playing', events: [],
+    deck: [...deck], wordUses: { ...wordUses }, freeHint: false, rumor: passage.rumor ? 'active' : 'none', outcome: 'playing', events: [],
   }
   return startTurn(state)
 }
@@ -124,6 +129,8 @@ export function reduce(s: GameState, a: Action): GameState {
       return useHint(s, a.questionId)
     case 'resolveFog':
       return resolveFog(s, a.wordIndex, a.sentence)
+    case 'resolveRumor':
+      return resolveRumor(s, a.evidence, a.pass)
     case 'resolveWordCard': {
       if (!canUseWord(s, a.wordId) || s.think < BALANCE.wordCardCost) return s
       const block = a.pass ? BALANCE.wordCardBlock : 0

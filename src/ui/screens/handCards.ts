@@ -9,6 +9,7 @@ export type PanelTarget =
   | { kind: 'word'; wordId: string }
   | { kind: 'fog'; index: number }
   | { kind: 'summary' }
+  | { kind: 'rumor' }
 
 export const TYPE_LABEL = { literal: '거기 있음', connect: '연결', author: '글쓴이와 나' } as const
 
@@ -28,6 +29,12 @@ export function buildHandCards(s: GameState): HandCard[] {
       return {
         key: `f-${c.refId}`, kind: 'fog', cost: BALANCE.fogCost, target: { kind: 'fog', index: Number(c.refId) },
         title: '안개 걷기', sub: '가려진 낱말의 단서 찾기', disabled: s.think < BALANCE.fogCost || c.lockedThisTurn,
+      }
+    }
+    if (c.kind === 'rumor') {
+      return {
+        key: 'rumor', kind: 'rumor', cost: BALANCE.rumorCost, target: { kind: 'rumor' },
+        title: '헛소문 반박', sub: '근거를 찾아 소문을 반박해', disabled: s.think < BALANCE.rumorCost || c.lockedThisTurn,
       }
     }
     return {

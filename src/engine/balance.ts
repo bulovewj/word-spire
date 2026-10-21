@@ -21,5 +21,9 @@ export const BALANCE = {
   summaryUnlockRatio: 0.4,      // 적 체력이 이 비율 이하면 요약 봉인 등장
   hintCost: 1,
 
+  rumorCost: 2,                 // 헛소문 반박 (3층부터 시험)
+  rumorDamage: 12,
+  rumorAttackBonus: 2,          // 소문을 봉인하기 전(또는 퍼진 뒤) 적 공격 +
+
   statsMinSamples: 5,           // 판단력·약점은 영역마다 첫 시도 기록이 이만큼 쌓여야 표시
 } as const

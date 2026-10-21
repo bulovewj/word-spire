@@ -1,11 +1,12 @@
 // reduce가 쓰는 턴 단계들. 전부 순수 함수.
 import { BALANCE } from './balance'
+import { rumorAttackBonus } from './rumor'
 import type { GameState, TextCard } from './state'
 
-/** 적의 다음 공격 (확신 벌 포함) */
+/** 적의 다음 공격 (확신 벌·헛소문 포함) */
 export function nextEnemyAttack(s: GameState): number {
   const p = s.passage.enemy.pattern
-  return (p[s.enemy.patternIndex % p.length] ?? 0) + s.enemy.attackBonus
+  return (p[s.enemy.patternIndex % p.length] ?? 0) + s.enemy.attackBonus + rumorAttackBonus(s)
 }
 
 export function startTurn(s: GameState): GameState {

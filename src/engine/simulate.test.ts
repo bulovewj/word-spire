@@ -12,6 +12,8 @@ type Policy = (s: GameState, rand: () => number) => Action[]
 const attackOnly: Policy = (s) => {
   const acts: Action[] = []
   if (s.textCards.some((c) => c.kind === 'summary')) return [{ type: 'resolveSummary', pass: true, answer: '' }]
+  const r = s.passage.rumor
+  if (r && s.textCards.some((c) => c.kind === 'rumor')) acts.push({ type: 'resolveRumor', evidence: r.evidence.required[0] ?? [], pass: true, answer: '' })
   s.textCards.filter((c) => c.kind === 'fog').forEach((c) => {
     const lw = s.passage.lockedWords[Number(c.refId)]
     if (lw) acts.push({ type: 'resolveFog', wordIndex: Number(c.refId), sentence: lw.clues[0] ?? 0 })
@@ -46,6 +48,7 @@ const random: Policy = (s, rand) => {
   const acts: Action[] = []
   for (const c of s.textCards) {
     if (c.kind === 'summary') acts.push({ type: 'resolveSummary', pass: rand() < 0.1, answer: '' })
+    if (c.kind === 'rumor') acts.push({ type: 'resolveRumor', evidence: [Math.floor(rand() * n), Math.floor(rand() * n)], pass: rand() < 0.1, answer: '' })
     if (c.kind === 'fog') acts.push({ type: 'resolveFog', wordIndex: Number(c.refId), sentence: Math.floor(rand() * n) })
     if (c.kind === 'question') {
       const q = s.passage.questions.find((x) => x.id === c.refId)

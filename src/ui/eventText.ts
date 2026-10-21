@@ -24,6 +24,10 @@ export function eventText(e: BattleEvent): string {
       const word = findWord(e.wordId)?.word ?? e.wordId
       return e.pass ? `안개가 걷혔어! "${word}" 낱말 카드를 이 층 보상으로 얻을 거야. 보호막도 사라졌어.` : '안개 걷기 실패. 다음 턴에 다시 해 봐.'
     }
+    case 'rumor':
+      return e.grade === 'hit' ? `헛소문을 부적에 묶었어! 피해 ${e.damage}`
+        : e.grade === 'weak' ? `근거는 맞았는데 반박이 모자라 소문이 퍼졌어. 피해 ${e.damage} · 이 층 동안 적 공격 +2`
+        : '근거가 소문을 반박하지 못해 소문이 퍼졌어. 이 층 동안 적 공격 +2'
     case 'hint':
       return e.free ? '단서 보기(공짜): 틀린 보기 하나를 지웠어.' : '단서 보기: 틀린 보기 하나를 지웠어.'
   }

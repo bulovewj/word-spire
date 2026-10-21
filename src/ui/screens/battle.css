@@ -64,6 +64,7 @@
 .card-question { border-color: var(--color-accent); }
 .card-fog { border-color: var(--color-muted); }
 .card-summary { border-color: var(--color-hp); }
+.card-rumor { border-color: var(--color-weak); border-style: dashed; }
 .card-word { border-color: var(--color-block); }
 
 .card-cost {

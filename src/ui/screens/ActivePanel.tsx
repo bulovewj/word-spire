@@ -4,6 +4,7 @@ import { canUseWord, hasShield, type Action, type GameState } from '../../engine
 import { hintCost } from '../../engine/support'
 import FogPanel from '../components/FogPanel'
 import QuestionPanel from '../components/QuestionPanel'
+import RumorPanel from '../components/RumorPanel'
 import SummaryPanel from '../components/SummaryPanel'
 import WordPanel from '../components/WordPanel'
 import { activeFogWords } from '../fog'
@@ -60,6 +61,14 @@ export default function ActivePanel({ state, target, evidence, dispatch, act, on
         onCancel={onClose}
         onDone={(pass, answer) => dispatch({ type: 'resolveWordCard', wordId: target.wordId, pass, answer })}
       />
+    )
+  }
+  if (target.kind === 'rumor') {
+    const rumor = state.passage.rumor
+    if (!rumor) return null
+    return (
+      <RumorPanel rumor={rumor} speaker={state.passage.enemy.name} evidence={evidence} onCancel={onClose}
+        onDone={(pass, answer) => dispatch({ type: 'resolveRumor', evidence, pass, answer })} />
     )
   }
   if (target.kind === 'summary') {

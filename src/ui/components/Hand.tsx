@@ -5,7 +5,7 @@ export interface HandCard {
   title: string
   sub: string
   cost: number
-  kind: 'question' | 'fog' | 'summary'
+  kind: 'question' | 'fog' | 'summary' | 'rumor'
   target: PanelTarget
   disabled: boolean
 }

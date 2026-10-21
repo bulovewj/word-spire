@@ -31,6 +31,8 @@ export function judgementsFrom(prev: GameState, a: Action, next: GameState): Jud
       out.push({ area: q.type, ref: q.id, correct: e.grade === 'hit', confidence: a.confidence, helped: prev.hints[q.id] !== undefined })
     } else if (e.kind === 'word') {
       out.push({ area: 'word', ref: e.wordId, correct: e.pass, helped: false })
+    } else if (e.kind === 'rumor') {
+      out.push({ area: 'author', ref: `${prev.passage.id}:rumor`, correct: e.grade === 'hit', helped: false })   // 비판적 읽기 = 추리의 눈
     } else if (e.kind === 'summary') {
       out.push({ area: 'summary', ref: prev.passage.id, correct: e.pass, helped: false })
     }
