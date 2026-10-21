@@ -189,4 +189,12 @@ M11(도트 디자인 구현)에 쓸 **실제 게임용 그림 파일**이 필요
 3. 아래 처리 결과에 파일 표(이름·크기·프레임·색 수·알파 검사 결과)와 남은 질문을 채운다.
 
 ### 처리 결과
-(Codex가 채움)
+상태: 처리 완료 · 2026-10-21 · `story` · 자산 커밋 `11c5db8` (`M11: 한국풍 게임용 스프라이트와 이진 알파 아트 제작`). `git merge main`은 이미 최신. 승인된 컨셉을 참조한 정수 픽셀맵으로 9 PNG·40칸을 제작했다. 색 수는 불투명 픽셀 기준이다.
+
+| 파일 (같은 칸 안에서는 `<br>` 순서대로 대응) | PNG 크기 | 프레임 수·칸 크기 | 색 수 | 알파 검사 |
+|---|---|---|---|---|
+| `reader.png`<br>`dokkaebi.png`<br>`tiger.png`<br>`fox.png` | 320×64<br>256×64<br>256×64<br>320×80 | 5·64×64<br>4·64×64<br>4·64×64<br>4·80×80 | 7<br>9<br>7<br>6 | 전부 `[0,255]`만 사용, 불투명 픽셀 있음 |
+| `seal.png`<br>`gourd.png` | 192×64<br>32×32 | 3·64×64<br>1·32×32 | 9<br>7 | 전부 `[0,255]`만 사용, 불투명 픽셀 있음 |
+| `icons.png`<br>`card-frame.png`<br>`card-kinds.png` | 192×16<br>48×48<br>144×24 | 12·16×16<br>1·48×48<br>6·24×24 | 9<br>6<br>8 | 전부 `[0,255]`만 사용, 불투명 픽셀 있음 |
+
+검증: `npm test` 123개·`npm run build` 통과. [검사 기록](design/concept/sprite-audit.json)에 크기·순서·색·알파·칸별 바닥선·9-slice 중앙/확장 경계를 기록했고 별도 PNG 판독기로 알파도 확인했다. [4배 미리보기](design/concept/sprites-preview.png)는 #f5eedb 위 정확히 4배. 새 PNG마다 `.prompt.txt`, `frames.json`에 좌표·`labels`를 넣었다. 재생성 `node docs/design/concept/source/game-build.mjs`, 검사 `node docs/design/concept/source/game-audit.mjs`; 22개 산출물은 재생성 후 SHA-256까지 동일했다. 옛 4종 PNG·프롬프트·프레임 원본은 `docs/design/concept/v1-sprites/`에 보관했다. `src/ui/sprites/` 밖의 런타임 코드·CSS·데이터 변경은 없다. 남은 질문: 없음.
