@@ -104,3 +104,30 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.screen-wide { max-width: 960px; }
+
+.broken-list {
+  margin: 0;
+  padding-left: 20px;
+  color: var(--color-hp);
+}
+
+.table-wrap { overflow-x: auto; }
+
+.class-table {
+  border-collapse: collapse;
+  width: 100%;
+  font-variant-numeric: tabular-nums;
+}
+
+.class-table th,
+.class-table td {
+  border: 1px solid var(--color-muted);
+  padding: 6px 8px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.class-table td.weak { background: rgba(208, 82, 79, 0.12); }
+.class-table tfoot { font-weight: 700; }

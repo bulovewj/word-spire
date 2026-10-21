@@ -11,6 +11,7 @@ import BattleScreen from './screens/BattleScreen'
 import GradingCheck from './screens/GradingCheck'
 import { CompleteScreen, IntroScreen, RewardScreen, TitleScreen } from './screens/RunScreens'
 import StatsScreen from './screens/StatsScreen'
+import TeacherScreen from './screens/TeacherScreen'
 
 export const GAME_TITLE = '낱말탑'
 
@@ -27,7 +28,7 @@ export default function App() {
   const [records, setRecords] = useState(loadRecords)
   const [name, setName] = useState(loadName)
   const stats = useMemo(() => computeStats(records), [records])
-  const [view, setView] = useState<'game' | 'stats'>('game')
+  const [view, setView] = useState<'game' | 'stats' | 'teacher'>('game')
   const send = (a: RunAction) => {
     const cur = runRef.current
     if (!cur) return
@@ -64,13 +65,15 @@ export default function App() {
   const home = () => { clearRun(); setSaved(null); setRun(null) }
   const tower = run ? findTower(run.towerId) : undefined
   let body
-  if (view === 'stats') {
+  if (view === 'teacher') {
+    body = <TeacherScreen onHome={() => setView('game')} />
+  } else if (view === 'stats') {
     body = (
       <StatsScreen stats={stats} name={name} onName={setName} onHome={() => setView('game')} />
     )
   } else if (!run || !tower) {
     body = (
-      <TitleScreen towers={towers} saved={saved && saved.phase !== 'complete' ? saved : null} onStats={() => setView('stats')}
+      <TitleScreen towers={towers} saved={saved && saved.phase !== 'complete' ? saved : null} onStats={() => setView('stats')} onTeacher={() => setView('teacher')}
         onContinue={() => setRun(saved)} onStart={(id) => setRun(newRun(id, starterDeck, Date.now() >>> 0))} />
     )
   } else if (run.phase === 'intro') {

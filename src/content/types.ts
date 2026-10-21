@@ -58,6 +58,13 @@ export interface Question {
   bonusWords?: string[]    // author 전용. 이 낱말 카드를 붙이면 +4
 }
 
+/** 적이 퍼뜨리는 헛소문. 본문에는 넣지 않고 적의 말·카드로만 보인다. 학생은 근거를 고르고 반박을 쓴다 */
+export interface Rumor {
+  claim: string            // 소문 한 문장 (반말, 적의 말투)
+  evidence: Evidence       // 반박 근거 문장 (질문과 같은 판정)
+  rebuttal: SummarySpec    // 반박 글 채점: models=모범 반박, concepts=꼭 들어갈 생각, rejects=소문에 동의하는 답
+}
+
 export interface SummarySpec {
   models: string[]         // 모범 요약 3~5개
   concepts: string[][]     // 핵심 개념. 각 배열은 동의어 묶음
@@ -76,4 +83,5 @@ export interface Passage {
   lockedWords: LockedWord[]
   questions: Question[]
   summary: SummarySpec
+  rumor?: Rumor            // 헛소문 반박 (시험 중: 3층부터)
 }

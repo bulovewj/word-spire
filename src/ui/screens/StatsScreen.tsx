@@ -1,20 +1,12 @@
 import { useState } from 'react'
-import type { Area } from '../../engine/records'
 import { encodeResult } from '../../engine/resultCode'
 import { judgement, weakest, type Stats } from '../../engine/stats'
 import { BALANCE } from '../../engine/balance'
+import { AREA_ROWS as ROWS, pct } from '../areaLabels'
 import './screens.css'
 
 // 내 기록 (기획안 8장 · 작업지시서 F8). 디자인은 M11
 
-const ROWS: { area: Area; label: string; hint: string }[] = [
-  { area: 'word', label: '낱말 베기', hint: '낱말 뜻' },
-  { area: 'connect', label: '연결 사슬', hint: '연결 질문' },
-  { area: 'author', label: '추리의 눈', hint: '글쓴이와 나' },
-  { area: 'summary', label: '요약 봉인', hint: '한 문장 요약' },
-]
-
-const pct = (x: number) => `${Math.round(x * 100)}%`
 
 interface Props {
   stats: Stats

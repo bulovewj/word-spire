@@ -1,4 +1,4 @@
-import type { Passage, Tower, WordEntry } from './types'
+import type { Evidence, Passage, SummarySpec, Tower, WordEntry } from './types'
 import { findStem } from './wordStem'
 
 // 콘텐츠 검사 (작업지시서 1-4). 문제마다 "어디: 무엇" 한 줄을 돌려준다.
@@ -60,31 +60,50 @@ export function validatePassage(p: Passage, knownWordIds: Set<string>): string[]
     if (!Number.isInteger(q.answer) || q.answer < 0 || q.answer >= q.options.length) {
       errors.push(`${where}: answer ${q.answer}는 보기 범위 밖`)
     }
-    if (q.evidence.required.length < 1) errors.push(`${where}: evidence.required가 없음`)
-    q.evidence.required.forEach((set, j) => {
-      if (set.length < 1) errors.push(`${where}.evidence.required[${j}]: 비어 있음`)
-      errors.push(...checkIndexes(set, n, `${where}.evidence.required[${j}]`))
-    })
-    errors.push(...checkIndexes(q.evidence.allowed ?? [], n, `${where}.evidence.allowed`))
+    errors.push(...checkEvidence(q.evidence, n, where))
     const ev = q.evidence
-    const related = new Set([...ev.required.flat(), ...(ev.allowed ?? [])])
     if (q.type === 'literal' && ev.count !== 1) errors.push(`${where}: literal 질문의 근거 개수(count)는 1`)
     if (q.type === 'connect' && ev.count < 2) errors.push(`${where}: connect 질문의 근거 개수(count)는 2 이상`)
-    if (ev.required.some((set) => set.length > ev.count)) errors.push(`${where}: 필수 묶음이 count(${ev.count})보다 큼`)
-    if (related.size < ev.count) errors.push(`${where}: 관련 문장(필수+허용)이 count(${ev.count})보다 적음`)
     for (const id of q.bonusWords ?? []) {
       if (!knownWordIds.has(id)) errors.push(`${where}.bonusWords: 모르는 낱말 id ${id}`)
     }
     if (q.bonusWords && q.type !== 'author') errors.push(`${where}: bonusWords는 author 질문에만`)
   })
 
-  const s = p.summary
-  if (s.models.length < 1) errors.push(at('summary.models: 모범 요약이 없음'))
+  errors.push(...checkSpec(p.summary, at('summary')))
+  if (p.rumor) {
+    const r = p.rumor
+    if (!r.claim.trim()) errors.push(at('rumor.claim: 소문 문장이 없음'))
+    if (p.sentences.some((s) => s.includes(r.claim.trim()))) errors.push(at('rumor.claim: 소문은 본문에 넣지 않는다'))
+    errors.push(...checkEvidence(r.evidence, n, at('rumor')))
+    errors.push(...checkSpec(r.rebuttal, at('rumor.rebuttal')))
+    if (r.rebuttal.rejects.length < 1) errors.push(at('rumor.rebuttal.rejects: 소문에 동의하는 답 앵커가 필요함'))
+  }
+  return errors
+}
+
+function checkEvidence(ev: Evidence, n: number, where: string): string[] {
+  const errors: string[] = []
+  if (ev.required.length < 1) errors.push(`${where}: evidence.required가 없음`)
+  ev.required.forEach((set, j) => {
+    if (set.length < 1) errors.push(`${where}.evidence.required[${j}]: 비어 있음`)
+    errors.push(...checkIndexes(set, n, `${where}.evidence.required[${j}]`))
+  })
+  errors.push(...checkIndexes(ev.allowed ?? [], n, `${where}.evidence.allowed`))
+  const related = new Set([...ev.required.flat(), ...(ev.allowed ?? [])])
+  if (ev.required.some((set) => set.length > ev.count)) errors.push(`${where}: 필수 묶음이 count(${ev.count})보다 큼`)
+  if (related.size < ev.count) errors.push(`${where}: 관련 문장(필수+허용)이 count(${ev.count})보다 적음`)
+  return errors
+}
+
+function checkSpec(s: SummarySpec, where: string): string[] {
+  const errors: string[] = []
+  if (s.models.length < 1) errors.push(`${where}.models: 모범 답이 없음`)
   if (s.conceptLabels.length !== s.concepts.length) {
-    errors.push(at(`summary: conceptLabels(${s.conceptLabels.length})와 concepts(${s.concepts.length}) 길이가 다름`))
+    errors.push(`${where}: conceptLabels(${s.conceptLabels.length})와 concepts(${s.concepts.length}) 길이가 다름`)
   }
   if (s.minConcepts < 1 || s.minConcepts > s.concepts.length) {
-    errors.push(at(`summary.minConcepts ${s.minConcepts}는 1~${s.concepts.length} 밖`))
+    errors.push(`${where}.minConcepts ${s.minConcepts}는 1~${s.concepts.length} 밖`)
   }
   return errors
 }

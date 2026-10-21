@@ -75,6 +75,20 @@ describe('틀린 데이터를 잡는다', () => {
     expect(e).toContain('connect 질문의 근거 개수(count)는 2 이상')
     expect(e).toContain('q3: 관련 문장(필수+허용)이 count(2)보다 적음')
   })
+  it('헛소문: 본문에 넣었거나, 근거·채점 기준이 틀렸거나, 동의 앵커가 없으면', () => {
+    const p = copy()
+    p.rumor = {
+      claim: p.sentences[0]!,
+      evidence: { count: 1, required: [[9]] },
+      rebuttal: { models: [], concepts: [['꽃가루']], minConcepts: 2, conceptLabels: [], rejects: [] },
+    }
+    const e = validatePassage(p, ids).join('\n')
+    expect(e).toContain('rumor.claim: 소문은 본문에 넣지 않는다')
+    expect(e).toContain('rumor.evidence.required[0]: 문장 index 9는 범위(0~4) 밖')
+    expect(e).toContain('rumor.rebuttal.models: 모범 답이 없음')
+    expect(e).toContain('rumor.rebuttal.minConcepts 2는 1~1 밖')
+    expect(e).toContain('rumor.rebuttal.rejects: 소문에 동의하는 답 앵커가 필요함')
+  })
   it('적 대사가 비었거나 탑이 없으면', () => {
     const p = copy()
     p.enemy.sealLine = ''
