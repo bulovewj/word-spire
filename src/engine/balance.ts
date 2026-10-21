@@ -20,4 +20,6 @@ export const BALANCE = {
   summaryCost: 2,
   summaryUnlockRatio: 0.4,      // 적 체력이 이 비율 이하면 요약 봉인 등장
   hintCost: 1,
+
+  statsMinSamples: 5,           // 판단력·약점은 영역마다 첫 시도 기록이 이만큼 쌓여야 표시
 } as const

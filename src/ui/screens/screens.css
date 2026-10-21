@@ -53,3 +53,54 @@
   font-family: var(--font-small);
   color: var(--color-muted);
 }
+
+.stat-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.stat-list li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  align-items: baseline;
+  padding: 8px;
+  border: 2px solid var(--color-muted);
+}
+
+.stat-list li.weak {
+  border-color: var(--color-hp);
+}
+
+.badge {
+  font-family: var(--font-small);
+  color: var(--color-hp);
+  font-weight: 700;
+}
+
+.name-field {
+  display: grid;
+  gap: 4px;
+}
+
+.name-field input,
+.code-box {
+  font: inherit;
+  padding: 8px;
+  border: 2px solid var(--color-muted);
+  background: var(--color-bg);
+  color: var(--color-ink);
+}
+
+.code-box {
+  font-family: var(--font-small);
+  word-break: break-all;
+}
+
+.screen button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

@@ -10,9 +10,10 @@ interface TitleProps {
   saved: RunState | null
   onContinue: () => void
   onStart: (towerId: string) => void
+  onStats: () => void
 }
 
-export function TitleScreen({ towers, saved, onContinue, onStart }: TitleProps) {
+export function TitleScreen({ towers, saved, onContinue, onStart, onStats }: TitleProps) {
   return (
     <section className="screen">
       <h2>탑을 골라 오르자</h2>
@@ -31,6 +32,7 @@ export function TitleScreen({ towers, saved, onContinue, onStart }: TitleProps) 
           </li>
         ))}
       </ul>
+      <button type="button" onClick={onStats}>내 기록</button>
     </section>
   )
 }

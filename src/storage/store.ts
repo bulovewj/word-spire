@@ -1,5 +1,6 @@
 // 기기 안 저장. localStorage는 이 파일에서만 다룬다. 학생 답·기록은 기기 밖으로 나가지 않는다.
 import type { Passage } from '../content/types'
+import type { JudgeRecord } from '../engine/records'
 import { RUN_VERSION, type RunState } from '../engine/run'
 import { STATE_VERSION, type GameState } from '../engine/state'
 
@@ -57,5 +58,30 @@ export function clearRun(): void {
     storage()?.removeItem(RUN_KEY)
   } catch {
     // 무시
+  }
+}
+
+// 판정 기록·이름. 진행 저장과 따로 두어 진행 형식이 바뀌어도 남는다(작업지시서 5장)
+const RECORDS_KEY = 'wordSpire.v2.records'
+const RECORDS_FORMAT = 1
+
+export interface SavedRecords { name: string; log: JudgeRecord[] }
+
+export function loadRecords(): SavedRecords {
+  try {
+    const raw = storage()?.getItem(RECORDS_KEY)
+    const data = raw ? (JSON.parse(raw) as SavedRecords & { format: number }) : null
+    if (data?.format === RECORDS_FORMAT && Array.isArray(data.log)) return { name: String(data.name ?? ''), log: data.log }
+  } catch {
+    // 깨진 기록: 처음부터
+  }
+  return { name: '', log: [] }
+}
+
+export function saveRecords(r: SavedRecords): void {
+  try {
+    storage()?.setItem(RECORDS_KEY, JSON.stringify({ format: RECORDS_FORMAT, ...r }))
+  } catch {
+    // 오류 없이 저장만 안 됨
   }
 }

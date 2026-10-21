@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { findWord, passages, starterDeck, towerFloors } from '../content'
-import { clearRun, loadRun, saveRun } from '../storage/store'
+import { clearRun, loadRecords, loadRun, saveRecords, saveRun } from '../storage/store'
 import { newRun, reduceRun, type RunAction, type RunState } from './run'
 import type { Action } from './state'
 
@@ -97,6 +97,15 @@ describe('저장 (storage/store)', () => {
     expect(loadRun(find)).toBeNull()
     vi.unstubAllGlobals()
     expect(() => saveRun(newRun('bee', starterDeck, 1))).not.toThrow()
+  })
+  it('기록·이름은 진행과 따로 저장되고, 깨지면 빈 기록', () => {
+    const m = fake()
+    const log = [{ area: 'word' as const, ref: 'h01', correct: true, helped: false, firstTry: true, scope: 's', at: 1 }]
+    saveRecords({ name: '하늘', log })
+    clearRun()
+    expect(loadRecords()).toEqual({ name: '하늘', log })
+    m.set('wordSpire.v2.records', '{깨짐')
+    expect(loadRecords()).toEqual({ name: '', log: [] })
   })
   it('보상 낱말은 실제 낱말이다', () => {
     expect(findWord('bee-w1')?.word).toBe('위협')

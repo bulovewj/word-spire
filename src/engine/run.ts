@@ -4,12 +4,13 @@ import { BALANCE } from './balance'
 import { nextRandom } from './rng'
 import { createBattle, reduce, type Action, type GameState } from './state'
 
-export const RUN_VERSION = 1
+export const RUN_VERSION = 2
 
 export type RunPhase = 'intro' | 'battle' | 'reward' | 'complete'
 
 export interface RunState {
   version: number
+  id: number                            // 이 진행의 이름표 (판정 기록 묶음용)
   towerId: string
   floor: number                         // 지금 층 (1부터)
   phase: RunPhase
@@ -31,7 +32,7 @@ export type RunAction =
 export function newRun(towerId: string, deck: string[], seed: number): RunState {
   const hp = BALANCE.playerMaxHp
   return {
-    version: RUN_VERSION, towerId, floor: 1, phase: 'intro', hp, maxHp: hp, deck: [...deck],
+    version: RUN_VERSION, id: seed >>> 0, towerId, floor: 1, phase: 'intro', hp, maxHp: hp, deck: [...deck],
     floorStart: { hp, deck: [...deck] }, battle: null, reward: null, seed: seed >>> 0,
   }
 }
@@ -72,4 +73,9 @@ export function reduceRun(r: RunState, a: RunAction, floors: Passage[]): RunStat
       return battleFor(r, passage, r.floorStart.hp, r.floorStart.deck)
     }
   }
+}
+
+/** 판정 기록의 첫 시도를 가르는 묶음. 같은 층을 다시 해도 같은 묶음이다 */
+export function recordScope(r: RunState): string {
+  return `${r.id}:${r.towerId}:${r.floor}`
 }
