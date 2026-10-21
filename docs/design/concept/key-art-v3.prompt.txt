@@ -1,0 +1,13 @@
+키 아트 v3 · 2026-10-21
+도구: 기본 image_gen. 편집 대상: docs/design/concept/key-art-v2.png.
+사용자 결정: v2의 세밀한 도트 수준을 채택하고, 주인공 머리색을 검은색으로 바꾼다.
+산출물: docs/design/concept/key-art-v3.png. 기존 v2는 비교용으로 보존.
+실제 PNG: 1672×941 RGB. 별도 업스케일·색 보정 없음.
+보스 외형은 수정하지 않았으며, 설정과 대조할 부분이 남은 컨셉이다. 게임 화면 연결 전.
+
+실제 최종 생성 프롬프트:
+Use case: precise-object-edit.
+Input image 1 is the EDIT TARGET: the approved detailed pixel-art key illustration for the original children's literacy game "낱말탑".
+Make ONE localized change ONLY: recolor the small explorer's brown hair to BLACK. The explorer is at the lower center-left on the ascending book stair, looking up and holding a blank open card. Preserve the exact hairstyle silhouette, length, face, eye, pose, size and outline. Hair base should read unmistakably black (#171922), with only a small hard-edged cool charcoal highlight (#30313e). Remove all brown and golden-brown hues from HAIR only. Keep the dark ink outline distinct.
+Everything else is invariant: same 16:9 framing and resolution, same high-detail fine pixel density, same library architecture, stairs, book spines, sage vines and cape, cream clothing, skin tone, brown pouch and boots, lavender fog, gold lanterns, light, palette and all three creatures. Do not redesign, move, recolor or fix any creatures in this edit. Do not add objects. Keep all background detail and fine pixel clusters unchanged as closely as possible.
+Maintain sharp detailed pixel illustration and square step contours. No blur, soft gradients, smooth painting, vector look or photographic texture. No text, readable book titles, numbers, signatures or watermarks.
