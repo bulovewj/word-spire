@@ -3,8 +3,8 @@ import type { Passage } from '../types'
 // 문장별 사실 출처와 검수 메모: docs/스토리.md 7장
 export const bee3: Passage = {
   id: 'bee-3', towerId: 'bee', floor: 3, title: '함께 지키는 꽃가루받이',
-  enemy: { name: '지움 안개왕', sprite: 'erasure', maxHp: 55, pattern: [8, 6, 9, 7],
-    introLine: '마지막 층까지 왔구나. 나를 지나가 봐!', sealLine: '내 안개가 한 장으로 접히다니!' },
+  enemy: { name: '헛소문 여우', sprite: 'fox', maxHp: 55, pattern: [8, 6, 9, 7],
+    introLine: '여기까지 왔네. 마지막 문도 열 수 있을까?', sealLine: '내 소문이 한 장의 부적에 묶이다니!' },
   sentences: [
     '꿀벌과 함께 야생에서 사는 여러 벌과 나비도 꽃가루를 옮긴다.',
     '이 동물들은 종류에 따라 찾아가는 꽃이나 활동하는 시기가 다르다.',

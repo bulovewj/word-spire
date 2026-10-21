@@ -70,8 +70,8 @@ _archive/    옛 게임 코드·원화. 참고·빌드 대상 아님
 | M12 | 정리·배포 | ⬜ |
 
 ### 다음 세션 메모
-- Codex 스토리·bee-2/3 작업은 main에 병합됨(요청 1 닫힘). 다시 맡길 땐 `docs/codex-요청.md`에 요청 추가 → Codex가 `git merge main` 후 처리.
-- 남은 이야기 연결: 탑 `intro`/`outro`는 M8 탑 흐름 때 화면에(적 `sealLine`은 M6에서 연결됨).
+- Codex 스토리·디자인(왕명과 닫힌궁, 한국풍) main 병합 완료(2026-10-21). 적 이름·sprite id(dokkaebi·tiger·fox)·대사·탑 문구 데이터 연결함. 다시 맡길 땐 `docs/codex-요청.md`에 요청 추가 → Codex가 `git merge main` 후 처리.
+- M11 주의: `src/ui/sprites/`의 PNG는 v1 초안(drought·bloomgap·erasure)이라 새 id와 안 맞음 → 새 게임용 시트 필요. 한국풍 컨셉 PNG(reader·부적패·봉인 도구)는 RGBA지만 완전 불투명 픽셀이 0개(어두운 번짐이 반투명으로 구워짐) → 컨셉 참고용, 스프라이트로 못 씀.
 - M8 남은 것: Codex 요청 3(2·3층 근거 범위·정답 보기 바꿔 쓰기) 병합 → `npm test`의 시뮬레이션이 그대로 통과하는지 확인 → 사용자 사실 검수 → M8 ✅. 그 뒤 M9(기록·스탯·결과 코드). Codex 작업 중에는 `bee-2·3.ts`, `docs/스토리.md`를 건드리지 않는다.
 - 디자인 피드백은 CODING_PLAN M11에 모아 둠. 디자인은 M11 전까지 손대지 않는다.
 - 실행 엔진 wasm은 `onnxruntime-web` 일반판을 앱에 묶어 씀(CDN 요청 없음, jsdelivr 차단 상태로 확인). 빌드에 안 쓰는 asyncify wasm(27MB)도 같이 나옴 → M12에서 정리.

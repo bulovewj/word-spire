@@ -3,8 +3,8 @@ import type { Passage } from '../types'
 // 문장별 사실 출처와 검수 메모: docs/스토리.md 7장
 export const bee2: Passage = {
   id: 'bee-2', towerId: 'bee', floor: 2, title: '꽃이 이어져야 꿀벌도 산다',
-  enemy: { name: '빈꽃 도깨비', sprite: 'bloomgap', maxHp: 45, pattern: [7, 5, 9],
-    introLine: '여긴 내가 지키는 층이야!', sealLine: '앗, 몸이 종이처럼 접혀!' },
+  enemy: { name: '뒤섞는 호랑이', sprite: 'tiger', maxHp: 45, pattern: [7, 5, 9],
+    introLine: '이 문 앞에선 큰소리도 소용없을걸?', sealLine: '크르릉, 이번에는 네가 길을 찾았구나.' },
   sentences: [
     '꿀벌은 꽃에서 얻은 꽃꿀과 꽃가루를 먹이로 삼는다.',
     '꽃이 피는 시기는 식물의 종류에 따라 다르다.',
