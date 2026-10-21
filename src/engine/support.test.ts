@@ -3,7 +3,7 @@ import { bee1 } from '../content/passages/bee-1'
 import { STARTER_DECK_56 } from '../content/words/pack-5-6'
 import { createBattle, reduce, type Action, type GameState } from './state'
 
-const setup = () => createBattle({ passage: bee1, deck: STARTER_DECK_56, seed: 7, playerHp: 40, playerMaxHp: 40 })
+const setup = () => createBattle({ passage: bee1, deck: STARTER_DECK_56, wordUses: {}, seed: 7, playerHp: 40, playerMaxHp: 40 })
 const run = (s: GameState, ...actions: Action[]) => actions.reduce(reduce, s)
 const fog = (sentence: number): Action => ({ type: 'resolveFog', wordIndex: 0, sentence })
 const hint = (questionId: string): Action => ({ type: 'useHint', questionId })

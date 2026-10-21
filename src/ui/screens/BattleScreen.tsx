@@ -2,10 +2,13 @@ import { useState } from 'react'
 import { STORY } from '../../content/story'
 import { BALANCE } from '../../engine/balance'
 import { hasShield, incomingDamage, nextEnemyAttack, type Action, type GameState } from '../../engine/state'
+import AnswerReveal from '../components/AnswerReveal'
 import { EnemyPanel, PlayerPanel } from '../components/BattleBars'
 import Hand from '../components/Hand'
 import PassagePanel from '../components/PassagePanel'
+import WordPouch from '../components/WordPouch'
 import { eventText } from '../eventText'
+import { activeFogWords } from '../fog'
 import ActivePanel from './ActivePanel'
 import { buildHandCards, type PanelTarget } from './handCards'
 import './battle.css'
@@ -35,6 +38,8 @@ export default function BattleScreen({ state, dispatch, lastFloor, onWon, onRetr
   const fog = p.lockedWords.filter((_, i) => !state.fogCleared.includes(i))
   const picking = target?.kind === 'question' || target?.kind === 'fog'
   const playing = state.outcome === 'playing'   // 끝난 전투에는 예고를 보이지 않는다
+  const missed = state.events.find((e) => e.kind === 'question' && e.grade !== 'hit')
+  const missedQ = missed?.kind === 'question' ? p.questions.find((q) => q.id === missed.questionId) : undefined
 
   return (
     <div className="battle">
@@ -54,6 +59,10 @@ export default function BattleScreen({ state, dispatch, lastFloor, onWon, onRetr
             {state.events.map((e, i) => <li key={i}>{eventText(e)}</li>)}
           </ul>
         )}
+        {missed?.kind === 'question' && missedQ && !target && (
+          <AnswerReveal question={missedQ} grade={missed.grade} fogWords={activeFogWords(state)}
+            order={state.optionOrder[missedQ.id] ?? missedQ.options.map((_, i) => i)} />
+        )}
 
         {state.outcome === 'won' ? (
           <div className="overlay overlay-won">
@@ -71,6 +80,7 @@ export default function BattleScreen({ state, dispatch, lastFloor, onWon, onRetr
         ) : (
           <>
             <Hand cards={buildHandCards(state)} onPick={(c) => open(c.target)} />
+            <WordPouch deck={state.deck} uses={state.wordUses} think={state.think} onPick={(wordId) => open({ kind: 'word', wordId })} />
             <div className="row">
               <span className="turn">{state.turn}턴</span>
               <button type="button" className="end-turn" onClick={() => send({ type: 'endTurn' })}>턴 끝내기</button>

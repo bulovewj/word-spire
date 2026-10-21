@@ -4,7 +4,7 @@ import { BALANCE } from './balance'
 import { nextRandom } from './rng'
 import { createBattle, reduce, type Action, type GameState } from './state'
 
-export const RUN_VERSION = 2
+export const RUN_VERSION = 3
 
 export type RunPhase = 'intro' | 'battle' | 'reward' | 'complete'
 
@@ -17,7 +17,8 @@ export interface RunState {
   hp: number                            // 층 사이에 이어지는 내 체력
   maxHp: number
   deck: string[]                        // 내가 아는 낱말 id (층 보상으로 늘어남)
-  floorStart: { hp: number; deck: string[] }   // 패배하면 이 상태로 그 층 다시
+  wordUses: Record<string, number>      // 낱말별 이 탑에 남은 사용 횟수 (새 탑이면 다시 가득)
+  floorStart: { hp: number; deck: string[]; wordUses: Record<string, number> }   // 패배하면 이 상태로 그 층 다시
   battle: GameState | null
   reward: { words: string[]; healed: number } | null   // 방금 받은 층 보상
   seed: number                          // 다음 전투의 시드를 만드는 난수 상태
@@ -29,18 +30,21 @@ export type RunAction =
   | { type: 'finishFloor' }             // 이긴 전투를 마치고 보상(또는 탑 완료)으로
   | { type: 'retryFloor' }              // 진 층을 층 시작 상태로 다시
 
+const fullUses = (ids: string[]) => Object.fromEntries(ids.map((id) => [id, BALANCE.wordUsesPerTower]))
+
 export function newRun(towerId: string, deck: string[], seed: number): RunState {
   const hp = BALANCE.playerMaxHp
+  const wordUses = fullUses(deck)
   return {
-    version: RUN_VERSION, id: seed >>> 0, towerId, floor: 1, phase: 'intro', hp, maxHp: hp, deck: [...deck],
-    floorStart: { hp, deck: [...deck] }, battle: null, reward: null, seed: seed >>> 0,
+    version: RUN_VERSION, id: seed >>> 0, towerId, floor: 1, phase: 'intro', hp, maxHp: hp, deck: [...deck], wordUses,
+    floorStart: { hp, deck: [...deck], wordUses }, battle: null, reward: null, seed: seed >>> 0,
   }
 }
 
-function battleFor(r: RunState, passage: Passage, hp: number, deck: string[]): RunState {
+function battleFor(r: RunState, passage: Passage, start: RunState['floorStart']): RunState {
   const [, seed] = nextRandom(r.seed)
-  const battle = createBattle({ passage, deck, seed, playerHp: hp, playerMaxHp: r.maxHp })
-  return { ...r, seed, phase: 'battle', battle, reward: null, floorStart: { hp, deck: [...deck] } }
+  const battle = createBattle({ passage, deck: start.deck, wordUses: start.wordUses, seed, playerHp: start.hp, playerMaxHp: r.maxHp })
+  return { ...r, seed, phase: 'battle', battle, reward: null, floorStart: { ...start, deck: [...start.deck] } }
 }
 
 /** floors: 이 탑의 글을 층 순서대로 (content/towerFloors) */
@@ -49,7 +53,7 @@ export function reduceRun(r: RunState, a: RunAction, floors: Passage[]): RunStat
     case 'startFloor': {
       const passage = floors[r.floor - 1]
       if ((r.phase !== 'intro' && r.phase !== 'reward') || !passage) return r
-      return battleFor(r, passage, r.hp, r.deck)
+      return battleFor(r, passage, { hp: r.hp, deck: r.deck, wordUses: r.wordUses })
     }
     case 'battle': {
       if (r.phase !== 'battle' || !r.battle) return r
@@ -61,16 +65,17 @@ export function reduceRun(r: RunState, a: RunAction, floors: Passage[]): RunStat
       if (r.phase !== 'battle' || !b || b.outcome !== 'won') return r
       const words = b.reservedWords.filter((id) => !r.deck.includes(id))
       const deck = [...r.deck, ...words]
+      const wordUses = { ...b.wordUses, ...fullUses(words) }   // 새로 얻은 낱말은 횟수가 가득
       if (r.floor >= floors.length) {
-        return { ...r, phase: 'complete', hp: b.player.hp, deck, battle: null, reward: { words, healed: 0 } }
+        return { ...r, phase: 'complete', hp: b.player.hp, deck, wordUses, battle: null, reward: { words, healed: 0 } }
       }
       const hp = Math.min(r.maxHp, b.player.hp + BALANCE.healBetweenFloors)
-      return { ...r, phase: 'reward', floor: r.floor + 1, hp, deck, battle: null, reward: { words, healed: hp - b.player.hp } }
+      return { ...r, phase: 'reward', floor: r.floor + 1, hp, deck, wordUses, battle: null, reward: { words, healed: hp - b.player.hp } }
     }
     case 'retryFloor': {
       const passage = floors[r.floor - 1]
       if (r.phase !== 'battle' || r.battle?.outcome !== 'lost' || !passage) return r
-      return battleFor(r, passage, r.floorStart.hp, r.floorStart.deck)
+      return battleFor(r, passage, r.floorStart)
     }
   }
 }

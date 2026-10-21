@@ -11,7 +11,7 @@ export interface Judgement {
   ref: string
   correct: boolean
   confidence?: Confidence
-  helped: boolean            // 단서 보기·다시 보기를 거침
+  helped: boolean            // 단서 보기를 거침
 }
 
 export interface JudgeRecord extends Judgement {
@@ -27,12 +27,8 @@ export function judgementsFrom(prev: GameState, a: Action, next: GameState): Jud
   for (const e of next.events) {
     if (e.kind === 'question' && a.type === 'resolveQuestion') {
       const q = prev.passage.questions.find((x) => x.id === e.questionId)
-      const card = prev.textCards.find((c) => c.kind === 'question' && c.refId === e.questionId)
       if (!q) continue
-      out.push({
-        area: q.type, ref: q.id, correct: e.grade === 'hit', confidence: a.confidence,
-        helped: prev.hints[q.id] !== undefined || !!card?.retry,
-      })
+      out.push({ area: q.type, ref: q.id, correct: e.grade === 'hit', confidence: a.confidence, helped: prev.hints[q.id] !== undefined })
     } else if (e.kind === 'word') {
       out.push({ area: 'word', ref: e.wordId, correct: e.pass, helped: false })
     } else if (e.kind === 'summary') {

@@ -14,7 +14,6 @@ export interface QuestionAnswer {
 
 export interface JudgeContext {
   shield: boolean           // 안개 보호막
-  retry: boolean            // "다시 보기"로 돌아온 질문 (피해 절반)
 }
 
 export interface QuestionResult {
@@ -37,7 +36,7 @@ export function gradeQuestion(q: Question, option: number, evidence: number[]): 
   return evidenceOk(q.evidence, evidence) ? 'hit' : 'weak'
 }
 
-/** 피해 계산 순서: 기본 → 보너스 낱말 → 약타 절반 → 다시 보기 절반 → 정타+확실 ×1.5 → 보호막 */
+/** 피해 계산 순서: 기본 → 보너스 낱말 → 약타 절반 → 정타+확실 ×1.5 → 보호막 */
 export function computeDamage(
   q: Question, grade: Grade, confidence: Confidence, attachedWordId: string | undefined, ctx: JudgeContext,
 ): number {
@@ -47,7 +46,6 @@ export function computeDamage(
     dmg += BALANCE.bonusWordDamage
   }
   if (grade === 'weak') dmg = Math.floor(dmg / 2)
-  if (ctx.retry) dmg = Math.floor(dmg / 2)
   if (grade === 'hit' && confidence === 'sure') dmg = Math.round(dmg * BALANCE.sureMultiplier)
   if (ctx.shield) dmg = Math.max(0, dmg - BALANCE.fogShield)
   return dmg

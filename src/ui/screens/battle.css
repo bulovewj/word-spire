@@ -77,7 +77,6 @@
 
 .card-title { font-weight: 700; padding-right: 52px; }
 .card-sub { font-family: var(--font-small); color: var(--color-muted); }
-.card-badge { font-family: var(--font-small); color: var(--color-weak); }
 
 .row {
   display: flex;
@@ -120,3 +119,12 @@
   border-color: var(--color-accent);
   background: var(--color-select);
 }
+
+.reveal {
+  background: var(--color-panel);
+  border: 2px solid var(--color-weak);
+  padding: 8px 12px;
+}
+
+.reveal p { margin: 0; }
+.reveal-head { font-weight: 700; color: var(--color-weak); }

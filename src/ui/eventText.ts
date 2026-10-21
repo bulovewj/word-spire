@@ -12,7 +12,7 @@ export function eventText(e: BattleEvent): string {
     }
     case 'word': {
       const word = findWord(e.wordId)?.word ?? e.wordId
-      return e.pass ? `"${word}" 발동! 방어 +${e.block}` : `"${word}" 카드 실패`
+      return e.pass ? `"${word}" 발동! 방어 +${e.block}` : `"${word}" 뜻 쓰기 실패`
     }
     case 'enemy':
       return `적의 공격 ${e.attack} → ${e.damage} 받음`
@@ -26,7 +26,5 @@ export function eventText(e: BattleEvent): string {
     }
     case 'hint':
       return e.free ? '단서 보기(공짜): 틀린 보기 하나를 지웠어.' : '단서 보기: 틀린 보기 하나를 지웠어.'
-    case 'retry':
-      return `틀렸던 질문 ${e.questionIds.length}개가 "다시 보기"로 돌아왔어 (피해 절반)`
   }
 }

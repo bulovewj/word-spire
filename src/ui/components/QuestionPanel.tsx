@@ -10,13 +10,13 @@ interface Props {
   evidence: number[]           // 본문에서 고른 근거 문장
   ctx: JudgeContext
   fogWords: string[]           // 안개가 남은 낱말: 질문·보기에서도 가린다
-  attachables?: Attachable[]   // 붙일 수 있는 손패 낱말 카드 (author 전용)
+  attachables?: Attachable[]   // 붙일 수 있는 내 낱말 (author 전용, 횟수 남은 것)
   hint: HintInfo               // 단서 보기 상태
-  onSubmit: (answer: QuestionAnswer, attachedUid?: string) => void
+  onSubmit: (answer: QuestionAnswer) => void
   onCancel?: () => void
 }
 
-export interface Attachable { uid: string; wordId: string; word: string }
+export interface Attachable { wordId: string; word: string; uses: number }
 
 /** dimmed: 지운 보기 index / cost: 이번 단서 비용 / usable: 지금 쓸 수 있는지 */
 export interface HintInfo { dimmed?: number; cost: number; usable: boolean; onUse: () => void }
@@ -28,8 +28,7 @@ export default function QuestionPanel({ question, order, evidence, ctx, fogWords
   const [picked, setOption] = useState<number | null>(null)
   const option = picked === hint.dimmed ? null : picked   // 지워진 보기는 고를 수 없다
   const [confidence, setConfidence] = useState<Confidence | null>(null)
-  const [attachedUid, setAttachedUid] = useState<string | undefined>(undefined)
-  const attachedWordId = attachables.find((a) => a.uid === attachedUid)?.wordId
+  const [attachedWordId, setAttached] = useState<string | undefined>(undefined)
   const need = question.evidence.count
   const ready = option !== null && evidence.length === need && confidence !== null
   const preview = previewDamage(question, confidence ?? 'unsure', attachedWordId, ctx)
@@ -69,13 +68,13 @@ export default function QuestionPanel({ question, order, evidence, ctx, fogWords
         <div className="qpanel-attach">
           {attachables.map((a) => (
             <button
-              key={a.uid}
+              key={a.wordId}
               type="button"
-              aria-pressed={attachedUid === a.uid}
-              className={attachedUid === a.uid ? 'is-on' : ''}
-              onClick={() => setAttachedUid((u) => (u === a.uid ? undefined : a.uid))}
+              aria-pressed={attachedWordId === a.wordId}
+              className={attachedWordId === a.wordId ? 'is-on' : ''}
+              onClick={() => setAttached((u) => (u === a.wordId ? undefined : a.wordId))}
             >
-              낱말 카드 붙이기: {a.word} (+4)
+              낱말 붙이기: {a.word} (+4 · 남은 {a.uses}번 중 1번 씀)
             </button>
           ))}
         </div>
@@ -106,7 +105,7 @@ export default function QuestionPanel({ question, order, evidence, ctx, fogWords
           disabled={!ready}
           onClick={() => {
             if (option === null || confidence === null) return
-            onSubmit({ option, evidence, confidence, attachedWordId }, attachedUid)
+            onSubmit({ option, evidence, confidence, attachedWordId })
           }}
         >
           제출

@@ -6,7 +6,7 @@ import { addRecords, judgementsFrom, type JudgeRecord } from './records'
 import { createBattle, reduce, type Action, type GameState } from './state'
 import { computeStats, judgement, weakest } from './stats'
 
-const setup = () => createBattle({ passage: bee1, deck: STARTER_DECK_56, seed: 42, playerHp: 40, playerMaxHp: 40 })
+const setup = () => createBattle({ passage: bee1, deck: STARTER_DECK_56, wordUses: { h01: 2 }, seed: 42, playerHp: 40, playerMaxHp: 40 })
 const q = (id: string) => bee1.questions.find((x) => x.id === id) as Question
 const answer = (id: string, ok: boolean, confidence: 'sure' | 'unsure' = 'sure'): Action => {
   const ev = q(id).evidence
@@ -30,9 +30,8 @@ describe('판정 기록', () => {
   })
   it('낱말 카드·요약도 기록, 안개 걷기·턴 끝은 기록하지 않음', () => {
     const s = setup()
-    const uid = s.hand[0]!.uid
-    expect(step(s, { type: 'resolveWordCard', uid, pass: false, answer: '' }).items)
-      .toEqual([{ area: 'word', ref: s.hand[0]!.wordId, correct: false, helped: false }])
+    expect(step(s, { type: 'resolveWordCard', wordId: 'h01', pass: false, answer: '' }).items)
+      .toEqual([{ area: 'word', ref: 'h01', correct: false, helped: false }])
     expect(step(s, { type: 'resolveFog', wordIndex: 0, sentence: 0 }).items).toEqual([])
     expect(step(s, { type: 'endTurn' }).items).toEqual([])
   })

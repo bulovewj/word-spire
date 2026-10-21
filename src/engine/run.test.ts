@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { findWord, passages, starterDeck, towerFloors } from '../content'
 import { clearRun, loadName, loadRecords, loadRun, saveName, saveRecords, saveRun } from '../storage/store'
+import { BALANCE } from './balance'
 import { newRun, reduceRun, type RunAction, type RunState } from './run'
 import type { Action } from './state'
 
@@ -23,6 +24,8 @@ function winFloor(r: RunState): RunState {
       for (const i of [...ev.required.flat(), ...(ev.allowed ?? [])]) if (pick.length < ev.count && !pick.includes(i)) pick.push(i)
       s = run(s, battle({ type: 'resolveQuestion', questionId: q.id, option: q.answer, evidence: pick, confidence: 'sure' }))
     }
+    // 남은 생각력으로 낱말 방어 (방어 없이는 3층에서 진다)
+    for (const id of b().deck) if (b().think > 0 && (b().wordUses[id] ?? 0) > 0) s = run(s, battle({ type: 'resolveWordCard', wordId: id, pass: true, answer: '' }))
     if (b().outcome === 'playing') s = run(s, battle({ type: 'endTurn' }))
   }
   return s
@@ -39,7 +42,7 @@ describe('탑 흐름 (F7)', () => {
     expect(won.battle?.outcome).toBe('won')
     const hpAfter = won.battle!.player.hp
     const r = run(won, { type: 'finishFloor' })
-    expect(r).toMatchObject({ phase: 'reward', floor: 2, hp: Math.min(40, hpAfter + 10) })
+    expect(r).toMatchObject({ phase: 'reward', floor: 2, hp: Math.min(BALANCE.playerMaxHp, hpAfter + BALANCE.healBetweenFloors) })
     expect(r.deck).toContain('bee-w1')
     expect(r.reward?.words).toEqual(['bee-w1'])
   })
@@ -47,7 +50,17 @@ describe('탑 흐름 (F7)', () => {
     const r = run(winFloor(run(newRun('bee', starterDeck, 1), { type: 'startFloor' })), { type: 'finishFloor' }, { type: 'startFloor' })
     expect(r.battle?.passage.id).toBe('bee-2')
     expect(r.battle?.player.hp).toBe(r.hp)
-    expect(r.battle!.drawPile.length + r.battle!.hand.length).toBe(starterDeck.length + 1)
+    expect(r.battle!.deck).toHaveLength(starterDeck.length + 1)
+  })
+  it('낱말 횟수는 탑 안에서 이어지고, 새로 얻은 낱말은 가득 찬 채로', () => {
+    const fresh = run(newRun('bee', starterDeck, 1), { type: 'startFloor' })
+    const used = run(fresh, battle({ type: 'resolveWordCard', wordId: starterDeck[0]!, pass: true, answer: '' }))
+    expect(used.battle!.wordUses[starterDeck[0]!]).toBe(BALANCE.wordUsesPerTower - 1)
+    const won = winFloor(used)
+    const r = run(won, { type: 'finishFloor' })
+    expect(r.wordUses[starterDeck[0]!]).toBe(won.battle!.wordUses[starterDeck[0]!])
+    expect(r.wordUses['bee-w1']).toBe(BALANCE.wordUsesPerTower)
+    expect(run(r, { type: 'startFloor' }).battle!.wordUses).toEqual(r.wordUses)
   })
   it('3층을 이기면 탑 완료', () => {
     let r = run(newRun('bee', starterDeck, 3), { type: 'startFloor' })
@@ -63,7 +76,7 @@ describe('탑 흐름 (F7)', () => {
     for (let i = 0; i < 20 && r.battle?.outcome === 'playing'; i++) r = run(r, battle({ type: 'endTurn' }))
     expect(r.battle?.outcome).toBe('lost')
     const again = run(r, { type: 'retryFloor' })
-    expect(again.battle).toMatchObject({ outcome: 'playing', turn: 1, player: { hp: 40 } })
+    expect(again.battle).toMatchObject({ outcome: 'playing', turn: 1, player: { hp: BALANCE.playerMaxHp }, wordUses: r.floorStart.wordUses })
   })
   it('엉뚱한 때의 action은 무시', () => {
     const r = newRun('bee', starterDeck, 1)
@@ -108,17 +121,6 @@ describe('저장 (storage/store)', () => {
     expect(loadName()).toBe('하늘')
     m.set('wordSpire.v2.records', '{깨짐')
     expect(loadRecords()).toEqual([])
-  })
-  it('진행 v1 저장도 이어한다 (id는 시드로 채움)', () => {
-    const m = fake()
-    const r = newRun('bee', starterDeck, 7)
-    saveRun(r)
-    const key = [...m.keys()][0]!
-    const old = JSON.parse(m.get(key)!)
-    delete old.run.id
-    old.format = old.format.replace(/^2\./, '1.')
-    m.set(key, JSON.stringify(old))
-    expect(loadRun(find)).toEqual({ ...r, id: r.seed })
   })
   it('보상 낱말은 실제 낱말이다', () => {
     expect(findWord('bee-w1')?.word).toBe('위협')

@@ -5,10 +5,9 @@ export interface HandCard {
   title: string
   sub: string
   cost: number
-  kind: 'question' | 'fog' | 'summary' | 'word'
+  kind: 'question' | 'fog' | 'summary'
   target: PanelTarget
   disabled: boolean
-  badge?: string
 }
 
 interface Props {
@@ -25,7 +24,6 @@ export default function Hand({ cards, onPick }: Props) {
             <span className="card-cost">생각력 {c.cost}</span>
             <span className="card-title">{c.title}</span>
             <span className="card-sub">{c.sub}</span>
-            {c.badge && <span className="card-badge">{c.badge}</span>}
           </button>
         </li>
       ))}

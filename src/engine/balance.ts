@@ -3,9 +3,9 @@ import type { QuestionType } from '../content/types'
 
 export const BALANCE = {
   thinkPerTurn: 3,              // 생각력
-  wordDrawPerTurn: 2,           // 턴마다 뽑는 낱말 카드
-  playerMaxHp: 40,
-  healBetweenFloors: 10,
+  wordUsesPerTower: 2,          // 낱말마다 한 탑에서 방어·붙이기에 쓸 수 있는 횟수
+  playerMaxHp: 30,
+  healBetweenFloors: 8,
 
   questionCost: { literal: 1, connect: 2, author: 2 } satisfies Record<QuestionType, number>,
   questionDamage: { literal: 6, connect: 10, author: 14 } satisfies Record<QuestionType, number>,

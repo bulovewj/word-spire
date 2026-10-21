@@ -1,20 +1,18 @@
 // 전투 상태와 reduce (기획안 6장 · 작업지시서 F2-1, F4, F6). 안개·단서는 support.ts
+// 낱말 방어: 손패를 뽑지 않고 내 낱말 묶음(deck)에서 골라 쓴다. 낱말마다 탑당 사용 횟수(wordUses)가 깎인다
 import type { Passage } from '../content/types'
 import { BALANCE } from './balance'
-import { discardHand, enemyAttack, nextEnemyAttack, openWhenQuestionsExhausted, startTurn, unlockSummaryIfLow } from './battle'
+import { enemyAttack, nextEnemyAttack, openWhenQuestionsExhausted, startTurn, unlockSummaryIfLow } from './battle'
 import { judgeQuestion, type Confidence, type Grade } from './judge'
 import { shuffle } from './rng'
 import { resolveFog, useHint } from './support'
 
-export const STATE_VERSION = 5
-
-export interface WordCardInstance { uid: string; wordId: string }
+export const STATE_VERSION = 6
 
 export interface TextCard {
   kind: 'question' | 'fog' | 'summary'
   refId: string               // question id / lockedWords index / passage id
   lockedThisTurn: boolean
-  retry: boolean              // "다시 보기"로 돌아온 질문
 }
 
 export type BattleEvent =
@@ -23,7 +21,6 @@ export type BattleEvent =
   | { kind: 'enemy'; attack: number; damage: number }
   | { kind: 'summaryUnlocked' }
   | { kind: 'summary'; pass: boolean }
-  | { kind: 'retry'; questionIds: string[] }
   | { kind: 'fog'; pass: boolean; wordId: string }
   | { kind: 'hint'; questionId: string; free: boolean }
 
@@ -40,27 +37,26 @@ export interface GameState {
   hints: Record<string, number>             // 질문별 단서 보기로 지운 보기 index (= 도움받음)
   optionOrder: Record<string, number[]>     // 질문별 보기 표시 순서
   textCards: TextCard[]
-  hand: WordCardInstance[]
-  drawPile: WordCardInstance[]
-  discardPile: WordCardInstance[]
-  lastGrades: Record<string, Grade>         // 질문별 마지막 판정 (다시 보기용)
+  deck: string[]                            // 내 낱말 묶음 (낱말 id)
+  wordUses: Record<string, number>          // 낱말별 이번 탑에 남은 사용 횟수
   freeHint: boolean
-  nextUid: number
   outcome: 'playing' | 'won' | 'lost'
   events: BattleEvent[]                     // 방금 action에서 일어난 일 (화면 연출용)
 }
 
 export type Action =
-  | { type: 'resolveQuestion'; questionId: string; option: number; evidence: number[]; confidence: Confidence; attachedWordUid?: string }
+  | { type: 'resolveQuestion'; questionId: string; option: number; evidence: number[]; confidence: Confidence; attachedWordId?: string }
   | { type: 'useHint'; questionId: string }
   | { type: 'resolveFog'; wordIndex: number; sentence: number }
-  | { type: 'resolveWordCard'; uid: string; pass: boolean; answer: string }
+  | { type: 'resolveWordCard'; wordId: string; pass: boolean; answer: string }
   | { type: 'resolveSummary'; pass: boolean; answer: string }
   | { type: 'endTurn' }
 
-export interface BattleSetup { passage: Passage; deck: string[]; seed: number; playerHp: number; playerMaxHp: number }
+export interface BattleSetup {
+  passage: Passage; deck: string[]; wordUses: Record<string, number>; seed: number; playerHp: number; playerMaxHp: number
+}
 
-export function createBattle({ passage, deck, seed, playerHp, playerMaxHp }: BattleSetup): GameState {
+export function createBattle({ passage, deck, wordUses, seed, playerHp, playerMaxHp }: BattleSetup): GameState {
   let rng = seed >>> 0
   const optionOrder: Record<string, number[]> = {}
   for (const q of passage.questions) {
@@ -68,19 +64,16 @@ export function createBattle({ passage, deck, seed, playerHp, playerMaxHp }: Bat
     optionOrder[q.id] = order
     rng = next
   }
-  const cards = deck.map((wordId, i) => ({ uid: `w${i}`, wordId }))
-  const [drawPile, next] = shuffle(cards, rng)
   const state: GameState = {
-    version: STATE_VERSION, rng: next, passage, turn: 0, think: 0,
+    version: STATE_VERSION, rng, passage, turn: 0, think: 0,
     player: { hp: playerHp, maxHp: playerMaxHp, block: 0 },
     enemy: { hp: passage.enemy.maxHp, maxHp: passage.enemy.maxHp, patternIndex: 0, attackBonus: 0 },
     fogCleared: [], reservedWords: [], hints: {}, optionOrder,
     textCards: [
-      ...passage.questions.map((q) => ({ kind: 'question' as const, refId: q.id, lockedThisTurn: false, retry: false })),
-      ...passage.lockedWords.map((_, i) => ({ kind: 'fog' as const, refId: String(i), lockedThisTurn: false, retry: false })),
+      ...passage.questions.map((q) => ({ kind: 'question' as const, refId: q.id, lockedThisTurn: false })),
+      ...passage.lockedWords.map((_, i) => ({ kind: 'fog' as const, refId: String(i), lockedThisTurn: false })),
     ],
-    hand: [], drawPile, discardPile: [], lastGrades: {}, freeHint: false,
-    nextUid: cards.length, outcome: 'playing', events: [],
+    deck: [...deck], wordUses: { ...wordUses }, freeHint: false, outcome: 'playing', events: [],
   }
   return startTurn(state)
 }
@@ -89,6 +82,13 @@ export function createBattle({ passage, deck, seed, playerHp, playerMaxHp }: Bat
 export function incomingDamage(s: GameState): number {
   return Math.max(0, nextEnemyAttack(s) - s.player.block)
 }
+
+/** 이 낱말을 지금 방어·붙이기에 쓸 수 있나 (내 묶음에 있고 횟수가 남음) */
+export function canUseWord(s: GameState, wordId: string): boolean {
+  return s.deck.includes(wordId) && (s.wordUses[wordId] ?? 0) > 0
+}
+
+const spend = (s: GameState, wordId: string) => ({ ...s.wordUses, [wordId]: (s.wordUses[wordId] ?? 0) - 1 })
 
 export function hasShield(s: GameState): boolean {
   return s.fogCleared.length < s.passage.lockedWords.length
@@ -103,20 +103,17 @@ export function reduce(s: GameState, a: Action): GameState {
       if (!card || !q || card.lockedThisTurn) return s
       const cost = BALANCE.questionCost[q.type]
       if (s.think < cost) return s
-      // 붙이기는 author 질문의 관련 낱말 카드만. 아니면 무시하고 카드는 손패에 남긴다
-      const attached = q.type === 'author'
-        ? s.hand.find((w) => w.uid === a.attachedWordUid && q.bonusWords?.includes(w.wordId))
-        : undefined
-      const r = judgeQuestion(q, { option: a.option, evidence: a.evidence, confidence: a.confidence, attachedWordId: attached?.wordId },
-        { shield: hasShield(s), retry: card.retry })
+      // 붙이기는 author 질문의 관련 낱말만, 횟수가 남았을 때. 아니면 무시하고 횟수도 그대로
+      const attached = q.type === 'author' && a.attachedWordId && q.bonusWords?.includes(a.attachedWordId)
+        && canUseWord(s, a.attachedWordId) ? a.attachedWordId : undefined
+      const r = judgeQuestion(q, { option: a.option, evidence: a.evidence, confidence: a.confidence, attachedWordId: attached },
+        { shield: hasShield(s) })
       let next: GameState = {
         ...s,
         think: s.think - cost,
         enemy: { ...s.enemy, hp: Math.max(1, s.enemy.hp - r.damage), attackBonus: s.enemy.attackBonus + r.enemyAttackBonus },
         textCards: s.textCards.filter((c) => c !== card),
-        hand: attached ? s.hand.filter((w) => w !== attached) : s.hand,
-        discardPile: attached ? [...s.discardPile, attached] : s.discardPile,
-        lastGrades: { ...s.lastGrades, [q.id]: r.grade },
+        wordUses: attached ? spend(s, attached) : s.wordUses,
         freeHint: r.freeHint || s.freeHint,
         events: [{ kind: 'question', questionId: q.id, grade: r.grade, damage: r.damage, enemyAttackBonus: r.enemyAttackBonus }],
       }
@@ -128,16 +125,14 @@ export function reduce(s: GameState, a: Action): GameState {
     case 'resolveFog':
       return resolveFog(s, a.wordIndex, a.sentence)
     case 'resolveWordCard': {
-      const card = s.hand.find((w) => w.uid === a.uid)
-      if (!card || s.think < BALANCE.wordCardCost) return s
+      if (!canUseWord(s, a.wordId) || s.think < BALANCE.wordCardCost) return s
       const block = a.pass ? BALANCE.wordCardBlock : 0
       return {
         ...s,
         think: s.think - BALANCE.wordCardCost,
         player: { ...s.player, block: s.player.block + block },
-        hand: s.hand.filter((w) => w !== card),
-        discardPile: [...s.discardPile, card],
-        events: [{ kind: 'word', wordId: card.wordId, pass: a.pass, block }],
+        wordUses: spend(s, a.wordId),
+        events: [{ kind: 'word', wordId: a.wordId, pass: a.pass, block }],
       }
     }
     case 'resolveSummary': {
@@ -152,7 +147,7 @@ export function reduce(s: GameState, a: Action): GameState {
       return { ...s, think, textCards: s.textCards.map((c) => (c === card ? { ...c, lockedThisTurn: true } : c)), events }
     }
     case 'endTurn': {
-      const attacked = enemyAttack(discardHand({ ...s, events: [] }))
+      const attacked = enemyAttack({ ...s, events: [] })
       if (attacked.outcome === 'lost') return attacked
       return startTurn(attacked)
     }

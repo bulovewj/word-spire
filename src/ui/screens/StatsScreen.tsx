@@ -54,7 +54,7 @@ export default function StatsScreen({ stats, name, onName, onHome }: Props) {
   return (
     <section className="screen">
       <h2>내 기록</h2>
-      <p className="muted">처음 풀었을 때 맞힌 비율이야. 단서 보기·다시 보기로 푼 건 따로 세.</p>
+      <p className="muted">처음 풀었을 때 맞힌 비율이야. 단서 보기를 쓰고 푼 건 따로 세.</p>
       <ul className="stat-list">
         {ROWS.map(({ area, label, hint }) => {
           const a = stats.areas[area]

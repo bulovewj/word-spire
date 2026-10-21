@@ -7,7 +7,6 @@ import { AREAS } from '../engine/stats'
 
 const RUN_KEY = 'wordSpire.v2.run'
 const FORMAT = `${RUN_VERSION}.${STATE_VERSION}`   // 둘 중 하나라도 바뀌면 옛 저장은 이어하지 않는다
-const FORMAT_V1 = `1.${STATE_VERSION}`               // 진행 v1 → v2는 id만 늘어서 시드로 채워 이어한다
 
 /** 저장 형식: 전투 속 글 데이터는 id만 남긴다(불러올 때 지금 데이터로 되돌림) */
 interface Saved {
@@ -44,9 +43,8 @@ export function loadRun(findPassage: (id: string) => Passage | undefined): RunSt
     const raw = storage()?.getItem(RUN_KEY)
     if (!raw) return null
     const data = JSON.parse(raw) as Saved
-    if (data.format !== FORMAT && data.format !== FORMAT_V1) return null
-    const { battle, ...saved } = data.run
-    const rest = { ...saved, version: RUN_VERSION, id: saved.id ?? saved.seed }
+    if (data.format !== FORMAT) return null
+    const { battle, ...rest } = data.run
     if (!battle) return { ...rest, battle: null }
     const { passageId, ...b } = battle
     const passage = findPassage(passageId)

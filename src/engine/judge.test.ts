@@ -4,8 +4,8 @@ import type { Question } from '../content/types'
 import { evidenceOk, judgeQuestion, previewDamage } from './judge'
 
 const [q1, q2, q3] = bee1.questions as [Question, Question, Question]
-const open = { shield: false, retry: false }
-const fogged = { shield: true, retry: false }
+const open = { shield: false }
+const fogged = { shield: true }
 
 describe('기획안 6-2 질문 카드', () => {
   it('거기 있음 정타 6', () => {
@@ -56,17 +56,16 @@ describe('기획안 6-3 확신도', () => {
   })
 })
 
-describe('보호막과 다시 보기', () => {
+describe('보호막', () => {
   it('안개 보호막 -2', () => {
     expect(judgeQuestion(q1, { option: 0, evidence: [3], confidence: 'sure' }, fogged).damage).toBe(7)
   })
   it('보호막은 0 밑으로 안 내린다', () => {
     const tiny = { ...q1, evidence: { count: 1, required: [[3]] } }
-    const r = judgeQuestion(tiny, { option: 0, evidence: [0], confidence: 'unsure' }, { shield: true, retry: true })
-    expect(r.damage).toBe(0)   // 6 → 약타 3 → 다시 보기 1 → 보호막 0
-  })
-  it('다시 보기는 피해 절반', () => {
-    expect(judgeQuestion(q2, { option: 0, evidence: [1, 2], confidence: 'unsure' }, { shield: false, retry: true }).damage).toBe(5)
+    const r = judgeQuestion(tiny, { option: 0, evidence: [0], confidence: 'unsure' }, { shield: true })
+    expect(r.damage).toBe(1)   // 6 → 약타 3 → 보호막 1
+    const none = judgeQuestion(tiny, { option: 1, evidence: [0], confidence: 'unsure' }, { shield: true })
+    expect(none.damage).toBe(0)
   })
 })
 
