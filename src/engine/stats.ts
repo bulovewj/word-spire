@@ -33,8 +33,8 @@ export function computeStats(log: JudgeRecord[]): Stats {
         t.total++
         if (r.correct) t.correct++
       }
-    } else if (r.correct) {
-      a.helped++
+    } else if (r.correct && r.helped) {
+      a.helped++   // 층 다시 하기에서 도움 없이 맞힌 건 어느 쪽에도 넣지 않는다
     }
   }
   return s

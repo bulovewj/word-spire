@@ -2,7 +2,8 @@
 // 학생이 직접 복사해 제출한다. 코드 안에는 집계 숫자만 있고 학생 답 글은 없다.
 import { AREAS, type AreaStat, type Stats, type Tally } from './stats'
 
-const PREFIX = 'NT1-'
+const PREFIX = 'NT1-'          // 압축
+const PREFIX_RAW = 'NT1R-'     // 압축을 못 하는 옛 브라우저(CompressionStream 없음)
 const NAME_MAX = 20
 
 export interface ResultCard { name: string; stats: Stats }
@@ -32,6 +33,7 @@ export async function encodeResult({ name, stats }: ResultCard): Promise<string>
     j: [stats.sure.correct, stats.sure.total, stats.unsure.correct, stats.unsure.total],
   }
   const json = new TextEncoder().encode(JSON.stringify(p))
+  if (typeof CompressionStream === 'undefined') return PREFIX_RAW + toBase64Url(json)
   return PREFIX + toBase64Url(await pipe(json, new CompressionStream('deflate-raw')))
 }
 
@@ -44,9 +46,11 @@ function tallyOf(c: unknown, t: unknown): Tally | null {
 /** 읽을 수 없으면 null (교사 화면에서 그 줄만 "읽을 수 없는 코드") */
 export async function decodeResult(code: string): Promise<ResultCard | null> {
   const s = code.trim()
-  if (!s.startsWith(PREFIX)) return null
+  const compressed = s.startsWith(PREFIX)
+  if (!compressed && !s.startsWith(PREFIX_RAW)) return null
   try {
-    const raw = await pipe(fromBase64Url(s.slice(PREFIX.length)), new DecompressionStream('deflate-raw'))
+    const bytes = fromBase64Url(s.slice((compressed ? PREFIX : PREFIX_RAW).length))
+    const raw = compressed ? await pipe(bytes, new DecompressionStream('deflate-raw')) : bytes
     const p = JSON.parse(new TextDecoder().decode(raw)) as Partial<Payload>
     if (typeof p.n !== 'string' || !Array.isArray(p.a) || p.a.length !== AREAS.length || !Array.isArray(p.j)) return null
     const areas = {} as Stats['areas']

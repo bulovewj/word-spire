@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { findWord, passages, starterDeck, towerFloors } from '../content'
-import { clearRun, loadRecords, loadRun, saveRecords, saveRun } from '../storage/store'
+import { clearRun, loadName, loadRecords, loadRun, saveName, saveRecords, saveRun } from '../storage/store'
 import { newRun, reduceRun, type RunAction, type RunState } from './run'
 import type { Action } from './state'
 
@@ -101,11 +101,24 @@ describe('저장 (storage/store)', () => {
   it('기록·이름은 진행과 따로 저장되고, 깨지면 빈 기록', () => {
     const m = fake()
     const log = [{ area: 'word' as const, ref: 'h01', correct: true, helped: false, firstTry: true, scope: 's', at: 1 }]
-    saveRecords({ name: '하늘', log })
+    saveRecords([...log, { ...log[0]!, area: 'nope' as 'word' }])
+    saveName('하늘')
     clearRun()
-    expect(loadRecords()).toEqual({ name: '하늘', log })
+    expect(loadRecords()).toEqual(log)   // 모양이 틀린 줄은 버림
+    expect(loadName()).toBe('하늘')
     m.set('wordSpire.v2.records', '{깨짐')
-    expect(loadRecords()).toEqual({ name: '', log: [] })
+    expect(loadRecords()).toEqual([])
+  })
+  it('진행 v1 저장도 이어한다 (id는 시드로 채움)', () => {
+    const m = fake()
+    const r = newRun('bee', starterDeck, 7)
+    saveRun(r)
+    const key = [...m.keys()][0]!
+    const old = JSON.parse(m.get(key)!)
+    delete old.run.id
+    old.format = old.format.replace(/^2\./, '1.')
+    m.set(key, JSON.stringify(old))
+    expect(loadRun(find)).toEqual({ ...r, id: r.seed })
   })
   it('보상 낱말은 실제 낱말이다', () => {
     expect(findWord('bee-w1')?.word).toBe('위협')

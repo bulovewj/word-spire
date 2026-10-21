@@ -54,7 +54,7 @@ const rec = (area: JudgeRecord['area'], correct: boolean, extra: Partial<JudgeRe
 
 describe('스탯', () => {
   it('첫 시도·도움 없는 것만 정답률에, 도움받은 해결은 따로', () => {
-    const s = computeStats([rec('word', true), rec('word', false), rec('word', true, { helped: true }), rec('word', true, { firstTry: false })])
+    const s = computeStats([rec('word', true), rec('word', false), rec('word', true, { helped: true }), rec('word', true, { firstTry: false }), rec('word', true, { firstTry: false, helped: true })])
     expect(s.areas.word).toEqual({ correct: 1, total: 2, helped: 2 })
   })
   it('판단력은 확실·애매가 각각 5개 이상일 때만', () => {

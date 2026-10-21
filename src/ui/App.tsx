@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { checkContent, findPassage, findTower, starterDeck, towerFloors, towers } from '../content'
 import { addRecords, judgementsFrom } from '../engine/records'
 import { newRun, recordScope, reduceRun, type RunAction, type RunState } from '../engine/run'
 import { computeStats } from '../engine/stats'
 import { prewarmTower } from '../grading/auto'
 import { embedder } from '../grading/embedder'
-import { clearRun, loadRecords, loadRun, saveRecords, saveRun } from '../storage/store'
+import { clearRun, loadName, loadRecords, loadRun, saveName, saveRecords, saveRun } from '../storage/store'
 import GradingBadge from './components/GradingBadge'
 import BattleScreen from './screens/BattleScreen'
 import GradingCheck from './screens/GradingCheck'
@@ -19,16 +19,22 @@ const devMode = new URLSearchParams(window.location.search).get('dev')
 
 /** 게임 상태는 여기 한곳에. 화면은 그리기와 action 보내기만 하고, 매 action 뒤 자동 저장 */
 export default function App() {
-  const [run, setRun] = useState<RunState | null>(null)
+  const [run, setRunState] = useState<RunState | null>(null)
+  // 같은 렌더 안에서 두 번 눌러도 최신 진행에 이어 적용하도록 (기록이 두 번 쌓이지 않게)
+  const runRef = useRef<RunState | null>(null)
+  const setRun = (r: RunState | null) => { runRef.current = r; setRunState(r) }
   const [saved, setSaved] = useState<RunState | null>(() => loadRun(findPassage))
   const [records, setRecords] = useState(loadRecords)
+  const [name, setName] = useState(loadName)
+  const stats = useMemo(() => computeStats(records), [records])
   const [view, setView] = useState<'game' | 'stats'>('game')
   const send = (a: RunAction) => {
-    if (!run) return
-    const next = reduceRun(run, a, towerFloors(run.towerId))
-    if (a.type === 'battle' && run.battle && next.battle) {
-      const items = judgementsFrom(run.battle, a.action, next.battle)
-      if (items.length > 0) setRecords((r) => ({ ...r, log: addRecords(r.log, items, recordScope(run), Date.now()) }))
+    const cur = runRef.current
+    if (!cur) return
+    const next = reduceRun(cur, a, towerFloors(cur.towerId))
+    if (a.type === 'battle' && cur.battle && next.battle) {
+      const items = judgementsFrom(cur.battle, a.action, next.battle)
+      if (items.length > 0) setRecords((log) => addRecords(log, items, recordScope(cur), Date.now()))
     }
     setRun(next)
   }
@@ -37,6 +43,7 @@ export default function App() {
   useEffect(() => embedder.start(), [])
   useEffect(() => { if (run) saveRun(run) }, [run])
   useEffect(() => saveRecords(records), [records])
+  useEffect(() => saveName(name), [name])
   // 모델이 준비되면(또는 이미 준비됐으면) 이 탑의 뜻·요약 기준 문장을 미리 계산
   useEffect(() => {
     if (!towerId) return
@@ -59,8 +66,7 @@ export default function App() {
   let body
   if (view === 'stats') {
     body = (
-      <StatsScreen stats={computeStats(records.log)} name={records.name}
-        onName={(name) => setRecords((r) => ({ ...r, name }))} onHome={() => setView('game')} />
+      <StatsScreen stats={stats} name={name} onName={setName} onHome={() => setView('game')} />
     )
   } else if (!run || !tower) {
     body = (

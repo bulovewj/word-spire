@@ -26,11 +26,20 @@ interface Props {
 export default function StatsScreen({ stats, name, onName, onHome }: Props) {
   const [code, setCode] = useState('')
   const [copied, setCopied] = useState<boolean | null>(null)
+  const [failed, setFailed] = useState(false)
   const weak = weakest(stats)
   const judge = judgement(stats)
 
   const copy = async () => {
-    const c = await encodeResult({ name, stats })
+    let c: string
+    try {
+      c = await encodeResult({ name, stats })
+    } catch {
+      setCode('')
+      setFailed(true)
+      return
+    }
+    setFailed(false)
     setCode(c)
     try {
       await navigator.clipboard.writeText(c)
@@ -39,6 +48,8 @@ export default function StatsScreen({ stats, name, onName, onHome }: Props) {
       setCopied(false)
     }
   }
+  // 이름을 고치면 옛 이름으로 만든 코드는 지운다
+  const rename = (v: string) => { onName(v); setCode(''); setCopied(null) }
 
   return (
     <section className="screen">
@@ -66,10 +77,11 @@ export default function StatsScreen({ stats, name, onName, onHome }: Props) {
 
       <label className="name-field">
         이름 <span className="muted">(이 기기에만 저장돼)</span>
-        <input value={name} maxLength={20} onChange={(e) => onName(e.target.value)} />
+        <input value={name} maxLength={20} onChange={(e) => rename(e.target.value)} />
       </label>
       <button type="button" className="primary" disabled={!name.trim()} onClick={copy}>결과 코드 복사</button>
       {!name.trim() && <p className="muted">이름을 먼저 써 줘.</p>}
+      {failed && <p role="alert">이 기기에서는 코드를 만들 수 없어. 선생님께 알려 줘.</p>}
       {code && (
         <>
           <p>{copied ? '복사했어! 선생님이 알려 준 곳에 붙여 넣어.' : '자동 복사가 안 됐어. 아래 코드를 직접 골라 복사해 줘.'}</p>

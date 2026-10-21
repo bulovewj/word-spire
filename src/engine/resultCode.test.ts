@@ -20,6 +20,15 @@ describe('결과 코드', () => {
     expect(code).toMatch(/^NT1-[A-Za-z0-9_-]+$/)
     expect(await decodeResult(code)).toEqual({ name: '김하늘', stats })
   })
+  it('압축을 못 하는 브라우저에서도 만들고 읽힌다', async () => {
+    const original = globalThis.CompressionStream
+    // @ts-expect-error 옛 브라우저 흉내
+    delete globalThis.CompressionStream
+    const code = await encodeResult({ name: '하늘', stats })
+    globalThis.CompressionStream = original
+    expect(code.startsWith('NT1R-')).toBe(true)
+    expect(await decodeResult(code)).toEqual({ name: '하늘', stats })
+  })
   it('깨진 코드는 null', async () => {
     const code = await encodeResult({ name: '김하늘', stats })
     expect(await decodeResult('')).toBeNull()
