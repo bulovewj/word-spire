@@ -1,0 +1,19 @@
+닫힌 호리병·열린 호리병·도장과 구름 무늬 인영·마패풍 생각력 표식. 글자 없는 창작 도구 컨셉.
+2026-10-21 · 도구: 기본 image_gen · transparent_background=true.
+입력: key-art-v4-korean.png와 talisman-frames-korean.png를 참고로 사용.
+산출물: sealing-tools-korean.png · 실제 1536×1024 RGBA. 별도 이미지 후처리·리사이즈 없음.
+복식과 게임 규칙을 유지하는 아트 수정안. 실제 화면 코드·애니메이션에는 연결하지 않음.
+
+실제 최종 생성 프롬프트:
+Use case: stylized-concept.
+Asset: FOUR ORIGINAL KOREAN FANTASY GAME TOOLS on a TRUE transparent PNG, in a spacious 2x2 concept sheet, no characters or scenery.
+Reference image 1 is the approved Korean wooden-library key art (warm paper, dark ink, sage, lavender, muted gold; fine pixel density). Reference image 2 is the matching hanji-talisman card concept sheet (material/border/seal motif reference only). Maintain the same detailed crisp small-pixel illustration style and ink outlines, with clean hard-edged shade clusters and recognizable silhouettes.
+Four equal visual-weight cells in reading order:
+TOP LEFT: closed DOUBLE-BULBED GOURD SEALING BOTTLE, warm pale jade/cream ceramic, narrow waist, small dark wood stopper, tied muted cinnabar cord, simple square blank hanji seal hanging under the stopper, subtle ink/gold cloud-coil motif on lower bulb. Kind playful fantasy prop, fits in the protagonist's hand or on a belt.
+TOP RIGHT: the exact same gourd OPEN with stopper resting beside its neck, a short pale lavender angular paper-mist ribbon curls toward/into its opening. A few crisp paper fragments, no glow or soft particles. Clearly same bottle size and materials as the closed one.
+BOTTOM LEFT: a small SQUARE SEAL STAMP with a practical dark wooden handle, muted gold band, cinnabar-red square stamping base. Show its square base and a matching small square stamped mark beside it as a single stamp design study. The stamp mark contains an invented simple CLOUD-AND-COIL EMBLEM, absolutely NO real Korean/Chinese characters, text or occult glyphs. This tool closes a successful summary-sealing action.
+BOTTOM RIGHT: a ROUND BRASS MAPAE-INSPIRED TOKEN with small loop at the top and a short sage/ink cord. One small clearly readable HORSE SILHOUETTE in relief, no lettering or digits. Used as a thinking-resource token rather than a weapon or extra currency. Warm muted gold flat face, ink border and simple bevel pixels.
+No scroll weapons, staffs, blades, real religious talismans or historical artifact reproductions. Original approachable art for school-age Korean literacy exploration. No existing film prop replica.
+Pixel art: meticulous small square clusters and stepped outlines; flat regions with a few distinct solid shade levels, not blurry painting, vector, 3D, airbrush or gradients. Keep the cream/sage/gold tool bodies distinct from lavender mist and tiny red sealing accents.
+Background must have REAL alpha 0 outside tools and between them. No matte, checkerboard, gray canvas, glow haze, ground plane, cast shadows outside object silhouettes, grid or frames. Every object fully inside its cell with large gaps.
+NO TEXT, labels, captions, numerals, calligraphy, branding, signatures or watermarks.

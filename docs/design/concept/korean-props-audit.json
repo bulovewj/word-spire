@@ -1,0 +1,36 @@
+{
+  "date": "2026-10-21",
+  "tool": "built-in image_gen",
+  "postprocessing": false,
+  "images": [
+    {
+      "path": "talisman-frames-korean.png",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "promptExists": true,
+      "alphaMin": 0,
+      "alphaMax": 254,
+      "transparentPixels": 433573,
+      "transparentCorners": true
+    },
+    {
+      "path": "sealing-tools-korean.png",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "promptExists": true,
+      "alphaMin": 0,
+      "alphaMax": 254,
+      "transparentPixels": 937914,
+      "transparentCorners": true
+    },
+    {
+      "path": "sealing-storyboard-korean.png",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "promptExists": true
+    }
+  ]
+}
