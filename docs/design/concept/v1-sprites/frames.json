@@ -1,0 +1,171 @@
+{
+  "reader": {
+    "width": 32,
+    "height": 32,
+    "columns": 4,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "x": 32,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "x": 64,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "x": 96,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      }
+    ],
+    "states": [
+      "idle",
+      "defend",
+      "point",
+      "defeat"
+    ]
+  },
+  "drought": {
+    "width": 32,
+    "height": 32,
+    "columns": 5,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "x": 32,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "x": 64,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "x": 96,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "x": 128,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      }
+    ],
+    "states": [
+      "idle",
+      "attack",
+      "seal-1",
+      "seal-2",
+      "seal-3"
+    ]
+  },
+  "bloomgap": {
+    "width": 32,
+    "height": 32,
+    "columns": 5,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "x": 32,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "x": 64,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "x": 96,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      },
+      {
+        "x": 128,
+        "y": 0,
+        "width": 32,
+        "height": 32
+      }
+    ],
+    "states": [
+      "idle",
+      "attack",
+      "seal-1",
+      "seal-2",
+      "seal-3"
+    ]
+  },
+  "erasure": {
+    "width": 48,
+    "height": 48,
+    "columns": 5,
+    "frames": [
+      {
+        "x": 0,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      {
+        "x": 48,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      {
+        "x": 96,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      {
+        "x": 144,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      },
+      {
+        "x": 192,
+        "y": 0,
+        "width": 48,
+        "height": 48
+      }
+    ],
+    "states": [
+      "idle",
+      "attack",
+      "seal-1",
+      "seal-2",
+      "seal-3"
+    ]
+  }
+}

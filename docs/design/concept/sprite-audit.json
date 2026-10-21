@@ -1,58 +1,151 @@
-[
-  {
-    "path": "reader.png",
-    "width": 128,
-    "height": 32,
-    "channels": 4,
-    "transparentPixels": 2056,
-    "partialAlphaPixels": 0,
-    "opaqueColors": [
-      "2f2a3d",
-      "6faa76",
-      "a8741a",
-      "fffaf0"
-    ]
-  },
-  {
-    "path": "drought.png",
-    "width": 160,
-    "height": 32,
-    "channels": 4,
-    "transparentPixels": 3907,
-    "partialAlphaPixels": 0,
-    "opaqueColors": [
-      "2f2a3d",
-      "7a7393",
-      "a8741a",
-      "fffaf0"
-    ]
-  },
-  {
-    "path": "bloomgap.png",
-    "width": 160,
-    "height": 32,
-    "channels": 4,
-    "transparentPixels": 3583,
-    "partialAlphaPixels": 0,
-    "opaqueColors": [
-      "2f2a3d",
-      "6faa76",
-      "7a7393",
-      "fffaf0"
-    ]
-  },
-  {
-    "path": "erasure.png",
-    "width": 240,
-    "height": 48,
-    "channels": 4,
-    "transparentPixels": 7637,
-    "partialAlphaPixels": 0,
-    "opaqueColors": [
-      "2f2a3d",
-      "7a7393",
-      "a8741a",
-      "fffaf0"
-    ]
-  }
-]
+{
+  "formatVersion": 2,
+  "method": "integer RGBA pixel maps; PNG 1px = logical 1px; no resampling or alpha repair",
+  "checks": ["exact dimensions and labels","nonempty distinct frames","alpha 0/255 only","transparent RGB zero","palette whitelist","character baseline and safe margins","9-slice center and stretchable edges","prompt pairs","exact 4x preview on #f5eedb"],
+  "files": [
+    {
+      "name": "reader",
+      "file": "reader.png",
+      "width": 320,
+      "height": 64,
+      "cell": [64,64],
+      "frames": 5,
+      "labels": ["idle","defend","point","down","stamp"],
+      "opaqueColorCount": 7,
+      "colors": ["#2f2a3d","#484657","#8a9877","#a8741a","#d6a33a","#d8b99b","#fffaf0"],
+      "alphaValues": [0,255],
+      "opaquePixels": 7668,
+      "transparentPixels": 12812,
+      "partialAlphaPixels": 0,
+      "cells": [{"label":"idle","bounds":[13,2,60,61],"colors":7},{"label":"defend","bounds":[13,2,58,61],"colors":7},{"label":"point","bounds":[13,2,61,61],"colors":7},{"label":"down","bounds":[13,9,60,61],"colors":7},{"label":"stamp","bounds":[13,2,57,61],"colors":7}]
+    },
+    {
+      "name": "dokkaebi",
+      "file": "dokkaebi.png",
+      "width": 256,
+      "height": 64,
+      "cell": [64,64],
+      "frames": 4,
+      "labels": ["idle","idle2","attack","flinch"],
+      "opaqueColorCount": 9,
+      "colors": ["#2f2a3d","#687c5f","#7a6396","#8a9877","#a28cbe","#a8741a","#d6a33a","#d8b99b","#fffaf0"],
+      "alphaValues": [0,255],
+      "opaquePixels": 7820,
+      "transparentPixels": 8564,
+      "partialAlphaPixels": 0,
+      "cells": [{"label":"idle","bounds":[8,3,53,61],"colors":7},{"label":"idle2","bounds":[8,2,53,61],"colors":7},{"label":"attack","bounds":[4,3,53,61],"colors":9},{"label":"flinch","bounds":[10,3,52,61],"colors":7}]
+    },
+    {
+      "name": "tiger",
+      "file": "tiger.png",
+      "width": 256,
+      "height": 64,
+      "cell": [64,64],
+      "frames": 4,
+      "labels": ["idle","idle2","attack","flinch"],
+      "opaqueColorCount": 7,
+      "colors": ["#2f2a3d","#a8741a","#b87837","#d6a33a","#d8b99b","#e3a84b","#fffaf0"],
+      "alphaValues": [0,255],
+      "opaquePixels": 8443,
+      "transparentPixels": 7941,
+      "partialAlphaPixels": 0,
+      "cells": [{"label":"idle","bounds":[9,6,62,61],"colors":5},{"label":"idle2","bounds":[9,5,62,61],"colors":5},{"label":"attack","bounds":[4,6,62,61],"colors":7},{"label":"flinch","bounds":[10,6,62,61],"colors":5}]
+    },
+    {
+      "name": "fox",
+      "file": "fox.png",
+      "width": 320,
+      "height": 80,
+      "cell": [80,80],
+      "frames": 4,
+      "labels": ["idle","idle2","attack","flinch"],
+      "opaqueColorCount": 6,
+      "colors": ["#2f2a3d","#484657","#a28cbe","#d6a33a","#ded3e4","#fffaf0"],
+      "alphaValues": [0,255],
+      "opaquePixels": 13343,
+      "transparentPixels": 12257,
+      "partialAlphaPixels": 0,
+      "cells": [{"label":"idle","bounds":[8,5,77,77],"colors":6},{"label":"idle2","bounds":[8,4,77,77],"colors":6},{"label":"attack","bounds":[4,5,77,77],"colors":6},{"label":"flinch","bounds":[8,5,74,77],"colors":6}]
+    },
+    {
+      "name": "seal",
+      "file": "seal.png",
+      "width": 192,
+      "height": 64,
+      "cell": [64,64],
+      "frames": 3,
+      "labels": ["fold","pour","closed"],
+      "opaqueColorCount": 9,
+      "colors": ["#2f2a3d","#7a6396","#8a9877","#a28cbe","#a8741a","#c34e49","#d6a33a","#d8b99b","#fffaf0"],
+      "alphaValues": [0,255],
+      "opaquePixels": 2485,
+      "transparentPixels": 9803,
+      "partialAlphaPixels": 0,
+      "cells": [{"label":"fold","bounds":[6,11,59,61],"colors":8},{"label":"pour","bounds":[9,10,48,61],"colors":9},{"label":"closed","bounds":[21,23,53,61],"colors":7}]
+    },
+    {
+      "name": "gourd",
+      "file": "gourd.png",
+      "width": 32,
+      "height": 32,
+      "cell": [32,32],
+      "frames": 1,
+      "labels": ["closed"],
+      "opaqueColorCount": 7,
+      "colors": ["#2f2a3d","#8a9877","#a8741a","#c34e49","#d6a33a","#d8b99b","#fffaf0"],
+      "alphaValues": [0,255],
+      "opaquePixels": 459,
+      "transparentPixels": 565,
+      "partialAlphaPixels": 0,
+      "cells": [{"label":"closed","bounds":[4,1,28,30],"colors":7}]
+    },
+    {
+      "name": "icons",
+      "file": "icons.png",
+      "width": 192,
+      "height": 16,
+      "cell": [16,16],
+      "frames": 12,
+      "labels": ["think","damage","defense","fog","evidence","clue","sure","unsure","seal","hit","weak","fail"],
+      "opaqueColorCount": 9,
+      "colors": ["#2f2a3d","#7a6396","#8a9877","#a28cbe","#a8741a","#c34e49","#d6a33a","#d8b99b","#fffaf0"],
+      "alphaValues": [0,255],
+      "opaquePixels": 1256,
+      "transparentPixels": 1816,
+      "partialAlphaPixels": 0,
+      "cells": [{"label":"think","bounds":[1,1,15,15],"colors":3},{"label":"damage","bounds":[1,2,14,14],"colors":3},{"label":"defense","bounds":[2,2,13,13],"colors":3},{"label":"fog","bounds":[1,2,15,13],"colors":4},{"label":"evidence","bounds":[3,1,11,13],"colors":4},{"label":"clue","bounds":[1,1,14,13],"colors":3},{"label":"sure","bounds":[1,1,15,15],"colors":2},{"label":"unsure","bounds":[1,2,13,14],"colors":2},{"label":"seal","bounds":[3,1,11,14],"colors":5},{"label":"hit","bounds":[0,1,14,14],"colors":3},{"label":"weak","bounds":[0,3,12,12],"colors":2},{"label":"fail","bounds":[2,2,12,12],"colors":4}]
+    },
+    {
+      "name": "card-frame",
+      "file": "card-frame.png",
+      "width": 48,
+      "height": 48,
+      "cell": [48,48],
+      "frames": 1,
+      "labels": ["frame"],
+      "opaqueColorCount": 6,
+      "colors": ["#2f2a3d","#8a9877","#a8741a","#d6a33a","#d8b99b","#fffaf0"],
+      "alphaValues": [0,255],
+      "opaquePixels": 2017,
+      "transparentPixels": 287,
+      "partialAlphaPixels": 0,
+      "cells": [{"label":"frame","bounds":[1,1,45,45],"colors":6}]
+    },
+    {
+      "name": "card-kinds",
+      "file": "card-kinds.png",
+      "width": 144,
+      "height": 24,
+      "cell": [24,24],
+      "frames": 6,
+      "labels": ["literal","connect","author","fog","seal","word"],
+      "opaqueColorCount": 8,
+      "colors": ["#2f2a3d","#7a6396","#8a9877","#a28cbe","#a8741a","#c34e49","#d8b99b","#fffaf0"],
+      "alphaValues": [0,255],
+      "opaquePixels": 1284,
+      "transparentPixels": 2172,
+      "partialAlphaPixels": 0,
+      "cells": [{"label":"literal","bounds":[6,3,18,20],"colors":4},{"label":"connect","bounds":[2,4,21,21],"colors":4},{"label":"author","bounds":[1,4,21,21],"colors":3},{"label":"fog","bounds":[3,5,21,20],"colors":3},{"label":"seal","bounds":[4,6,22,19],"colors":5},{"label":"word","bounds":[2,7,21,22],"colors":3}]
+    }
+  ]
+}
