@@ -1,0 +1,17 @@
+한국풍 주인공 앞·뒤 복식 시안 · 2026-10-21
+도구: 기본 image_gen. transparent_background=true.
+입력 참고: key-art-v4-korean.png의 주인공·그림체. 사용자 사진의 얼굴·브랜드는 사용하지 않음.
+산출물: reader-korean-concept.png · 실제 1536×1024 RGBA. 별도 후처리 없음.
+앞쪽 3/4·뒤쪽 3/4 전신을 같은 크기로 배치. 검은 머리·먹빛 현대 한복·실용 주머니·원형 용 문양.
+투명 배경 실제 알파 0 픽셀을 검사함. 런타임용 규격·애니메이션 시트는 아님.
+
+실제 최종 생성 프롬프트:
+Use case: stylized-concept.
+Asset: TWO-VIEW FULL-BODY CHARACTER COSTUME CONCEPT on a genuinely transparent background for the original children's Korean literacy game "낱말탑".
+Input image 1 is a DESIGN/STYLE REFERENCE, not a scene to reproduce. Use the BLACK-HAIRED protagonist standing on its foreground book stair as the identity and outfit reference. Create only this protagonist, shown twice at equal scale: LEFT a front three-quarter view, RIGHT a back three-quarter view. No scenery or other creatures. Both full bodies and shoes inside the canvas, balanced spacing, identical proportions, clothes and equipment. A wide horizontal presentation, no labels or frame boxes.
+Character: anonymous gender-neutral scholar-general, calm curious expression, approachable for school ages 10–12, heroic posture with relaxed shoulders. Stylized adventure-game proportions about four heads tall, not a photorealistic adult fashion model and not a baby. Black hair in a small loose low ponytail, a few jagged hair locks, no hat or headpiece.
+Costume: clearly Korean-inspired MODERN HANBOK TECHWEAR, preserving the reference's design. Matte black/ink-navy boxy wrap jacket, a crisp cream overlapping dongjeong-style collar, roomy sleeves with fitted practical cuffs, a functional low-profile waist strap with small buckle, a small structured WORD-CARD CASE at the hip, asymmetric split coat-back panels with muted sage lining, loose tapered articulated cargo trousers and plain dark ankle boots. A few subtle panel seams and straps, no neon, electronic displays, circuit lights, heavy armor, guns or swords. Understated gold piping only where it clarifies the silhouette. Not a kimono, obi, samurai, ninja, superhero or historical costume reconstruction. Modern Korean cross-collar silhouette and practical urban tailoring.
+Back centerpiece: a clearly drawn ROUND MUTED-GOLD KOREAN DRAGON MEDALLION centered across the upper back, original graphic interpretation of a royal-robe roundel: curled dragon body with a distinct head, claws and a looping tail within a circular border. It should read as a dragon in a circle, not a flower or sun. On the front view do not duplicate the large back medallion on the chest. Keep the back unobstructed by bags or weapons.
+In the front view the protagonist holds a small open blank word-card folio naturally in one hand; in the back view the same folio can be visible at the side. Blank surfaces, no lettering.
+Style: same fine high-detail 2D PIXEL ART as the reference. Small crisp square clusters, deliberate stair-stepped outlines, dark ink #2f2a3d, flat color groups with discrete hard-edged shade levels. Rich enough to show folds, seams and roundel clearly. Maintain strong simple silhouette and restrained ink/cream/sage/gold palette. No blurry painting, smooth vector outlines, gradients, airbrush or photoreal texture.
+BACKGROUND: actual transparent PNG alpha outside the two figures and between limbs. No gray or white matte, no ground shadow, no checkerboard drawn into the image, no grid. No text, captions, numerals, UI, logos, watermarks, brands, extra people or props.

@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-21",
+  "tool": "built-in image_gen",
+  "postprocessing": false,
+  "images": [
+    {
+      "path": "key-art-v4-korean.png",
+      "width": 1672,
+      "height": 941,
+      "mode": "RGB",
+      "promptExists": true
+    },
+    {
+      "path": "reader-korean-concept.png",
+      "width": 1536,
+      "height": 1024,
+      "mode": "RGBA",
+      "promptExists": true,
+      "alphaMin": 0,
+      "alphaMax": 254,
+      "transparentPixels": 952380,
+      "opaqueBounds": [
+        27,
+        17,
+        1522,
+        1024
+      ]
+    }
+  ]
+}
