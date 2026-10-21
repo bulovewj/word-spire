@@ -1,0 +1,10 @@
+[요청4] 실제 제작 지시문
+키 아트 v4의 둥근 민화풍 황토색 얼굴·크림 주둥이·먹빛 줄무늬·둥근 발·휘어진 꼬리. 왼쪽 방향. 대기B는 몸 1픽셀, 공격은 꼬리와 글줄 쪽지, 움찔은 종이 접힘.
+칸 64×64, 4프레임 가로 1줄: idle, idle2, attack, flinch.
+참조: docs/design/concept/key-art-v4-korean.png, reader-korean-concept.png, sealing-tools-korean.png.
+외곽선 #2f2a3d, 제한된 단색 팔레트, 계열별 2단계 이하. 논리 1픽셀=PNG 1픽셀, 알파 0/255만. 글자·숫자·무기·피해 표현·그림자·글로우·번짐·AA 없음.
+
+제작: 승인된 컨셉을 참조해 코드의 정수 좌표로 새로 찍은 픽셀맵. image_gen 호출 없음.
+후처리: 없음. 원본 컨셉 PNG를 축소/추출/알파 임계값 보정하지 않음. 각 픽셀 RGBA를 직접 기록하며 투명 RGB는 0.
+재생성: 저장소 루트에서 node docs/design/concept/source/game-build.mjs
+소스: docs/design/concept/source/game-*.mjs (기존 설치 sharp 사용, 새 의존성 없음).

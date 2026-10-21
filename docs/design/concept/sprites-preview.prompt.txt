@@ -1,0 +1,1 @@
+요청4 확인용 미리보기. 게임용 원본 9개를 #f5eedb 바탕에 각 픽셀 4×4 정사각형으로 복사한다. 행 순서는 reader/dokkaebi/tiger/fox/seal(옆 gourd·card-frame)/icons/card-kinds. 자산 이름은 그림 밖 검수용 라벨이며 런타임 PNG에는 없다. 재생성: node docs/design/concept/source/game-build.mjs. image_gen·리샘플링·AA·필터 없음.
