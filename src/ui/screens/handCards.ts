@@ -20,25 +20,25 @@ export function buildHandCards(s: GameState): HandCard[] {
       const q = s.passage.questions.find((x) => x.id === c.refId)
       const cost = q ? BALANCE.questionCost[q.type] : 0
       return {
-        key: `q-${c.refId}`, kind: 'question', cost, target: { kind: 'question', id: c.refId },
+        key: `q-${c.refId}`, kind: 'question', icon: q?.type ?? 'literal', cost, target: { kind: 'question', id: c.refId },
         title: `질문: ${q ? TYPE_LABEL[q.type] : ''}`, sub: maskFog(q?.prompt ?? '', fog),
         disabled: s.think < cost || c.lockedThisTurn,
       }
     }
     if (c.kind === 'fog') {
       return {
-        key: `f-${c.refId}`, kind: 'fog', cost: BALANCE.fogCost, target: { kind: 'fog', index: Number(c.refId) },
+        key: `f-${c.refId}`, kind: 'fog', icon: 'fog', cost: BALANCE.fogCost, target: { kind: 'fog', index: Number(c.refId) },
         title: '안개 걷기', sub: '가려진 낱말의 단서 찾기', disabled: s.think < BALANCE.fogCost || c.lockedThisTurn,
       }
     }
     if (c.kind === 'rumor') {
       return {
-        key: 'rumor', kind: 'rumor', cost: BALANCE.rumorCost, target: { kind: 'rumor' },
+        key: 'rumor', kind: 'rumor', icon: 'author', cost: BALANCE.rumorCost, target: { kind: 'rumor' },
         title: '헛소문 반박', sub: '근거를 찾아 소문을 반박해', disabled: s.think < BALANCE.rumorCost || c.lockedThisTurn,
       }
     }
     return {
-      key: 'summary', kind: 'summary', cost: BALANCE.summaryCost, target: { kind: 'summary' },
+      key: 'summary', kind: 'summary', icon: 'seal', cost: BALANCE.summaryCost, target: { kind: 'summary' },
       title: '요약 봉인', sub: '한 문장으로 요약해 마무리', disabled: s.think < BALANCE.summaryCost || c.lockedThisTurn,
     }
   })

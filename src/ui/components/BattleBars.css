@@ -1,45 +1,77 @@
-/* 적·나 상태 패널, 체력바, 생각력 */
+/* 적·나 상태 패널, 체력바, 생각력 (디자인 명세 C) */
 .unit {
   background: var(--color-panel);
-  border: 2px solid var(--color-muted);
-  padding: 8px;
+  border: 2px solid var(--color-ink);
+  box-shadow: var(--paper-shadow);
+  padding: var(--space-2) var(--space-3);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: var(--space-3);
+  align-items: center;
+}
+
+.unit-art {
+  display: grid;
+  place-items: end center;
+  min-width: 128px;
+}
+
+.unit-info {
   display: grid;
   gap: 6px;
+}
+
+.unit-player.is-guarded {
+  border-color: var(--color-block);
+  box-shadow: 0 0 0 2px var(--color-block), var(--paper-shadow);
 }
 
 .unit-head {
   display: flex;
   gap: 12px;
-  align-items: baseline;
+  align-items: center;
   flex-wrap: wrap;
 }
 
 .intent,
 .incoming {
   color: var(--color-hp);
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 0;
 }
 
+.forecast { color: var(--color-ink); }
+
 .block-badge {
-  color: var(--color-block);
+  display: inline-flex;
+  align-items: center;
+  color: var(--color-muted);
+  border: 1px dashed var(--color-muted);
+  padding: 0 6px;
 }
 
 .block-badge.is-on {
-  color: #fff;
-  background: var(--color-block);
-  padding: 0 6px;
+  color: var(--color-block);
+  background: var(--color-block-surface);
+  border: 2px solid var(--color-block);
+  font-weight: 700;
 }
 
 .unit-line { margin: 0; font-style: italic; }
 
 .unit-note {
   margin: 0;
+  display: flex;
+  align-items: center;
   font-family: var(--font-small);
   color: var(--color-muted);
 }
 
 .hpbar {
   position: relative;
-  height: 18px;
+  height: 20px;
   background: var(--color-bg);
   border: 2px solid var(--color-ink);
 }
@@ -52,29 +84,21 @@
   left: 0;
 }
 
+/* 턴 끝에 잃을 부분: 계단 줄무늬 + 점선 경계 + -N */
 .hpbar-preview {
-  background: repeating-linear-gradient(90deg, var(--color-hp) 0 4px, transparent 4px 8px);
+  background: repeating-linear-gradient(90deg, var(--color-damage-surface) 0 4px, var(--color-hp) 4px 6px);
+  border-left: 2px dashed var(--color-ink);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: var(--color-hp);
+  color: var(--color-ink);
   font-family: var(--font-small);
   font-size: 11px;
+  font-weight: 700;
   z-index: 1;
 }
 
-/* 방어가 있으면 체력바를 파란 테두리로 감싼다 */
-.hpbar.is-guarded {
-  border-color: var(--color-block);
-  box-shadow: 0 0 0 3px var(--color-block);
-}
-
-.hpbar-legend {
-  margin: 0;
-  font-family: var(--font-small);
-  font-size: 12px;
-  color: var(--color-muted);
-}
+.hpbar.is-guarded { border-color: var(--color-block); }
 
 .hpbar-text {
   position: relative;
@@ -82,27 +106,26 @@
   text-align: center;
   font-family: var(--font-small);
   font-size: 12px;
-  line-height: 14px;
+  line-height: 16px;
+  font-variant-numeric: tabular-nums;
 }
 
 .think {
   display: flex;
-  gap: 4px;
+  gap: 6px;
   align-items: center;
 }
 
-.gem {
-  width: 14px;
-  height: 14px;
-  border: 2px solid var(--color-accent);
-}
-
-.gem.is-on {
-  background: var(--color-accent);
-}
+.gem { line-height: 0; }
+.gem .icon { margin: 0; }
+.gem:not(.is-on) { opacity: 0.3; filter: grayscale(1); }
 
 .think-text {
-  margin-left: 6px;
-  font-family: var(--font-small);
+  margin-left: 4px;
+  font-weight: 700;
+  color: var(--color-accent);
 }
 
+@media (max-width: 720px) {
+  .unit-art { min-width: 96px; }
+}

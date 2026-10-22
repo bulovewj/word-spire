@@ -1,7 +1,23 @@
 import { findWord } from '../content'
 import type { BattleEvent } from '../engine/state'
+import type { IconName } from './sprites/sprites'
 
 const GRADE = { hit: '정타', weak: '약타', miss: '실패' } as const
+
+const GRADE_ICON = { hit: 'hit', weak: 'weak', miss: 'fail' } as const
+
+/** 사건 줄 앞 아이콘 (글자와 함께 쓴다. 색만으로 알리지 않음) */
+export function eventIcon(e: BattleEvent): IconName {
+  switch (e.kind) {
+    case 'question': case 'rumor': return GRADE_ICON[e.grade]
+    case 'word': return e.pass ? 'defense' : 'fail'
+    case 'enemy': return 'damage'
+    case 'fog': return e.pass ? 'fog' : 'fail'
+    case 'summary': return e.pass ? 'seal' : 'fail'
+    case 'summaryUnlocked': return 'seal'
+    case 'hint': return 'clue'
+  }
+}
 
 export function eventText(e: BattleEvent): string {
   switch (e.kind) {

@@ -7,7 +7,9 @@ import { EnemyPanel, PlayerPanel } from '../components/BattleBars'
 import Hand from '../components/Hand'
 import PassagePanel from '../components/PassagePanel'
 import WordPouch from '../components/WordPouch'
-import { eventText } from '../eventText'
+import Sprite, { Icon } from '../components/Sprite'
+import { eventIcon, eventText } from '../eventText'
+import { usePoses } from '../usePoses'
 import { activeFogWords } from '../fog'
 import ActivePanel from './ActivePanel'
 import { buildHandCards, type PanelTarget } from './handCards'
@@ -38,6 +40,7 @@ export default function BattleScreen({ state, dispatch, lastFloor, onWon, onRetr
   const fog = p.lockedWords.filter((_, i) => !state.fogCleared.includes(i))
   const picking = target?.kind === 'question' || target?.kind === 'fog' || target?.kind === 'rumor'
   const playing = state.outcome === 'playing'   // 끝난 전투에는 예고를 보이지 않는다
+  const poses = usePoses(state)
   const missed = state.events.find((e) => e.kind === 'question' && e.grade !== 'hit')
   const missedQ = missed?.kind === 'question' ? p.questions.find((q) => q.id === missed.questionId) : undefined
 
@@ -48,16 +51,16 @@ export default function BattleScreen({ state, dispatch, lastFloor, onWon, onRetr
           onToggle={picking ? toggle : undefined} />
       </div>
       <div className="battle-field">
-        <EnemyPanel name={p.enemy.name} hp={state.enemy.hp} maxHp={state.enemy.maxHp}
+        <EnemyPanel name={p.enemy.name} sprite={p.enemy.sprite} pose={poses.enemy} hp={state.enemy.hp} maxHp={state.enemy.maxHp}
           nextAttack={playing ? nextEnemyAttack(state) : undefined} shield={playing && hasShield(state)}
           rumor={!playing ? undefined : state.rumor === 'active' ? '헛소문: 적 공격 +2 (반박하면 사라짐)' : state.rumor === 'spread' ? '헛소문이 퍼짐: 이 층 동안 적 공격 +2' : undefined}
           line={state.turn === 1 && state.events.length === 0 ? p.enemy.introLine : undefined} />
-        <PlayerPanel hp={state.player.hp} maxHp={state.player.maxHp} block={state.player.block}
+        <PlayerPanel pose={poses.reader} hp={state.player.hp} maxHp={state.player.maxHp} block={state.player.block}
           incoming={playing ? incomingDamage(state) : undefined} think={state.think} maxThink={BALANCE.thinkPerTurn} />
 
         {state.events.length > 0 && (
           <ul className="events" role="status">
-            {state.events.map((e, i) => <li key={i}>{eventText(e)}</li>)}
+            {state.events.map((e, i) => <li key={i}><Icon name={eventIcon(e)} />{eventText(e)}</li>)}
           </ul>
         )}
         {missed?.kind === 'question' && missedQ && !target && (
@@ -67,6 +70,7 @@ export default function BattleScreen({ state, dispatch, lastFloor, onWon, onRetr
 
         {state.outcome === 'won' ? (
           <div className="overlay overlay-won">
+            <Sprite name="seal" scale={2} cycle={{ count: 3, ms: 720, once: true }} label="안개를 호리병에 봉인했어" />
             <p className="unit-line">“{p.enemy.sealLine}”</p>
             <p><strong>{p.enemy.name}</strong> — {STORY.sealed}</p>
             <button type="button" autoFocus onClick={() => { close(); onWon() }}>{lastFloor ? '탑 완료' : '보상 받기'}</button>

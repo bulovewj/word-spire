@@ -2,6 +2,7 @@ import { useState } from 'react'
 import type { Question } from '../../content/types'
 import { previewDamage, type Confidence, type JudgeContext, type QuestionAnswer } from '../../engine/judge'
 import { maskFog } from '../fog'
+import { Icon } from './Sprite'
 import './QuestionPanel.css'
 
 interface Props {
@@ -56,11 +57,13 @@ export default function QuestionPanel({ question, order, evidence, ctx, fogWords
 
       <div className="qpanel-cluebar">
         <button type="button" className="qclue" disabled={!hint.usable} onClick={hint.onUse}>
+          <Icon name="clue" />
           {hint.dimmed !== undefined ? '단서 보기 (이미 씀)' : `단서 보기 (${hint.cost === 0 ? '공짜' : `생각력 ${hint.cost}`})`}
         </button>
       </div>
 
       <p className="qpanel-hint">
+        <Icon name="evidence" />
         본문에서 근거 문장 <strong>{need}개</strong>를 골라 봐. ({evidence.length}/{need}{evidence.length > 0 ? ` · ${[...evidence].sort((a, b) => a - b).map((i) => i + 1).join(', ')}번` : ''})
       </p>
 
@@ -90,7 +93,7 @@ export default function QuestionPanel({ question, order, evidence, ctx, fogWords
             className={`qconf${confidence === c ? ' is-on' : ''}`}
             onClick={() => setConfidence(c)}
           >
-            {c === 'sure' ? '확실' : '애매'}
+            <Icon name={c} />{c === 'sure' ? '확실' : '애매'}
           </button>
         ))}
       </div>

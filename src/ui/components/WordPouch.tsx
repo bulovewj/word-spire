@@ -1,5 +1,6 @@
 import { findWord } from '../../content'
 import { BALANCE } from '../../engine/balance'
+import { KindIcon } from './Sprite'
 import './WordPouch.css'
 
 interface Props {
@@ -15,7 +16,7 @@ export default function WordPouch({ deck, uses, think, onPick }: Props) {
   return (
     <section className="pouch" aria-label="내 낱말 묶음">
       <p className="pouch-head">
-        <strong>낱말로 방어</strong> · 생각력 {BALANCE.wordCardCost} · 뜻을 쓰면 방어 +{BALANCE.wordCardBlock}
+        <KindIcon kind="word" /><strong>낱말로 방어</strong> · 생각력 {BALANCE.wordCardCost} · 뜻을 쓰면 방어 +{BALANCE.wordCardBlock}
         <span className="pouch-note"> (낱말마다 한 탑에 {BALANCE.wordUsesPerTower}번)</span>
       </p>
       <ul className="pouch-list">

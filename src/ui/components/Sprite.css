@@ -1,0 +1,23 @@
+/* 도트 그림: 정수 배율, 흐림 없이 */
+.sprite {
+  display: inline-block;
+  flex: none;
+  background-repeat: no-repeat;
+  image-rendering: pixelated;
+  vertical-align: middle;
+}
+
+.sprite-loop { animation: sprite-run var(--ms) steps(var(--steps)) infinite; }
+.sprite-once { animation: sprite-run var(--ms) steps(var(--steps), jump-end) forwards; }
+
+@keyframes sprite-run {
+  from { background-position-x: var(--from); }
+  to { background-position-x: var(--to); }
+}
+
+.icon { margin-right: 4px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sprite-loop { animation: none; }
+  .sprite-once { animation: none; background-position-x: var(--to) !important; }   /* 인라인 시작 칸보다 우선: 마지막 칸(닫힌 호리병)에 멈춤 */
+}

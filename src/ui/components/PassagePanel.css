@@ -1,13 +1,25 @@
+/* 본문: 게임의 주인공. 언제나 또렷하게 (디자인 명세 C 본문·근거) */
 .passage {
   background: var(--color-panel);
-  padding: 12px;
-  border: 2px solid var(--color-muted);
+  padding: var(--space-4);
+  border: 2px solid var(--color-ink);
+  box-shadow: var(--paper-shadow);
+}
+
+.passage-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 8px;
 }
 
 .passage-title {
-  margin: 0 0 8px;
-  font-size: 18px;
+  margin: 0;
+  font-size: 22px;
 }
+
+.passage-toggle { display: none; }
 
 .passage-list {
   list-style: none;
@@ -19,12 +31,12 @@
 
 .sentence {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   width: 100%;
   text-align: left;
   font: inherit;
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: 18px;
+  line-height: 1.7;
   color: var(--color-ink);
   background: transparent;
   border: 2px solid transparent;
@@ -32,12 +44,10 @@
   cursor: pointer;
 }
 
-.sentence:disabled {
-  cursor: default;
-}
+.sentence:disabled { cursor: default; }
 
-.sentence:not(:disabled):hover {
-  border-color: var(--color-muted);
+@media (hover: hover) {
+  .sentence:not(:disabled):hover { border-color: var(--color-line); }
 }
 
 .sentence.is-selected {
@@ -47,11 +57,41 @@
 
 .sentence-no {
   flex: none;
-  min-width: 1.5em;
+  min-width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
   color: var(--color-accent);
+  border: 1px solid var(--color-line);
+}
+
+.sentence.is-selected .sentence-no {
+  color: var(--color-panel);
+  background: var(--color-accent);
+  border-color: var(--color-accent);
 }
 
 .fog {
   color: var(--color-muted);
+  background: var(--color-lavender-surface);
+  outline: 1px dashed var(--color-muted);
   letter-spacing: -1px;
+  padding: 0 2px;
+}
+
+/* 좁은 화면: 본문은 위에 붙어 있고 접었다 펼 수 있다 */
+@media (max-width: 720px) {
+  .passage {
+    position: sticky;
+    top: 8px;
+    z-index: 5;
+    padding: var(--space-3);
+  }
+
+  .passage-toggle { display: inline-flex; align-items: center; }
+  .passage-list { max-height: 236px; overflow-y: auto; }
+  .passage.is-folded .passage-list { display: none; }
+  .passage-title { font-size: 18px; }
+  .sentence { font-size: 17px; }
 }

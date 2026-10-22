@@ -1,4 +1,6 @@
 import type { PanelTarget } from '../screens/handCards'
+import type { KindName } from '../sprites/sprites'
+import { KindIcon } from './Sprite'
 
 export interface HandCard {
   key: string
@@ -6,6 +8,7 @@ export interface HandCard {
   sub: string
   cost: number
   kind: 'question' | 'fog' | 'summary' | 'rumor'
+  icon: KindName
   target: PanelTarget
   disabled: boolean
 }
@@ -22,7 +25,7 @@ export default function Hand({ cards, onPick }: Props) {
         <li key={c.key}>
           <button type="button" className={`card card-${c.kind}`} disabled={c.disabled} onClick={() => onPick(c)}>
             <span className="card-cost">생각력 {c.cost}</span>
-            <span className="card-title">{c.title}</span>
+            <span className="card-title"><KindIcon kind={c.icon} />{c.title}</span>
             <span className="card-sub">{c.sub}</span>
           </button>
         </li>
