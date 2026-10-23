@@ -1,0 +1,15 @@
+2026-10-22 재제작2판 · Higgsfield MCP
+시작 이미지 job d7ed328d-33e3-491b-b9f8-48dceb8f1be3, 바람 자세 job 382f8e12-507e-4b99-9136-8068498d078f
+영상 job fbf36772-c6f2-43b0-b462-89f73f2fe15a
+모델 flux_3_video /1080p/6초/무음
+
+실제 영상 프롬프트:
+Animate a clear gentle gust of wind between these two matching pixel-art keyframes. Fixed camera. Start with coat tails down as in FIRST image; finish with existing split green-lined coat panels visibly blown to the RIGHT as in LAST image. The changing coat silhouette is the main motion and must travel smoothly all the way to the end reference pose. Ponytail and hanging gourd cord move with a little delay. Preserve character clothing, gold back dragon, position, body and feet. Architecture, stairs, books, background creatures and LEFT menu space stay stationary. No walking, attacks, talking, new objects, camera movement, blur, glow, flicker or audio. Crisp pixel illustration, same palette. This is a coat-motion transition, not a static image.
+
+바람 자세 생성 프롬프트:
+This is the WIND-BLOWN KEYFRAME for animating the exact reference game title. Preserve the reference pixel illustration, camera, building, stairs, books, all three creatures, left-side menu space, and protagonist position EXACTLY. Edit ONLY the hanging lower coat tails and ponytail. A visible wind blows from left to right: lift both split sage-lined lower hanbok coat panels strongly to the RIGHT, with their tips 80 screen pixels right and 35 screen pixels UP relative to the reference, exposing a visibly larger sage lining surface. The green coat hem silhouette must be substantially DIFFERENT from the reference, not copied. The black ponytail lifts 25px rightwards. Keep the round gold dragon on UPPER back, body, head, arms, talismans, feet and gourd in exactly the same positions. No new objects, no text, no new cape. Fine crisp pixel illustration, existing cream/ink/sage/gold palette, no blur or glow. One complete landscape frame, not a comparison or sprite sheet.
+
+편집: 원본48~83번36프레임을2배 길이로 복제(보간 없음), 앞72+역72=6초144프레임. 세로중앙8px crop. H264 QP18/B없음/마지막키프레임.
+기존 영상은 디코딩은 정상이나 옷자락이 거의 고정되어 교체했다. 새 결과는 시작·중간 옷자락 실루엣을 직접 비교해 확인했다.
+
+포스터: 최종 영상 첫 프레임. sharp nearest 1232px, palette/dither0/compression9/effort10, 396022B.

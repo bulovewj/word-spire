@@ -1,0 +1,53 @@
+{
+  "date": "2026-10-22",
+  "method": "검토 폴더만 별도 임시 위치에 재생성, HTTP/HTTPS 차단, file://로 열어 확인",
+  "koreanFiles": 841,
+  "localLinks": 303,
+  "frames": 72,
+  "alphaValues": [
+    0,
+    255
+  ],
+  "pixelsEqual": true,
+  "feedbackPreserved": true,
+  "unchangedDoesNotArchive": true,
+  "previousBundleArchived": true,
+  "reports": [
+    {
+      "width": 1280,
+      "home": {
+        "width": 1280,
+        "scroll": 1280,
+        "font": true,
+        "images": 9
+      },
+      "board": {
+        "scenes": 18,
+        "assets": 87,
+        "frames": 72,
+        "width": 1280,
+        "scroll": 1280,
+        "korean": "주인공-대기",
+        "reduced": true
+      }
+    },
+    {
+      "width": 390,
+      "home": {
+        "width": 390,
+        "scroll": 390,
+        "font": true,
+        "images": 9
+      },
+      "board": {
+        "scenes": 18,
+        "assets": 87,
+        "frames": 72,
+        "width": 390,
+        "scroll": 390,
+        "korean": "주인공-대기",
+        "reduced": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "autoplay": {
+    "currentTime": 0.119832,
+    "duration": 6,
+    "paused": false,
+    "muted": true,
+    "loop": true,
+    "width": 1920,
+    "height": 1080,
+    "readyState": 4,
+    "rate": 1
+  },
+  "focus": {
+    "label": "꿀벌 탑3층 · 한 층 5~10분→",
+    "outline": "3px",
+    "focusVisible": true
+  },
+  "off": {
+    "pressed": "false",
+    "label": "▷움직임 켜기"
+  },
+  "on": {
+    "currentTime": 0.135948,
+    "duration": 6,
+    "paused": false,
+    "muted": true,
+    "loop": true,
+    "width": 1920,
+    "height": 1080,
+    "readyState": 4,
+    "rate": 1
+  },
+  "slowStart": {
+    "currentTime": 0.113048,
+    "duration": 6,
+    "paused": false,
+    "muted": true,
+    "loop": true,
+    "width": 1920,
+    "height": 1080,
+    "readyState": 4,
+    "rate": 0.1
+  },
+  "slowEnd": {
+    "currentTime": 0.22326,
+    "duration": 6,
+    "paused": false,
+    "muted": true,
+    "loop": true,
+    "width": 1920,
+    "height": 1080,
+    "readyState": 4,
+    "rate": 0.1
+  },
+  "wrap": {
+    "currentTime": 0.136373,
+    "duration": 6,
+    "paused": false,
+    "muted": true,
+    "loop": true,
+    "width": 1920,
+    "height": 1080,
+    "readyState": 4,
+    "rate": 1
+  },
+  "hidden": {
+    "hidden": true,
+    "paused": true
+  },
+  "initialReduced": {
+    "videos": 0,
+    "mediaRequests": 0
+  },
+  "fallback": {
+    "label": "▷정지 화면",
+    "poster": true
+  },
+  "actualMediaUrl": "http://127.0.0.1:5176/src/ui/media/title-idle-korean-v1.mp4"
+}

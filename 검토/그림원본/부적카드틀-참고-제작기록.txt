@@ -1,0 +1,23 @@
+한국풍 한지 부적패 틀 6종. 같은 가로 비례, 한글 배치용 빈 면, 종류 아이콘과 빈 비용 자리. 런타임 카드 시트가 아닌 컨셉 원본.
+2026-10-21 · 도구: 기본 image_gen · transparent_background=true.
+입력: key-art-v4-korean.png와 reader-korean-concept.png를 그림체·재질 참고로 사용.
+산출물: talisman-frames-korean.png · 실제 1536×1024 RGBA. 별도 이미지 후처리·리사이즈 없음.
+복식과 게임 규칙을 유지하는 아트 수정안. 실제 화면 코드·애니메이션에는 연결하지 않음.
+
+실제 최종 생성 프롬프트:
+Use case: stylized-concept.
+Asset: SIX matching Korean HANJI TALISMAN CARD FRAMES for the original children's literacy game "낱말탑".
+Input image 1 (Korean wooden library key art) is a palette and fine pixel-density reference. Input image 2 (two views of black-haired modern-hanbok protagonist) is a costume/material reference only. Do not draw characters or scenery.
+Create a clean concept sheet with exactly SIX distinct equally sized LANDSCAPE card frames in TWO COLUMNS and THREE ROWS, with generous transparent gaps. Each card has the same approximately 2:1 proportions, same silhouette, border weight, header/footer space and visual prominence. Suitable for the game's existing horizontal hand cards.
+Material: warm cream HANJI paper mounted in a thin dark ink frame, slightly folded paper corners, a tiny tied cord at one edge, a restrained cinnabar red seal corner and muted gold/sage/lavender border accents. Original Korean fantasy talisman-note style, not Western fantasy trading cards, tarot, Japanese ofuda, vertical scrolls, embossed shields or thick ornamental plaques. Fine crisp PIXEL ART: small deliberate square clusters, hard step contours, ink #2f2a3d outline, clean flat color regions with a few discrete shade levels, no blur or gradients. Decoration stays at the edges; at least 70 percent of each central paper face must be plain uniform pale cream for future Korean HTML text. No lines or faint writing inside this blank area.
+Six types in reading order:
+top-left question/literal: small simple paper-sheet emblem, quiet gold trim;
+top-right question/connect: small two-linked-paper emblem, same gold trim;
+middle-left question/author-and-me: small paired speech-mark emblem, same gold trim;
+middle-right clear-fog: small curled mist emblem, restrained lavender accent;
+bottom-left summary-seal: small gourd-and-square-stamp emblem, muted gold with a tiny cinnabar accent;
+bottom-right word-defense: small folded paper fan emblem, restrained blue/sage accent.
+All six kinds are equally polished; do not imply one is correct, rare, stronger, activated or selected. No glow or animation.
+Reserve an EMPTY tiny cost-badge position at the upper right on every frame; NO numbers, stones with digits, letters or words. Do not fill the cost socket or text area. Small decorative seals use abstract cloud/coil geometry ONLY, no actual Korean or Chinese characters, religious glyphs, occult symbols or readable calligraphy.
+BACKGROUND: TRUE transparent PNG alpha outside all six opaque cream card faces, between frames and around cords. No checkerboard, white/gray matte, presentation canvas, shadows outside the frames or backdrop.
+NO TEXT whatsoever: no labels, titles, captions, sample UI, letters, characters, numbers, branding, watermarks or signatures. One neat cohesive asset-concept sheet.

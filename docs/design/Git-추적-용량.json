@@ -1,0 +1,1 @@
+{"date": "2026-10-22", "method": "git ls-files 파일 목록의 작업 트리 바이트 합계; Git 객체/과거 이력 용량은 아님", "beforeBytes": 217624140, "afterBytes": 66242848, "beforeTrackedFiles": 1052, "afterTrackedFiles": 809, "excludedCount": 392, "excludedBytes": 138742399, "excludedList": "Git-제외-파일목록.json", "allExcludedFilesPreserved": true}

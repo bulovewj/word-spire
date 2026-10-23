@@ -1,0 +1,16 @@
+낱말탑 시작 화면 대기 영상 v1 · 2026-10-22
+도구: Higgsfield MCP · flux_3_video · 1080p · 16:9 · 6초 · generate_audio false · 1개
+처음 시도한 seedance_2_5는 Plus 요금제 제한으로 접수되지 않았음. FLUX 3 Video로 정상 접수함.
+완료 job: b8632ea0-756a-4557-9ea7-41510e4979d9
+start_image와 end_image 모두 이미지 job d7ed328d-33e3-491b-b9f8-48dceb8f1be3 사용.
+생성 원본: docs/design/concept/title-idle-korean-v1-source.mp4 · 1920×1088 · 6.042초 · 24fps · 무음.
+게임용: src/ui/media/title-idle-korean-v1.mp4 · 1920×1080 · 6.000초 · 144프레임 · H.264 · 무음.
+후처리: Higgsfield sandbox의 FFmpeg. 앞 72프레임+역재생 72프레임, 세로 중앙 8px 자르기.
+프레임을 섞거나 보간하지 않음. QP18·B프레임 없음·마지막 키프레임 강제로 첫/끝 디코딩 프레임 MD5 일치.
+재현 명령: docs/design/concept/source/title-loop.sh
+
+실제 제출 프롬프트:
+Animate the supplied approved pixel-art title scene into a very subtle, calm six-second seamless idle animation for a children's web-game start screen. The same image is supplied as BOTH start and end frames: finish in the exact original pose and composition. LOCK the camera completely; no pan, push-in, zoom, shake, parallax, reframing, scene transitions or cuts.
+Preserve every character identity, the black hair, modern ink-navy Korean wrap jacket, cream collar, gold circular dragon on the back, sage lining, short ponytail, talisman fan, small gourd, all book shelves and architecture. Do not redesign or add clothes, characters, text, emblems, fingers or tools. No long new cape: move only the approved split coat tails and sage-lined back panel, with a small gentle breeze. Feet stay planted on the stair, hands keep the same talismans, head and torso are almost still. The dragon roundel must retain its shape and placement.
+Motion: one small complete cloth sway and return over six seconds, coat hem moving no more than a few screen pixels; ponytail tips and one sleeve edge follow with smaller movement. Pale lavender mist clusters drift just slightly rightward and settle back into their starting layout, staying behind the characters and entirely out of the left menu area. The three friendly creatures remain in place with only a very small breath-like idle motion; no gestures, talking, walking or attacks. Lantern light is steady, no flicker or pulsing. No swirling particles, sparkles, floating UI or letter-like marks.
+Maintain exact high-detail fine PIXEL ART throughout: sharp square clusters, stair-stepped silhouettes, discrete flat shades and stable line art. No blurry tweening, warping, texture crawling, swimming pixels, painterly smoothing, depth of field, motion blur, glow or photorealistic interpolation. The warm cream low-detail LEFT 36 percent stays completely still for readable HTML title and buttons. Most of the picture should be unchanged between frames. Silent, no music, no sound effects, no speech. End with the starting cloth, hair and mist arrangement so the loop has no visible jump.

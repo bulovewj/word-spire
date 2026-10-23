@@ -1,0 +1,128 @@
+[
+  {
+    "name": "title-desktop",
+    "title": "낱말탑",
+    "width": 1280,
+    "scrollWidth": 1280,
+    "height": 800,
+    "videos": 1,
+    "controls": [
+      {
+        "label": "꿀벌 탑3층 · 한 층 5~10분→",
+        "disabled": false,
+        "width": 352,
+        "height": 86
+      },
+      {
+        "label": "내 기록",
+        "disabled": false,
+        "width": 170,
+        "height": 52
+      },
+      {
+        "label": "선생님",
+        "disabled": false,
+        "width": 170,
+        "height": 52
+      },
+      {
+        "label": "Ⅱ움직임 끄기",
+        "disabled": false,
+        "width": 109,
+        "height": 44
+      }
+    ],
+    "font": true,
+    "saved": {
+      "continue": "이어하기꿀벌 탑 · 1층→",
+      "warning": "새로 시작하면 진행 중인 탑은 지워져.",
+      "height": 800,
+      "scrollWidth": 1280
+    },
+    "navigation": "기록·교사·탑 시작·이어하기 확인"
+  },
+  {
+    "name": "title-mobile",
+    "title": "낱말탑",
+    "width": 390,
+    "scrollWidth": 390,
+    "height": 909,
+    "videos": 1,
+    "controls": [
+      {
+        "label": "꿀벌 탑3층 · 한 층 5~10분→",
+        "disabled": false,
+        "width": 314,
+        "height": 86
+      },
+      {
+        "label": "내 기록",
+        "disabled": false,
+        "width": 151,
+        "height": 52
+      },
+      {
+        "label": "선생님",
+        "disabled": false,
+        "width": 151,
+        "height": 52
+      },
+      {
+        "label": "Ⅱ움직임 끄기",
+        "disabled": false,
+        "width": 109,
+        "height": 44
+      }
+    ],
+    "font": true,
+    "saved": {
+      "continue": "이어하기꿀벌 탑 · 1층→",
+      "warning": "새로 시작하면 진행 중인 탑은 지워져.",
+      "height": 1032,
+      "scrollWidth": 390
+    },
+    "navigation": "기록·교사·탑 시작·이어하기 확인"
+  },
+  {
+    "name": "title-reduced",
+    "title": "낱말탑",
+    "width": 1280,
+    "scrollWidth": 1280,
+    "height": 800,
+    "videos": 0,
+    "controls": [
+      {
+        "label": "꿀벌 탑3층 · 한 층 5~10분→",
+        "disabled": false,
+        "width": 352,
+        "height": 86
+      },
+      {
+        "label": "내 기록",
+        "disabled": false,
+        "width": 170,
+        "height": 52
+      },
+      {
+        "label": "선생님",
+        "disabled": false,
+        "width": 170,
+        "height": 52
+      },
+      {
+        "label": "▷움직임 줄이기 · 정지 화면",
+        "disabled": true,
+        "width": 192,
+        "height": 44
+      }
+    ],
+    "font": true,
+    "saved": {
+      "continue": "이어하기꿀벌 탑 · 1층→",
+      "warning": "새로 시작하면 진행 중인 탑은 지워져.",
+      "height": 800,
+      "scrollWidth": 1280
+    },
+    "navigation": "기록·교사·탑 시작·이어하기 확인"
+  }
+]

@@ -1,10 +1,8 @@
-[요청4] 실제 제작 지시문
-봉인 도구 컨셉과 동일한 두 둥근 크림/세이지 몸체·잘록한 허리·나무 마개·주홍 끈·작은 네모 꼬리표·구름 인영. 닫힌 정지 상태.
-칸 32×32, 1프레임 가로 1줄: closed.
-참조: docs/design/concept/key-art-v4-korean.png, reader-korean-concept.png, sealing-tools-korean.png.
-외곽선 #2f2a3d, 제한된 단색 팔레트, 계열별 2단계 이하. 논리 1픽셀=PNG 1픽셀, 알파 0/255만. 글자·숫자·무기·피해 표현·그림자·글로우·번짐·AA 없음.
+도구: OpenAI imagegen (2026-10-22)
+기준: 한국판 키아트 4판
+생성 프롬프트(실제 제출):
+Use case: stylized-concept. Pixel-illustration GAME ASSET for the Korean literacy game matching the supplied approved Korean key-art v4. Crisp ink #2f2a3d outlines, square pixel clusters, flat cream, sage, ochre gold and lavender shades. Solid opaque foreground on genuine TRANSPARENT background. No shadow, glow, haze, antialiasing, gradients, labels, letters, numbers, watermark or drawn checkerboard. No violence or weapons. Equal-sized isolated cells, no visible grid. At least 12% empty margin within EVERY cell, no overlap.
+ONE centered standalone Korean sealing gourd for the protagonist's belt. Cream upper bulb, sage jade lower bulb, muted gold rim, round wood stopper, dark brick-red woven cord tied in a clear Korean knot. Charming fine pixel illustration, few large readable color planes, small gold ornament only. Whole gourd and cord fully inside image, about 65% canvas height, large transparent margins. Square canvas 1024x1024. Nothing else.
 
-제작: 승인된 컨셉을 참조해 코드의 정수 좌표로 새로 찍은 픽셀맵. image_gen 호출 없음.
-후처리: 없음. 원본 컨셉 PNG를 축소/추출/알파 임계값 보정하지 않음. 각 픽셀 RGBA를 직접 기록하며 투명 RGB는 0.
-재생성: 저장소 루트에서 node docs/design/concept/source/game-build.mjs
-소스: docs/design/concept/source/game-*.mjs (기존 설치 sharp 사용, 새 의존성 없음).
+출력 정리: 고정 셀 분리, nearest 크기 변환, alpha192 이상만255, 시트 공통 16색(불투명15색 이하), 최어두운 색을 #2f2a3d로. 새 도형을 코드로 그리지 않음. 원본은 생성원본에 보존.
+검토 마스터 64px / 게임 호환 32px.

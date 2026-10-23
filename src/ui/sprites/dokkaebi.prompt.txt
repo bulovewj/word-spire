@@ -1,10 +1,9 @@
-[요청4] 실제 제작 지시문
-키 아트 v4의 둥근 코·굵은 눈썹·짧고 통통한 크림 몸·세이지 조끼·매듭 장식. 왼쪽 방향. 발은 고정하고 대기B 상체만 1픽셀 위로. 공격은 칸 안의 안개, 움찔은 종이 접힘.
-칸 64×64, 4프레임 가로 1줄: idle, idle2, attack, flinch.
-참조: docs/design/concept/key-art-v4-korean.png, reader-korean-concept.png, sealing-tools-korean.png.
-외곽선 #2f2a3d, 제한된 단색 팔레트, 계열별 2단계 이하. 논리 1픽셀=PNG 1픽셀, 알파 0/255만. 글자·숫자·무기·피해 표현·그림자·글로우·번짐·AA 없음.
+도구: OpenAI imagegen (2026-10-22)
+기준: 한국판 키아트 4판
+생성 프롬프트(실제 제출):
+Use case: stylized-concept / identity-preserve. Asset: production pixel-illustration sprite sheet for the original Korean literacy game 낱말탑. The reference image is the APPROVED IDENTITY AND ART STYLE, not a loose inspiration. Preserve the character's distinctive face, proportions, silhouette, costume, colors and approachable storybook charm. Fine, detailed pixel illustration with crisp little square clusters, stair-step edges, ink #2f2a3d contours, carefully drawn eyes, three discrete flat shade steps, restrained cream, sage, muted gold and lavender. Solid opaque character interiors, genuinely transparent outside. No semitransparent dark halo, cast shadow, glow, antialiasing, gradients, blur, ground, backgrounds, drawn checkerboards, panels, text, labels, grid lines, numbers, watermark or weapons. Every pose is full body and self-contained, no cropping, no overlap between cells. Exactly a SQUARE 4 columns by 4 rows sprite atlas with equal cells, transparent gutters INSIDE each cell. Same figure size and feet baseline at 87% cell height, centered horizontally; occupy 68-75% of each cell height, at least 10% transparent margins on all sides. Draw no dividing lines. Read cells left-to-right, top-to-bottom. First poses are genuinely distinct action poses, later small facial and cloth accents preserve the exact idle stance. Output 2048x2048 PNG if available. Leave unused final cells entirely transparent. This replaces visibly crude small placeholders: make the referenced illustrated character unmistakable.
+Extract ONLY the LEFT cream-and-sage DOKKAEBI in the key art, remove the railing and give its approved plump body two short feet. Round rosy nose, warm dark friendly eyebrows, little pointed ears, sage Korean tied vest, small green folded cap/leaf ornament, cream skin and warm pink cheeks. SAME cheerful almost pig-nosed face and round belly from the reference, no large horns, tusks, grotesque mask or redesigned monster. Facing LEFT, clear face, no weapon.
+11 filled cells: 1 idle open eyes; 2 very slight second idle shoulder/vest shift; 3 attack gently blowing a visible small ring of flat lavender paper mist toward left, cheek puff and arms open, no violence; 4 flinch leaning back softly with surprised eyebrows; 5 half blink; 6 full blink; 7 head tilt starting left; 8 head tilt center; 9 head tilt right; 10 tiny shoulder settling up; 11 shoulder settling down. Cells12-16 transparent. Facial features remain readable and exactly recognizable as reference LEFT character.
 
-제작: 승인된 컨셉을 참조해 코드의 정수 좌표로 새로 찍은 픽셀맵. image_gen 호출 없음.
-후처리: 없음. 원본 컨셉 PNG를 축소/추출/알파 임계값 보정하지 않음. 각 픽셀 RGBA를 직접 기록하며 투명 RGB는 0.
-재생성: 저장소 루트에서 node docs/design/concept/source/game-build.mjs
-소스: docs/design/concept/source/game-*.mjs (기존 설치 sharp 사용, 새 의존성 없음).
+출력 정리: 고정 셀 분리, nearest 크기 변환, alpha192 이상만255, 시트 공통 16색(불투명15색 이하), 최어두운 색을 #2f2a3d로. 새 도형을 코드로 그리지 않음. 원본은 생성원본에 보존.
+검토 마스터 128px / 게임 호환 64px.

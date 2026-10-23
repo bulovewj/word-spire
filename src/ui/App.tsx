@@ -9,8 +9,9 @@ import { clearRun, loadName, loadRecords, loadRun, saveName, saveRecords, saveRu
 import GradingBadge from './components/GradingBadge'
 import BattleScreen from './screens/BattleScreen'
 import GradingCheck from './screens/GradingCheck'
-import { CompleteScreen, IntroScreen, RewardScreen, TitleScreen } from './screens/RunScreens'
+import { CompleteScreen, IntroScreen, RewardScreen } from './screens/RunScreens'
 import StatsScreen from './screens/StatsScreen'
+import TitleScreen from './screens/TitleScreen'
 import TeacherScreen from './screens/TeacherScreen'
 
 export const GAME_TITLE = '낱말탑'
@@ -64,6 +65,7 @@ export default function App() {
 
   const home = () => { clearRun(); setSaved(null); setRun(null) }
   const tower = run ? findTower(run.towerId) : undefined
+  const isTitle = view === 'game' && (!run || !tower)
   let body
   if (view === 'teacher') {
     body = <TeacherScreen onHome={() => setView('game')} />
@@ -92,11 +94,11 @@ export default function App() {
 
   return (
     <main>
-      <header style={{ display: 'flex', gap: 12, alignItems: 'center', margin: '12px 12px 0' }}>
+      {!isTitle && <header style={{ display: 'flex', gap: 12, alignItems: 'center', margin: '12px 12px 0' }}>
         <h1 style={{ fontSize: 24, fontWeight: 700, margin: 0 }}>{GAME_TITLE}</h1>
         {tower && <span>{tower.title} 탑 {run?.phase === 'complete' ? '완료' : `${run?.floor}층`}</span>}
         <GradingBadge />
-      </header>
+      </header>}
       {body}
     </main>
   )

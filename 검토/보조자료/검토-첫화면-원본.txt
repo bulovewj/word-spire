@@ -1,0 +1,33 @@
+<!doctype html><html lang="ko"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>낱말탑 · 최종 검토본</title>
+<link rel="stylesheet" href="보조자료/공통색과글꼴.css"><link rel="stylesheet" href="보조자료/장면보드-꾸밈.css"><link rel="stylesheet" href="보조자료/검토-첫화면.css">
+</head><body>
+<header class="board-header"><p class="eyebrow">낱말탑 · 2026-10-22 · 요청6 개정 2판</p>
+<h1>지금 확인할 최종 검토본</h1>
+<p>이 파일에서 시작하면 돼. 장면마다 그림이 들어갈 자리와 현재 그림을 보고, 한글 이름이나 ID로 고칠 곳을 알려 줘.</p>
+<p class="review-status">최신: 요청7 조각 정리판. 캐릭터·봉인·아이콘·카드틀 9장, 총72프레임이야. 아래 동작모음과 실제 프레임을 검토해 줘.</p>
+<nav aria-label="검토 순서"><a href="06-조각정리-전후비교.html">조각 정리 전후</a><a href="07-프레임별-조각검사.md">프레임별 검사표</a><a href="#characters">새 주인공·보스</a><a href="#title-motion">움직이는 영상</a><a class="review-primary" href="01-장면별-그림과-움직임.html">① 전체 장면·그림·움직임 보기</a><a href="02-그림-스타일-비교.png">② 크기·디테일 비교</a><a href="수정요청.md">③ 수정요청 적기</a></nav>
+</header>
+<main>
+<section id="characters"><h2>새로 생성한 캐릭터 · 재제작2판</h2><p>키아트와 같은 얼굴·복식으로 다시 만들었어. 아래 이름을 누르면 모든 동작을4열로 볼 수 있어. 생성 프롬프트는 생성원본/에 있어. 무거운 생성 PNG·원본 영상·이전판은 컴퓨터에만 보관하고 Git에서 뺐어.</p><div class="review-grid character-grid">
+<figure><a href="동작한눈에/주인공-동작모음.png"><img src="그림프레임/주인공-대기.png" width="256" height="256" alt="새 주인공 대기" loading="lazy"></a><figcaption>주인공 · CH-reader-idle · 128px 마스터</figcaption></figure>
+<figure><a href="동작한눈에/먹안개도깨비-동작모음.png"><img src="그림프레임/먹안개도깨비-대기.png" width="256" height="256" alt="새 도깨비 대기" loading="lazy"></a><figcaption>먹안개 도깨비 · EN-dokkaebi-idle · 128px 마스터</figcaption></figure>
+<figure><a href="동작한눈에/뒤섞는호랑이-동작모음.png"><img src="그림프레임/뒤섞는호랑이-대기.png" width="256" height="256" alt="새 호랑이 대기" loading="lazy"></a><figcaption>뒤섞는 호랑이 · EN-tiger-idle · 눈과 줄무늬를 분리한128px 마스터</figcaption></figure>
+<figure><a href="동작한눈에/헛소문여우-동작모음.png"><img src="그림프레임/헛소문여우-대기.png" width="320" height="320" alt="새 여우 대기" loading="lazy"></a><figcaption>헛소문 여우 · EN-fox-idle · 160px 마스터</figcaption></figure>
+</div></section>
+<section><h2>검토 순서</h2><div class="review-grid">
+<article class="review-card"><h3>1. 어느 장면의 어느 그림?</h3><p>18장면·36캡처 위의 번호를 눌러 봐. 옆에 ID·한글 이름·크기·상태가 있어. 맨 아래에는 현재 시트 40프레임이 따로 있어.</p><a href="01-장면별-그림과-움직임.html#scenes">장면 보드 열기</a></article>
+<article class="review-card"><h3>2. 어떤 크기와 도트 느낌?</h3><p>추천은 일반128px·여우160px, 1배, 음영3단계·24색이야. 새 검토 그림은128·160px 마스터야. 현행 게임은 배치 변경 없이64·80px 호환 사본을2배로 표시해.</p><a href="02-그림-스타일-비교.png">스타일 비교 크게 보기</a></article>
+<article class="review-card"><h3>3. 얼마나 움직일까?</h3><p>규칙·불규칙만 따로 보고 진폭·주기를 바꿔 봐. 새 눈·귀·머리·옷자락 프레임으로 재생해. 게임의 불규칙 일정 연결은 별도 구현이야.</p><a href="01-장면별-그림과-움직임.html#motion">움직임 시험하기</a></article>
+</div></section>
+<section id="title-motion"><h2>움직임을 고친 시작 영상</h2><p>기존 영상은 재생돼도 옷자락이 거의 고정돼 있었어. 이번에는 옷자락 두 자세를 지정해 다시 생성했어. 재생을 누르면 펼쳐졌다 돌아오는6초 반복을 볼 수 있어. 720p·1.76MB로 줄였고 첫·끝 프레임도 같아.</p><video class="review-video" controls muted loop playsinline preload="metadata" poster="그림원본/시작화면-정지배경.png" src="그림원본/시작화면-대기영상.mp4"></video><div class="review-grid reference-grid"><figure><img src="비교자료/옷자락-시작.png" alt="새 영상 시작 옷자락"><figcaption>시작 · 옷자락이 내려간 자세</figcaption></figure><figure><img src="비교자료/옷자락-최대.png" alt="새 영상 중간 옷자락"><figcaption>중간 · 바람에 펼쳐진 자세</figcaption></figure></div></section>
+<section><h2>현재 시작 화면</h2><p>정리·압축까지 끝난 실제 게임 화면이야. 이어하기·탑 선택·내 기록·선생님 버튼을 유지했어.</p><a href="장면캡처/01-시작화면-이어하기.png"><img class="review-wide" src="장면캡처/01-시작화면-이어하기.png" alt="현재 게임 시작 화면과 이어하기"></a><p><a href="그림원본/시작화면-정지배경.png">정지 배경</a> · <a href="그림원본/시작화면-대기영상.mp4">옷자락 대기영상 보기</a></p></section>
+<section><h2>앞으로 그릴 때 유지할 승인 원화</h2><p>이 두 그림의 분위기·검은 머리·현대 한복 복식은 유지하는 기준이야. 새 게임용 동작 시트와 구분해 뒀어.</p><div class="review-grid reference-grid">
+<figure><a href="그림원본/한국풍-키아트-4판.png"><img src="그림원본/한국풍-키아트-4판.png" alt="승인된 한국풍 키 아트 4판" loading="lazy"></a><figcaption>한국풍 키 아트 4판 · 전체 분위기와 세 요괴</figcaption></figure>
+<figure><a href="그림원본/주인공-앞뒤-복식참고.png"><img src="그림원본/주인공-앞뒤-복식참고.png" alt="주인공 앞뒤 현대 한복 복식 참고" loading="lazy"></a><figcaption>주인공 앞뒤 · 복식 참고 전용, 반투명 번짐은 게임에 사용하지 않아</figcaption></figure>
+</div></section>
+
+<section><h2>카드·봉인·아이콘</h2><p>호리병 봉인3단계·기능 아이콘12종·카드 표식6종·카드틀도 같은 원화 기준으로 다시 생성했어. 카드틀은 현재 게임에서 쓰지 않는 에셋이야.</p><p><a href="그림원본/호리병봉인-세단계.png">봉인 동작모음</a> · <a href="그림원본/기능아이콘-열두종.png">아이콘12종</a> · <a href="그림원본/카드종류표식-여섯종.png">카드 표식6종</a> · <a href="그림원본/카드틀-미사용초안.png">카드틀</a></p></section>
+<section><h2>수정 요청은 이렇게</h2><p>“뒤섞는호랑이-대기: 눈 옆 검은 줄무늬를 줄여 줘” 또는 “EN-tiger-idle: 눈이 더 잘 보이게”처럼 알려 줘. 이 폴더의 <a href="수정요청.md">수정요청.md</a>에 적어도 돼.</p><p><a href="03-에셋-대장.md">전체 에셋 대장</a> · <a href="04-스타일-설명.md">스타일 판단 근거</a> · <a href="검토-규칙.md">앞으로의 파일·이전판 보관 규칙</a></p></section>
+</main><footer class="board-footer">앞으로 디자인을 만들거나 바꿀 때마다 이 검토 폴더의 한글 파일과 첫 화면을 함께 갱신해.</footer></body></html>

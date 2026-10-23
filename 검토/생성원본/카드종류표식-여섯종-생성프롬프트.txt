@@ -1,0 +1,8 @@
+도구: OpenAI imagegen (2026-10-22)
+기준: 한국판 키아트 4판
+생성 프롬프트(실제 제출):
+Use case: stylized-concept. Pixel-illustration GAME ASSET for the Korean literacy game matching the supplied approved Korean key-art v4. Crisp ink #2f2a3d outlines, square pixel clusters, flat cream, sage, ochre gold and lavender shades. Solid opaque foreground on genuine TRANSPARENT background. No shadow, glow, haze, antialiasing, gradients, labels, letters, numbers, watermark or drawn checkerboard. No violence or weapons. Equal-sized isolated cells, no visible grid. At least 12% empty margin within EVERY cell, no overlap.
+EXACTLY SIX standalone CATEGORY SYMBOLS in a 3 COLUMN x 2 ROW equal-cell grid, landscape3:2. They will be used as 24x24 logical-pixel icons and must be bold and uncluttered. Same warm cream paper, ink outline and one restrained accent. Left-to-right reading order: 1 literal-question = a single short blank paper talisman with two abstract line strokes, no writing; 2 connect-question = two cream talismans joined by a single sage string bridge; 3 author-question = two small overlapping dialogue bubbles with a cream talisman, no marks inside; 4 clear-mist = lavender flat mist wisp parting into two sides around blank paper; 5 summary-seal = small Korean jade gourd beside plain red circular seal tool; 6 word-defense = three blank paper talismans spread as a protective fan. No frames, full-size cards, titles, letters or numbers. Clear, consistent pixel symbol language matching Korean paper sorcery.
+
+출력 정리: 고정 셀 분리, nearest 크기 변환, alpha192 이상만255, 시트 공통 16색(불투명15색 이하), 최어두운 색을 #2f2a3d로. 새 도형을 코드로 그리지 않음. 원본은 생성원본에 보존.
+검토 마스터 48px / 게임 호환 24px.

@@ -1,0 +1,101 @@
+{
+  "date": "2026-10-22",
+  "provider": "Higgsfield MCP",
+  "uploadApproval": "사용자가 두 그림의 힉스필드 업로드를 명시적으로 허용함",
+  "references": [
+    {
+      "file": "docs/design/concept/key-art-v4-korean.png",
+      "mediaId": "ae85626c-7a9c-4cc2-9641-84bf82036551"
+    },
+    {
+      "file": "docs/design/concept/reader-korean-concept.png",
+      "mediaId": "203b5925-ad7a-4bf1-97be-28227f1d2321"
+    }
+  ],
+  "estimatedCredits": {
+    "image": 2.75,
+    "video": 48,
+    "total": 50.75
+  },
+  "image": {
+    "jobId": "d7ed328d-33e3-491b-b9f8-48dceb8f1be3",
+    "model": "gpt_image_2_5",
+    "status": "completed",
+    "params": {
+      "model": "gpt_image_2_5",
+      "aspect_ratio": "16:9",
+      "resolution": "2k",
+      "quality": "high",
+      "count": 1,
+      "prompt": "Use case: stylized-concept / identity-preserve.\nAsset: a finished text-free 16:9 title-screen background illustration for an original Korean children's literacy adventure, built to support an accessible HTML menu.\nReference 1 defines the approved fine pixel-art style, warm Korean royal library tower, architectural motifs and exactly three friendly mist-paper creatures. Reference 2 defines the SAME anonymous protagonist's appearance and exact clothing, front and back; ignore its dark translucent background. These references are design constraints, not invitations to invent new characters.\nSCENE: the normally closed royal palace archive has just opened. A tall, welcoming Korean timber book tower, cream hanji panels and rectangular lattice windows, layered shelves and upward book stairs, restrained sage/ochre dancheong, warm hanging paper lanterns and discrete pale lavender mist clusters. Fantasy inspired by Goryeo and Joseon, no European stone arches or Gothic architecture.\nCOMPOSITION: a landscape with a generous calm light-cream area across the LEFT 36 percent for a separate HTML title and vertical menu. This area is part of the lit hanji architecture, not a drawn UI panel or a blank white rectangle; keep it low-detail. Concentrate the rich books, stairs, depth, creatures and protagonist on the RIGHT 64 percent. Keep all important characters inside the right-side central region so that a mobile crop centered near 72 percent preserves the protagonist. Do not draw any letters, logo, numerals, menu, buttons or framing border.\nPROTAGONIST: exactly the reference character, a friendly, anonymous scholar-general in modern Korean hanbok techwear, black hair loosely tied low at the nape, no hat. Ink-navy wrap jacket, cream collar, broad sleeves, practical waist belt and small card-case, loose tapered trousers, ankle boots, sage lining and asymmetric split long back panel. In three-quarter BACK view on a foreground stair in the lower-right, calmly looking toward the upper tower. Show the approved muted-gold circular dragon roundel on the BACK, never a matching giant chest emblem. One hand holds a fan of a few blank cream paper talismans. A small cream-and-sage gourd at the belt with a wooden stopper and muted brick-red cord. No new long superhero cape: the existing split jacket tails and sage-lined coat panel are the cloth that can flutter in the follow-up animation. Keep the face and playful proportions of the references.\nCREATURES: exactly three smaller figures on receding upper-right galleries, not foreground portraits. A round cream-and-sage dokkaebi with round nose and eyebrows; a round ochre Korean minhwa tiger with cream muzzle and clear dark curved stripes; a cream fox in an ink wrap robe with lavender-tipped multiple tails. Preserve their approved silhouettes. All are friendly, mischievous mist-paper spirits, no threatening teeth or weapons.\nSTYLE: high-detail fine PIXEL ART with coherent small square clusters, sharp stair-step edges, ink #2f2a3d contours and a few discrete flat shade levels. Preserve the reference pixel density instead of reducing characters to tiny coarse 32px sprites. Palette: warm cream #f5eedb and #fffaf0, ink-navy, sage, muted lavender #7a7393, ochre and gold, tiny brick accents. No airbrush, blur, glow haze, smooth gradients, watercolor, realistic skin, vector smoothing or 3D rendering. Mist is composed of clearly defined flat pixel clusters.\nANIMATION-READY: stable architecture, grounded feet, readable separated hair tips, sleeve hems and coat tails. One coherent scene with no floating extra paper over the left menu area. The pose should work as the same first and last frame of a subtle six-second idle loop.\nAVOID: text, Chinese or Korean writing on books or talismans, watermarks, signatures, brands, copied existing game imagery, extra figures, attacks, violence, injury, weapons, dramatic action, giant new cape, changed hair color, camera angle that hides the back roundel.\n",
+      "medias": [
+        {
+          "role": "image",
+          "value": "ae85626c-7a9c-4cc2-9641-84bf82036551"
+        },
+        {
+          "role": "image",
+          "value": "203b5925-ad7a-4bf1-97be-28227f1d2321"
+        }
+      ]
+    },
+    "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3EXQEU9UPoRn66zPfAcg4mxtWdg/hf_20261022_014246_d7ed328d-33e3-491b-b9f8-48dceb8f1be3.png",
+    "width": 2688,
+    "height": 1520
+  },
+  "video": {
+    "jobId": "b8632ea0-756a-4557-9ea7-41510e4979d9",
+    "model": "flux_3_video",
+    "status": "completed",
+    "params": {
+      "model": "flux_3_video",
+      "aspect_ratio": "16:9",
+      "resolution": "1080p",
+      "duration": 6,
+      "generate_audio": false,
+      "count": 1,
+      "prompt": "Animate the supplied approved pixel-art title scene into a very subtle, calm six-second seamless idle animation for a children's web-game start screen. The same image is supplied as BOTH start and end frames: finish in the exact original pose and composition. LOCK the camera completely; no pan, push-in, zoom, shake, parallax, reframing, scene transitions or cuts.\nPreserve every character identity, the black hair, modern ink-navy Korean wrap jacket, cream collar, gold circular dragon on the back, sage lining, short ponytail, talisman fan, small gourd, all book shelves and architecture. Do not redesign or add clothes, characters, text, emblems, fingers or tools. No long new cape: move only the approved split coat tails and sage-lined back panel, with a small gentle breeze. Feet stay planted on the stair, hands keep the same talismans, head and torso are almost still. The dragon roundel must retain its shape and placement.\nMotion: one small complete cloth sway and return over six seconds, coat hem moving no more than a few screen pixels; ponytail tips and one sleeve edge follow with smaller movement. Pale lavender mist clusters drift just slightly rightward and settle back into their starting layout, staying behind the characters and entirely out of the left menu area. The three friendly creatures remain in place with only a very small breath-like idle motion; no gestures, talking, walking or attacks. Lantern light is steady, no flicker or pulsing. No swirling particles, sparkles, floating UI or letter-like marks.\nMaintain exact high-detail fine PIXEL ART throughout: sharp square clusters, stair-stepped silhouettes, discrete flat shades and stable line art. No blurry tweening, warping, texture crawling, swimming pixels, painterly smoothing, depth of field, motion blur, glow or photorealistic interpolation. The warm cream low-detail LEFT 36 percent stays completely still for readable HTML title and buttons. Most of the picture should be unchanged between frames. Silent, no music, no sound effects, no speech. End with the starting cloth, hair and mist arrangement so the loop has no visible jump.\n",
+      "medias": [
+        {
+          "role": "start_image",
+          "value": "d7ed328d-33e3-491b-b9f8-48dceb8f1be3"
+        },
+        {
+          "role": "end_image",
+          "value": "d7ed328d-33e3-491b-b9f8-48dceb8f1be3"
+        }
+      ]
+    },
+    "resultUrl": "https://d8j0ntlcm91z4.cloudfront.net/user_3EXQEU9UPoRn66zPfAcg4mxtWdg/hf_20261022_014626_b8632ea0-756a-4557-9ea7-41510e4979d9.mp4"
+  },
+  "rejectedAttempts": [
+    {
+      "model": "seedance_2_5",
+      "error": "Requires plus plan or higher.",
+      "submitted": false
+    }
+  ],
+  "production": {
+    "videoMediaId": "25583850-e51c-4aa6-9f26-4fbabc6bacf8",
+    "posterMediaId": "d6cac17b-1680-41c7-94cf-b87c5fa7e279",
+    "videoUrl": "https://d2ol7oe51mr4n9.cloudfront.net/user_3EXQEU9UPoRn66zPfAcg4mxtWdg/25583850-e51c-4aa6-9f26-4fbabc6bacf8.mp4",
+    "posterUrl": "https://d2ol7oe51mr4n9.cloudfront.net/user_3EXQEU9UPoRn66zPfAcg4mxtWdg/d6cac17b-1680-41c7-94cf-b87c5fa7e279.png",
+    "frames": 144,
+    "duration": 6,
+    "width": 1920,
+    "height": 1080,
+    "fps": 24,
+    "audioStreams": 0,
+    "method": "first 72 source frames then reverse; center crop 8px; H.264 QP18 no B-frames; force final keyframe",
+    "firstFrameMd5": "fe000dbf4e4962e9263c58fc35ae2057",
+    "lastFrameMd5": "fe000dbf4e4962e9263c58fc35ae2057",
+    "endpointsIdentical": true,
+    "firstLastMean": 0,
+    "adjacentMean": 0.4198156062044951,
+    "adjacentMax": 1.9154218106995884,
+    "characterFirstToMiddleMean": 7.92068253968254,
+    "fileBytes": 7502621,
+    "videoSha256": "d9ae350724a0907061ebfc99298330601a1ecb9d87f9c717fcffbbd9cf1e1d6b",
+    "posterSha256": "38cbd8c0acb3cb0a4f5d3d09dcdf6d6a3eb326cdee1179c12bb0ffee3ceefb31"
+  }
+}

@@ -1,0 +1,8 @@
+도구: OpenAI imagegen (2026-10-22)
+기준: 한국판 키아트 4판
+생성 프롬프트(실제 제출):
+Use case: stylized-concept. Pixel-illustration GAME ASSET for the Korean literacy game matching the supplied approved Korean key-art v4. Crisp ink #2f2a3d outlines, square pixel clusters, flat cream, sage, ochre gold and lavender shades. Solid opaque foreground on genuine TRANSPARENT background. No shadow, glow, haze, antialiasing, gradients, labels, letters, numbers, watermark or drawn checkerboard. No violence or weapons. Equal-sized isolated cells, no visible grid. At least 12% empty margin within EVERY cell, no overlap.
+ONE square UI card BORDER only, designed as a simple 9-slice paper-talisman frame for this Korean game. Final logical size48x48 with16px corner regions, so keep all corners SIMPLE and IDENTICAL in visual weight. Rectangular ink outline, one thin muted-gold inner line, very small rectangular sage corner paper bindings, straight completely undecorated stretchable edges. Large blank TRANSPARENT center window. No painted paper texturing, glyphs, symbols, letters, corner squiggles, dragon illustrations or seals. Absolutely no marks resembling writing. Pixel-perfect square clusters, visually generous open center, balanced geometric border. All four outer corners comfortably inside transparent canvas. Square1024x1024.
+
+출력 정리: 고정 셀 분리, nearest 크기 변환, alpha192 이상만255, 시트 공통 16색(불투명15색 이하), 최어두운 색을 #2f2a3d로. 새 도형을 코드로 그리지 않음. 원본은 생성원본에 보존.
+검토 마스터 96px / 게임 호환 48px.

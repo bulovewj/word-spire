@@ -1,0 +1,19 @@
+{
+  "frames": 144,
+  "duration": 6,
+  "width": 1920,
+  "height": 1080,
+  "fps": 24,
+  "audioStreams": 0,
+  "method": "first 72 source frames then reverse; center crop 8px; H.264 QP18 no B-frames; force final keyframe",
+  "firstFrameMd5": "fe000dbf4e4962e9263c58fc35ae2057",
+  "lastFrameMd5": "fe000dbf4e4962e9263c58fc35ae2057",
+  "endpointsIdentical": true,
+  "firstLastMean": 0,
+  "adjacentMean": 0.4198156062044951,
+  "adjacentMax": 1.9154218106995884,
+  "characterFirstToMiddleMean": 7.92068253968254,
+  "fileBytes": 7502621,
+  "videoSha256": "d9ae350724a0907061ebfc99298330601a1ecb9d87f9c717fcffbbd9cf1e1d6b",
+  "posterSha256": "38cbd8c0acb3cb0a4f5d3d09dcdf6d6a3eb326cdee1179c12bb0ffee3ceefb31"
+}

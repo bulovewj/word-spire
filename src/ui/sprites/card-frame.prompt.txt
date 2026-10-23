@@ -1,10 +1,8 @@
-[요청4] 실제 제작 지시문
-한지 부적패 공통 9-slice. 48x48, 16픽셀 귀 네 곳만 구름·접힌 모서리 장식. 가운데 [16,16]부터 16x16은 정확히 #fffaf0. 중간 테두리는 늘릴 수 있는 단색 선.
-칸 48×48, 1프레임 가로 1줄: frame.
-참조: docs/design/concept/key-art-v4-korean.png, reader-korean-concept.png, sealing-tools-korean.png.
-외곽선 #2f2a3d, 제한된 단색 팔레트, 계열별 2단계 이하. 논리 1픽셀=PNG 1픽셀, 알파 0/255만. 글자·숫자·무기·피해 표현·그림자·글로우·번짐·AA 없음.
+도구: OpenAI imagegen (2026-10-22)
+기준: 한국판 키아트 4판
+생성 프롬프트(실제 제출):
+Use case: stylized-concept. Pixel-illustration GAME ASSET for the Korean literacy game matching the supplied approved Korean key-art v4. Crisp ink #2f2a3d outlines, square pixel clusters, flat cream, sage, ochre gold and lavender shades. Solid opaque foreground on genuine TRANSPARENT background. No shadow, glow, haze, antialiasing, gradients, labels, letters, numbers, watermark or drawn checkerboard. No violence or weapons. Equal-sized isolated cells, no visible grid. At least 12% empty margin within EVERY cell, no overlap.
+ONE square UI card BORDER only, designed as a simple 9-slice paper-talisman frame for this Korean game. Final logical size48x48 with16px corner regions, so keep all corners SIMPLE and IDENTICAL in visual weight. Rectangular ink outline, one thin muted-gold inner line, very small rectangular sage corner paper bindings, straight completely undecorated stretchable edges. Large blank TRANSPARENT center window. No painted paper texturing, glyphs, symbols, letters, corner squiggles, dragon illustrations or seals. Absolutely no marks resembling writing. Pixel-perfect square clusters, visually generous open center, balanced geometric border. All four outer corners comfortably inside transparent canvas. Square1024x1024.
 
-제작: 승인된 컨셉을 참조해 코드의 정수 좌표로 새로 찍은 픽셀맵. image_gen 호출 없음.
-후처리: 없음. 원본 컨셉 PNG를 축소/추출/알파 임계값 보정하지 않음. 각 픽셀 RGBA를 직접 기록하며 투명 RGB는 0.
-재생성: 저장소 루트에서 node docs/design/concept/source/game-build.mjs
-소스: docs/design/concept/source/game-*.mjs (기존 설치 sharp 사용, 새 의존성 없음).
+출력 정리: 고정 셀 분리, nearest 크기 변환, alpha192 이상만255, 시트 공통 16색(불투명15색 이하), 최어두운 색을 #2f2a3d로. 새 도형을 코드로 그리지 않음. 원본은 생성원본에 보존.
+검토 마스터 96px / 게임 호환 48px.

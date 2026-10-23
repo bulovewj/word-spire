@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>낱말탑 · 에셋 장면 보드</title>
+  <link rel="stylesheet" href="보조자료/공통색과글꼴.css">
+  <link rel="stylesheet" href="보조자료/장면보드-꾸밈.css">
+  <script src="보조자료/검토-데이터.js" defer></script><script src="보조자료/장면보드-구성.js" defer></script>
+  <script src="보조자료/움직임-미리보기.js" defer></script>
+</head>
+<body>
+  <header class="board-header">
+    <p class="eyebrow">낱말탑 · 요청6 개정 2판 · 2026-10-22</p>
+    <h1>어느 그림을 고칠지, ID로 짚어 봐</h1>
+    <p>키아트4판을 기준으로 이미지 생성한 새 캐릭터·도구·카드 72프레임이야. 기존 게임 배치를 유지한 실제 캡처와 함께 봐.</p>
+    <nav aria-label="보드 바로가기"><a href="00-최종검토.html">검토 첫 화면</a><a href="#scenes">장면 01~18</a><a href="#style">크기·스타일</a><a href="#motion">움직임</a><a href="#gallery">모든 그림</a><a href="03-에셋-대장.md">대장 문서</a></nav>
+    <p id="inventory-count"></p>
+  </header>
+  <main>
+    <section id="scenes" aria-labelledby="scenes-title">
+      <h2 id="scenes-title">01~18 장면과 그림 자리</h2>
+      <p>번호는 대장의 자리 번호야. 실선은 지금 쓰는 그림, 회색 점선은 없는 그림의 제안 자리야. 번호나 목록을 누르면 같은 ID가 강조돼.</p>
+      <p>PC 뷰포트 1280×800, 모바일 390×844(세로 전체 캡처). 축소된 캡처는 위치 안내용이고 원본 링크로 실제 크기를 볼 수 있어. 본문 위에 배경 그림을 넣지 않아.</p>
+      <div class="toolbar"><label for="scene-filter">볼 장면</label><select id="scene-filter"><option value="all">모든 장면</option></select><label><input id="show-marks" type="checkbox" checked> 자리 번호 보이기</label></div>
+      <div id="scene-list"></div>
+    </section>
+    <section id="style" aria-labelledby="style-title">
+      <h2 id="style-title">도트 느낌을 살린 일러스트</h2>
+      <p>추천은 일반 128×128·여우 160×160, 표시 1배, 계열당 3단계·24색 이하야. 현재 보이는 크기를 지키면서 디테일을 담을 픽셀을 늘려.</p>
+      <a href="02-그림-스타일-비교.png"><img class="style-overview" src="02-그림-스타일-비교.png" alt="390px 실제 캡처 위의 96·128·160 논리 셀 비교와 키 아트·복식 부분 비교" loading="lazy"></a>
+      <p><a href="05-스타일-원본크기.html">비교를 원래 크기로 열기</a> · <a href="04-스타일-설명.md">근거·음영·알파 기준</a>. 마스터는 일반128·여우160px이고, 현행 게임은 같은 화면 크기를 유지하도록64·80px 호환본을2배로 보여 줘.</p>
+    </section>
+    <section id="motion" aria-labelledby="motion-title">
+      <h2 id="motion-title">규칙 + 불규칙, 작은 움직임</h2>
+      <p>새로 만든 눈·고개·귀·옷자락 그림으로 규칙·불규칙·사건 우선순위를 시연해. 이 일정은 검토 보드 전용이고 게임의 일정 코드는 아직 연결하지 않았어.</p>
+      <div class="toolbar" role="group" aria-label="움직임 보기">
+        <button id="reduce" type="button" aria-pressed="false">움직임 줄이기 켜기</button>
+        <button data-mode="both" aria-pressed="true">함께 보기</button>
+        <button data-mode="regular" aria-pressed="false">규칙 층만</button>
+        <button data-mode="accent" aria-pressed="false">불규칙 층만</button>
+        <button id="event" type="button">사건 포즈 700ms</button>
+      </div>
+      <div class="toolbar">
+        <label>진폭 <select id="amplitude"><option value="default">캐릭터별 추천</option><option value="1">모두 1px</option><option value="2">모두 2px</option></select></label>
+        <label>간격 <select id="interval"><option value="1">기준 3~7초</option><option value="0.8">0.8배</option><option value="1.2">1.2배</option></select></label>
+        <label>재생 속도 <select id="speed"><option value="1">1배</option><option value="0.1">0.1배 검수</option></select></label>
+      </div>
+      <p id="motion-state" role="status"></p><div id="motion-cast" class="cast"></div>
+      <p>설정은 이 보드에서만 적용돼. OS 움직임 줄이기가 켜지면 수동 설정보다 먼저 전부 정지해. 숨은 탭도 정지하고, 사건 포즈 중에는 불규칙 예약을 취소해.</p>
+      <details><summary>최근 동작·간격 검사 기록</summary><pre id="motion-log"></pre></details>
+    </section>
+    <section id="gallery" aria-labelledby="gallery-title">
+      <h2 id="gallery-title">모든 그림 한눈에 · 프레임별</h2>
+      <p>시트는 각 셀을 정확히 2배로 잘라 보여 줘. 초안은 현재 게임에도 쓰이는 그림이고, 회색 상자는 앞으로 그릴 후보야. 안 쓰는 그림과 참조 원본도 따로 표시했어.</p>
+      <div class="toolbar"><label for="asset-filter">상태</label><select id="asset-filter"><option value="all">전체</option><option>완성</option><option>초안</option><option>없음(제안)</option><option>안 씀</option></select><label for="asset-search">ID 찾기</label><input id="asset-search" type="search" placeholder="예: EN-tiger"></div>
+      <div id="asset-grid" class="asset-grid"></div>
+    </section>
+  </main>
+  <footer class="board-footer">새 그림 재제작2판 · 검토 후 ID로 수정 요청해 줘. 고칠 곳은 “ID: 고칠 점”으로 알려 줘.</footer>
+</body>
+</html>

@@ -2,3 +2,21 @@ node_modules
 dist
 .DS_Store
 *.log
+
+# 요청7: 로컬에 보존하는 이전판·AI 생성 원본. 프롬프트와 현재 비교/최종 파일은 추적한다.
+/검토/이전판/
+/검토/생성원본/*.png
+/docs/design/concept/generated/*.png
+/docs/design/concept/재제작-2판/생성원본/*.png
+/docs/design/concept/*-source.mp4
+/docs/design/concept/영상-재제작-2판/생성영상-원본.mp4
+/docs/design/concept/영상-재제작-2판/이전-거의정지한영상.mp4
+/docs/design/concept/영상-재제작-2판/압축전-게임루프.mp4
+/docs/design/concept/영상-재제작-2판/옷자락-바람자세.png
+/docs/design/concept/영상-재제작-2판/시작화면-포스터원본.png
+/docs/design/concept/title-korean-v1.png
+/docs/design/concept/title-korean-v1-poster-original.png
+/docs/design/concept/key-art.png
+/docs/design/concept/key-art-v2.png
+/docs/design/concept/key-art-v3.png
+/docs/design/concept/sealing-storyboard-korean.png

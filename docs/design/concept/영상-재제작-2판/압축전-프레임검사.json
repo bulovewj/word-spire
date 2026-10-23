@@ -1,0 +1,44 @@
+{
+  "date": "2026-10-22",
+  "sourceJob": "fbf36772-c6f2-43b0-b462-89f73f2fe15a",
+  "endKeyframeJob": "382f8e12-507e-4b99-9136-8068498d078f",
+  "probe": {
+    "programs": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 1920,
+        "height": 1080,
+        "avg_frame_rate": "24/1",
+        "nb_frames": "144"
+      }
+    ],
+    "format": {
+      "duration": "6.000000",
+      "size": "6213712"
+    }
+  },
+  "decodedFrames": 144,
+  "uniqueDecodedFrames": 143,
+  "firstEqualsLast": true,
+  "firstLastMD5": "a4136fb9873dee3528ce45fa34d6cb97",
+  "coatCropStartMiddleMeanRGBDifference": [
+    14.749696078431372,
+    14.274480392156862,
+    13.10406862745098
+  ],
+  "motionEvidence": "Actual coat silhouette is visibly extended at middle; crop images provided for visual comparison. Pixel difference alone is not treated as proof.",
+  "edit": "source frames48..83, double duration with duplicated frames only, forward72 + reverse72; no blends or optical-flow interpolation",
+  "sha256": {
+    "coat-0.png": "a01c369bdffa63e51ca2dc26233a9d9a9596d53e2ec49cd903eb1a19d3c47525",
+    "coat-143.png": "a01c369bdffa63e51ca2dc26233a9d9a9596d53e2ec49cd903eb1a19d3c47525",
+    "coat-36.png": "e6a6fb884bfe1cd4ec98b5253e393256508aab859571ec81a07b438e7ce21169",
+    "coat-71.png": "c73bcaafba4a8d71ea5e225bcd703e51774f51bcc150789204b65ed65990d0ec",
+    "frame-hashes.txt": "2a1780c6220d42debbb953d07c8b6f136e4b3e45e43b7cb7e686c3bb4a8d046e",
+    "source.mp4": "631deaf549a2306a33a51d16c4fa00980a1b3d266aae9182fa10c8b0e267ba93",
+    "title-loop.mp4": "75d7417e7c680c8224d2be0f900269df0bf8f50c912e7d87ec2b8b57322a56c2",
+    "title-poster.png": "40f95d51afd51bc47ba30dcf545c6743cdf42d0808736f0110cc5f87429151c3",
+    "windy-keyframe.png": "64cef23488746a80e52a7d42153755675bc67dde0a0a90eb159bc56b3d064396"
+  }
+}

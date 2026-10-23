@@ -5,40 +5,6 @@ import './screens.css'
 
 // 탑 흐름의 전투 밖 화면들 (작업지시서 F7, 4장 화면 목록)
 
-interface TitleProps {
-  towers: Tower[]
-  saved: RunState | null
-  onContinue: () => void
-  onStart: (towerId: string) => void
-  onStats: () => void
-  onTeacher: () => void
-}
-
-export function TitleScreen({ towers, saved, onContinue, onStart, onStats, onTeacher }: TitleProps) {
-  return (
-    <section className="screen">
-      <h2>탑을 골라 오르자</h2>
-      {saved && (
-        <button type="button" className="primary" onClick={onContinue}>
-          이어하기 — {towers.find((t) => t.id === saved.towerId)?.title ?? saved.towerId} 탑 {saved.floor}층
-        </button>
-      )}
-      <ul className="tower-list">
-        {towers.map((t) => (
-          <li key={t.id}>
-            <button type="button" onClick={() => onStart(t.id)}>
-              <strong>{t.title} 탑</strong> · 3층
-              {saved && <span className="warn"> (새로 시작하면 진행 중인 탑은 지워져)</span>}
-            </button>
-          </li>
-        ))}
-      </ul>
-      <button type="button" onClick={onStats}>내 기록</button>
-      <button type="button" onClick={onTeacher}>선생님</button>
-    </section>
-  )
-}
-
 export function IntroScreen({ tower, onNext }: { tower: Tower; onNext: () => void }) {
   return (
     <section className="screen">
