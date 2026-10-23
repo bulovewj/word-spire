@@ -21,3 +21,18 @@
   .sprite-loop { animation: none; }
   .sprite-once { animation: none; background-position-x: var(--to) !important; }   /* 인라인 시작 칸보다 우선: 마지막 칸(닫힌 호리병)에 멈춤 */
 }
+
+/* 숨쉬기: 캐릭터마다 주기·시작 시점이 달라 박자가 맞지 않는다 */
+.breath {
+  display: inline-block;
+  animation: breath var(--period) ease-in-out var(--phase) infinite;
+}
+
+@keyframes breath {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(var(--amp)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .breath { animation: none; }
+}

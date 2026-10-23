@@ -70,7 +70,7 @@ export default function BattleScreen({ state, dispatch, lastFloor, onWon, onRetr
 
         {state.outcome === 'won' ? (
           <div className="overlay overlay-won">
-            <Sprite name="seal" scale={2} cycle={{ count: 3, ms: 720, once: true }} label="안개를 호리병에 봉인했어" />
+            <Sprite name="seal" cycle={{ count: 3, ms: 720, once: true }} label="안개를 호리병에 봉인했어" />
             <p className="unit-line">“{p.enemy.sealLine}”</p>
             <p><strong>{p.enemy.name}</strong> — {STORY.sealed}</p>
             <button type="button" autoFocus onClick={() => { close(); onWon() }}>{lastFloor ? '탑 완료' : '보상 받기'}</button>

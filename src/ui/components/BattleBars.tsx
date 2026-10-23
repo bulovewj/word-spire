@@ -1,5 +1,6 @@
 import { isSheetName } from '../sprites/sprites'
-import Sprite, { Icon } from './Sprite'
+import Actor from './Actor'
+import { Icon } from './Sprite'
 import './BattleBars.css'
 
 interface BarProps {
@@ -30,12 +31,11 @@ interface EnemyProps {
 }
 
 export function EnemyPanel({ name, sprite, pose, hp, maxHp, nextAttack, shield, line, rumor }: EnemyProps) {
-  const idle = pose === 'idle'
   return (
     <section className="unit unit-enemy" aria-label="적">
       <div className="unit-art">
         {isSheetName(sprite) && pose !== 'sealed' && (
-          <Sprite name={sprite} frame={pose} scale={2} cycle={idle ? { count: 2, ms: 1200 } : undefined} />
+          <Actor name={sprite} pose={pose} />
         )}
       </div>
       <div className="unit-info">
@@ -57,7 +57,7 @@ interface PlayerProps { pose: string; hp: number; maxHp: number; block: number; 
 export function PlayerPanel({ pose, hp, maxHp, block, incoming, think, maxThink }: PlayerProps) {
   return (
     <section className={`unit unit-player${block > 0 ? ' is-guarded' : ''}`} aria-label="나">
-      <div className="unit-art"><Sprite name="reader" frame={pose} scale={2} /></div>
+      <div className="unit-art"><Actor name="reader" pose={pose} /></div>
       <div className="unit-info">
         <div className="unit-head">
           <strong>나</strong>

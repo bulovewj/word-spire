@@ -6,3 +6,5 @@ Exactly THREE equal square cells arranged in ONE HORIZONTAL ROW, 1536x512 canvas
 
 출력 정리: 고정 셀 분리, nearest 크기 변환, alpha192 이상만255, 시트 공통 16색(불투명15색 이하), 최어두운 색을 #2f2a3d로. 새 도형을 코드로 그리지 않음. 원본은 생성원본에 보존.
 검토 마스터 128px / 게임 호환 64px.
+
+2026-10-23 Claude: 게임에는 검토 마스터 크기 그대로 1배로 씀. 64/80px 호환 사본은 더 이상 쓰지 않음.
