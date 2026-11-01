@@ -5,13 +5,12 @@ import frameData from './sprites/frames.json'
 export interface Breath { amplitude: number; periodMs: number; phase: number }
 export interface Accent { name: string; frames: string[]; ms: number; weight: number }
 export interface AccentSchedule { minMs: number; maxMs: number; jitter: number; noRepeat: boolean }
-export interface Motion { idleFrame: string; breath?: Breath; schedule?: AccentSchedule; accents: Accent[]; eventPriorityMs: number }
+export interface Motion { idleFrame: string; breath?: Breath; schedule?: AccentSchedule; accents: Accent[] }
 
 interface Raw {
   idle?: { frame?: string; breath?: Breath }
   accentSchedule?: AccentSchedule
   accents?: Accent[]
-  eventPriorityMs?: number
 }
 
 const cache = new Map<string, Motion | null>()
@@ -25,7 +24,6 @@ export function motionOf(name: string): Motion | null {
     breath: raw.idle.breath,
     schedule: raw.accentSchedule,
     accents: raw.accents ?? [],
-    eventPriorityMs: raw.eventPriorityMs ?? 700,
   }
   cache.set(name, m)
   return m

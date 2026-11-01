@@ -7,7 +7,6 @@
   vertical-align: middle;
 }
 
-.sprite-loop { animation: sprite-run var(--ms) steps(var(--steps)) infinite; }
 .sprite-once { animation: sprite-run var(--ms) steps(var(--steps), jump-end) forwards; }
 
 @keyframes sprite-run {
@@ -18,7 +17,6 @@
 .icon { margin-right: 4px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .sprite-loop { animation: none; }
   .sprite-once { animation: none; background-position-x: var(--to) !important; }   /* 인라인 시작 칸보다 우선: 마지막 칸(닫힌 호리병)에 멈춤 */
 }
 

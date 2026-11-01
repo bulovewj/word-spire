@@ -1,9 +1,8 @@
 import type { Question } from '../../content/types'
 import type { Grade } from '../../engine/judge'
 import { evidenceText } from '../answerText'
+import { OPTION_MARKS } from '../areaLabels'
 import { maskFog } from '../fog'
-
-const MARKS = ['①', '②', '③', '④']
 
 interface Props {
   question: Question
@@ -19,7 +18,7 @@ export default function AnswerReveal({ question, grade, order, fogWords }: Props
     <div className="reveal" role="note">
       <p className="reveal-head">{grade === 'weak' ? '답은 맞았어. 근거는 이렇게 찾아:' : '정답은 이거야:'}</p>
       {grade === 'miss' && (
-        <p>{MARKS[pos] ?? ''} {maskFog(question.options[question.answer] ?? '', fogWords)}</p>
+        <p>{OPTION_MARKS[pos] ?? ''} {maskFog(question.options[question.answer] ?? '', fogWords)}</p>
       )}
       <p>근거 문장: <strong>{evidenceText(question.evidence)}</strong></p>
     </div>

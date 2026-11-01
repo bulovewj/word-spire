@@ -8,4 +8,7 @@ export const AREA_ROWS: { area: Area; label: string; hint: string }[] = [
   { area: 'summary', label: '요약 봉인', hint: '한 문장 요약' },
 ]
 
+export const QUESTION_LABEL = { literal: '거기 있음', connect: '연결', author: '글쓴이와 나' } as const
+export const OPTION_MARKS = ['①', '②', '③', '④']
+
 export const pct = (x: number) => `${Math.round(x * 100)}%`

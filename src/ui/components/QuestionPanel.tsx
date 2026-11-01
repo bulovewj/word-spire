@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { Question } from '../../content/types'
 import { previewDamage, type Confidence, type JudgeContext, type QuestionAnswer } from '../../engine/judge'
+import { OPTION_MARKS, QUESTION_LABEL } from '../areaLabels'
 import { maskFog } from '../fog'
 import { Icon } from './Sprite'
 import './QuestionPanel.css'
@@ -22,8 +23,6 @@ export interface Attachable { wordId: string; word: string; uses: number }
 /** dimmed: 지운 보기 index / cost: 이번 단서 비용 / usable: 지금 쓸 수 있는지 */
 export interface HintInfo { dimmed?: number; cost: number; usable: boolean; onUse: () => void }
 
-const MARKS = ['①', '②', '③', '④']
-const TYPE_LABEL = { literal: '거기 있음', connect: '연결', author: '글쓴이와 나' } as const
 
 export default function QuestionPanel({ question, order, evidence, ctx, fogWords, attachables = [], hint, onSubmit, onCancel }: Props) {
   const [picked, setOption] = useState<number | null>(null)
@@ -36,7 +35,7 @@ export default function QuestionPanel({ question, order, evidence, ctx, fogWords
 
   return (
     <section className="qpanel" aria-label="질문">
-      <p className="qpanel-type">질문: {TYPE_LABEL[question.type]}</p>
+      <p className="qpanel-type">질문: {QUESTION_LABEL[question.type]}</p>
       <h3 className="qpanel-prompt">{maskFog(question.prompt, fogWords)}</h3>
 
       <div className="qpanel-options" role="radiogroup" aria-label="보기">
@@ -50,7 +49,7 @@ export default function QuestionPanel({ question, order, evidence, ctx, fogWords
             disabled={hint.dimmed === idx}
             onClick={() => setOption(idx)}
           >
-            {MARKS[pos]} {maskFog(question.options[idx] ?? '', fogWords)}
+            {OPTION_MARKS[pos]} {maskFog(question.options[idx] ?? '', fogWords)}
           </button>
         ))}
       </div>

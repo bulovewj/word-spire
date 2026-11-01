@@ -1,6 +1,7 @@
 import { BALANCE } from '../../engine/balance'
 import type { GameState } from '../../engine/state'
 import type { HandCard } from '../components/Hand'
+import { QUESTION_LABEL } from '../areaLabels'
 import { activeFogWords, maskFog } from '../fog'
 
 /** 손패나 낱말 묶음에서 고른 것. 활성 패널이 무엇을 열지 정한다 */
@@ -11,7 +12,6 @@ export type PanelTarget =
   | { kind: 'summary' }
   | { kind: 'rumor' }
 
-export const TYPE_LABEL = { literal: '거기 있음', connect: '연결', author: '글쓴이와 나' } as const
 
 export function buildHandCards(s: GameState): HandCard[] {
   const fog = activeFogWords(s)
@@ -21,7 +21,7 @@ export function buildHandCards(s: GameState): HandCard[] {
       const cost = q ? BALANCE.questionCost[q.type] : 0
       return {
         key: `q-${c.refId}`, kind: 'question', icon: q?.type ?? 'literal', cost, target: { kind: 'question', id: c.refId },
-        title: `질문: ${q ? TYPE_LABEL[q.type] : ''}`, sub: maskFog(q?.prompt ?? '', fog),
+        title: `질문: ${q ? QUESTION_LABEL[q.type] : ''}`, sub: maskFog(q?.prompt ?? '', fog),
         disabled: s.think < cost || c.lockedThisTurn,
       }
     }
