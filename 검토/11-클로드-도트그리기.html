@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>클로드 도트 그리기</title>
+<style>
+body{margin:0;padding:16px;background:#f5eedb;color:#2f2a3d;font:16px/1.6 sans-serif}
+h1{font-size:22px}h2{font-size:18px;margin-top:32px}
+img{image-rendering:pixelated;display:block;max-width:100%}
+.row{display:flex;gap:24px;flex-wrap:wrap;align-items:flex-end}
+figure{margin:0}figcaption{font-size:14px}
+</style></head><body>
+<h1>11. 클로드 도트 그리기 (플랜 B, 2026-11-03) — 미정 제안</h1>
+<p>Codex 원화(주인공 후보4·호랑이 후보3)를 바탕으로 pxl로 64×64칸을 만들었습니다. dot-audit 위반 0. 아직 게임에 연결하지 않았습니다.</p>
+<h2>2차 (2026-11-03): 주인공 2.5등신으로 다시 · 호랑이 확정</h2>
+<p>왼쪽부터 주인공 1차 · 주인공 2차 · 호랑이(확정) — 모두 실제 크기, 오른쪽은 주인공 2차 4배. 원본: <code>클로드도트/원본/주인공-대기.px.js</code></p>
+<img src="클로드도트/비교-주인공-1차·2차.png" alt="주인공 1차와 2차 비교">
+<h2>1차: 나란히 보기</h2>
+<p>왼쪽부터 지금 게임 그림 · [요청9] 견본 · 새 그림(실제 크기 128px) · 새 그림(4배)</p>
+<img src="클로드도트/비교-지금·요청9·새그림.png" alt="비교">
+<h2>주인공 대기 (CH-reader-idle) · 11색</h2>
+<div class="row">
+<figure><img src="클로드도트/주인공-대기.png" width="128" height="128" alt=""><figcaption>실제 크기(2배)</figcaption></figure>
+<figure><img src="클로드도트/주인공-대기.png" width="384" height="384" alt=""><figcaption>6배</figcaption></figure>
+</div>
+<h2>호랑이 대기 (EN-tiger-idle) · 7색</h2>
+<div class="row">
+<figure><img src="클로드도트/호랑이-대기.png" width="128" height="128" alt=""><figcaption>실제 크기(2배)</figcaption></figure>
+<figure><img src="클로드도트/호랑이-대기.png" width="384" height="384" alt=""><figcaption>6배</figcaption></figure>
+</div>
+<h2>만든 방법</h2>
+<ul>
+<li>호랑이: 원화의 실제 칸 경계를 줄마다 찾아 칸 가운데 색을 읽음(<code>원본/native.mjs</code>) → 공용 팔레트 7색으로 정리(<code>topxl.mjs</code>) → 한 칸짜리 점 39개 자동 정리(<code>fix.mjs</code>).</li>
+<li>주인공: 원화가 약 107칸이라 64칸으로 줄이면 눈·문양이 사라짐 → 부분별로 한 줄씩 손으로 그림(<code>원본/reader.rows</code>: 머리 → 얼굴 → 몸통 → 문양 → 팔·책 → 치마·다리).</li>
+<li>일부러 둔 한 칸: 눈 하이라이트(주인공 1, 호랑이 2).</li>
+</ul>
+</body></html>

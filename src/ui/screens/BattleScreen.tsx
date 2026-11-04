@@ -3,7 +3,7 @@ import { STORY } from '../../content/story'
 import { BALANCE } from '../../engine/balance'
 import { hasShield, incomingDamage, nextEnemyAttack, type Action, type GameState } from '../../engine/state'
 import AnswerReveal from '../components/AnswerReveal'
-import { EnemyPanel, PlayerPanel } from '../components/BattleBars'
+import { EnemyPanel, PlayerPanel, ThinkGems } from '../components/BattleBars'
 import Hand from '../components/Hand'
 import PassagePanel from '../components/PassagePanel'
 import WordPouch from '../components/WordPouch'
@@ -46,17 +46,19 @@ export default function BattleScreen({ state, dispatch, lastFloor, onWon, onRetr
 
   return (
     <div className="battle">
+      <div className="battle-stage">
+        <PlayerPanel pose={poses.reader} hp={state.player.hp} maxHp={state.player.maxHp} block={state.player.block}
+          incoming={playing ? incomingDamage(state) : undefined} />
+        <EnemyPanel name={p.enemy.name} sprite={p.enemy.sprite} pose={poses.enemy} hp={state.enemy.hp} maxHp={state.enemy.maxHp}
+          nextAttack={playing ? nextEnemyAttack(state) : undefined} shield={playing && hasShield(state)}
+          rumor={!playing ? undefined : state.rumor === 'active' ? '헛소문: 적 공격 +2 (반박하면 사라짐)' : state.rumor === 'spread' ? '헛소문이 퍼짐: 이 층 동안 적 공격 +2' : undefined}
+          line={state.turn === 1 && state.events.length === 0 ? p.enemy.introLine : undefined} />
+      </div>
       <div className="battle-text">
         <PassagePanel title={p.title} sentences={p.sentences} fog={fog} selected={evidence}
           onToggle={picking ? toggle : undefined} />
       </div>
       <div className="battle-field">
-        <EnemyPanel name={p.enemy.name} sprite={p.enemy.sprite} pose={poses.enemy} hp={state.enemy.hp} maxHp={state.enemy.maxHp}
-          nextAttack={playing ? nextEnemyAttack(state) : undefined} shield={playing && hasShield(state)}
-          rumor={!playing ? undefined : state.rumor === 'active' ? '헛소문: 적 공격 +2 (반박하면 사라짐)' : state.rumor === 'spread' ? '헛소문이 퍼짐: 이 층 동안 적 공격 +2' : undefined}
-          line={state.turn === 1 && state.events.length === 0 ? p.enemy.introLine : undefined} />
-        <PlayerPanel pose={poses.reader} hp={state.player.hp} maxHp={state.player.maxHp} block={state.player.block}
-          incoming={playing ? incomingDamage(state) : undefined} think={state.think} maxThink={BALANCE.thinkPerTurn} />
 
         {state.events.length > 0 && (
           <ul className="events" role="status">
@@ -86,13 +88,16 @@ export default function BattleScreen({ state, dispatch, lastFloor, onWon, onRetr
           <>
             <Hand cards={buildHandCards(state)} onPick={(c) => open(c.target)} />
             <WordPouch deck={state.deck} uses={state.wordUses} think={state.think} onPick={(wordId) => open({ kind: 'word', wordId })} />
-            <div className="row">
-              <span className="turn">{state.turn}턴</span>
-              <button type="button" className="end-turn" onClick={() => send({ type: 'endTurn' })}>턴 끝내기</button>
-            </div>
           </>
         )}
       </div>
+      {playing && (
+        <div className="battle-bar">
+          <ThinkGems think={state.think} maxThink={BALANCE.thinkPerTurn} />
+          <span className="turn">{state.turn}턴</span>
+          {!target && <button type="button" className="end-turn" onClick={() => send({ type: 'endTurn' })}>턴 끝내기</button>}
+        </div>
+      )}
     </div>
   )
 }

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>전투 배치 적용</title>
+<style>
+body{margin:0;padding:16px;background:#f5eedb;color:#2f2a3d;font:16px/1.6 sans-serif}
+h1{font-size:22px}h2{font-size:18px;margin-top:32px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+figure{margin:0}figure img{display:block;width:100%;height:auto;border:2px solid #2f2a3d}
+figcaption{font-size:14px}
+table{border-collapse:collapse}td,th{border:1px solid #d8cbb3;padding:4px 8px;text-align:left}
+</style></head><body>
+<h1>14. 전투 배치 적용 — ① 가운데 마주보기 (2026-11-04)</h1>
+<p>Codex 시안(검토 13, 커밋 fc22e30)의 ① 안을 실제 게임 코드에 옮겼습니다. 게임 상태·채점·움직임은 그대로이고 배치 스타일만 바뀌었습니다. 아래는 실제 게임에서 찍은 화면입니다.</p>
+<table>
+<tr><th>항목</th><th>실측(1280px)</th></tr>
+<tr><td>전투 무대 높이</td><td>일반 적 180px · 3층 여우 보스 198px</td></tr>
+<tr><td>본문</td><td>시작 y248 · 폭 588px · 글자 18px</td></tr>
+<tr><td>인물</td><td>일반 128px · 여우 160px(정수 배율 그대로)</td></tr>
+<tr><td>카드 · 낱말</td><td>2×2 · 노트북 6열 / 휴대폰 3열</td></tr>
+<tr><td>가로 넘침</td><td>1280·390px 모두 없음</td></tr>
+</table>
+<h2>노트북 1280px</h2>
+<div class="grid">
+<figure><img src="전투배치적용/노트북-1층-전투시작.png" alt=""><figcaption>1층 전투 시작</figcaption></figure>
+<figure><img src="전투배치적용/노트북-2층-전투시작.png" alt=""><figcaption>2층 호랑이</figcaption></figure>
+<figure><img src="전투배치적용/노트북-3층-전투시작.png" alt=""><figcaption>3층 여우 보스 · 헛소문</figcaption></figure>
+<figure><img src="전투배치적용/노트북-질문.png" alt=""><figcaption>질문 · 근거 선택</figcaption></figure>
+<figure><img src="전투배치적용/노트북-낱말.png" alt=""><figcaption>낱말 뜻 입력</figcaption></figure>
+<figure><img src="전투배치적용/노트북-방어후.png" alt=""><figcaption>낱말 방어 뒤 · 방어 5</figcaption></figure>
+<figure><img src="전투배치적용/노트북-봉인.png" alt=""><figcaption>요약 봉인 승리</figcaption></figure>
+</div>
+<h2>휴대폰 390px</h2>
+<div class="grid">
+<figure><img src="전투배치적용/휴대폰-1층-전투시작.png" alt=""><figcaption>1층 전투 시작</figcaption></figure>
+<figure><img src="전투배치적용/휴대폰-2층-전투시작.png" alt=""><figcaption>2층 호랑이</figcaption></figure>
+<figure><img src="전투배치적용/휴대폰-3층-전투시작.png" alt=""><figcaption>3층 여우 보스 · 헛소문</figcaption></figure>
+<figure><img src="전투배치적용/휴대폰-본문접기.png" alt=""><figcaption>본문 접기</figcaption></figure>
+<figure><img src="전투배치적용/휴대폰-질문.png" alt=""><figcaption>질문</figcaption></figure>
+<figure><img src="전투배치적용/휴대폰-낱말.png" alt=""><figcaption>낱말 뜻 입력</figcaption></figure>
+<figure><img src="전투배치적용/휴대폰-방어후.png" alt=""><figcaption>낱말 방어 뒤</figcaption></figure>
+<figure><img src="전투배치적용/휴대폰-봉인.png" alt=""><figcaption>요약 봉인 승리</figcaption></figure>
+<figure><img src="전투배치적용/휴대폰-전체.png" alt=""><figcaption>전체 세로 화면</figcaption></figure>
+</div>
+<p><a href="00-최종검토.html">검토 첫 화면으로</a></p>
+</body></html>

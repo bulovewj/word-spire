@@ -52,9 +52,9 @@ export function EnemyPanel({ name, sprite, pose, hp, maxHp, nextAttack, shield, 
   )
 }
 
-interface PlayerProps { pose: string; hp: number; maxHp: number; block: number; incoming?: number; think: number; maxThink: number }
+interface PlayerProps { pose: string; hp: number; maxHp: number; block: number; incoming?: number }
 
-export function PlayerPanel({ pose, hp, maxHp, block, incoming, think, maxThink }: PlayerProps) {
+export function PlayerPanel({ pose, hp, maxHp, block, incoming }: PlayerProps) {
   return (
     <section className={`unit unit-player${block > 0 ? ' is-guarded' : ''}`} aria-label="나">
       <div className="unit-art"><Actor name="reader" pose={pose} /></div>
@@ -70,13 +70,19 @@ export function PlayerPanel({ pose, hp, maxHp, block, incoming, think, maxThink 
             {incoming > 0 && <span className="forecast"> · 체력 {hp} → {Math.max(0, hp - incoming)}</span>}
           </p>
         )}
-        <div className="think" aria-label={`생각력 ${think} / ${maxThink}`}>
-          {Array.from({ length: maxThink }, (_, i) => (
-            <span key={i} className={`gem${i < think ? ' is-on' : ''}`}><Icon name="think" scale={2} /></span>
-          ))}
-          <span className="think-text">생각력 {think} / {maxThink}</span>
-        </div>
       </div>
     </section>
+  )
+}
+
+/** 이번 턴 생각력. 화면 아래 고정 막대에 둔다 */
+export function ThinkGems({ think, maxThink }: { think: number; maxThink: number }) {
+  return (
+    <div className="think" aria-label={`생각력 ${think} / ${maxThink}`}>
+      {Array.from({ length: maxThink }, (_, i) => (
+        <span key={i} className={`gem${i < think ? ' is-on' : ''}`}><Icon name="think" scale={2} /></span>
+      ))}
+      <span className="think-text">생각력 {think} / {maxThink}</span>
+    </div>
   )
 }

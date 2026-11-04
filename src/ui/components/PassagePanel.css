@@ -1,7 +1,7 @@
 /* 본문: 게임의 주인공. 언제나 또렷하게 (디자인 명세 C 본문·근거) */
 .passage {
   background: var(--color-panel);
-  padding: var(--space-4);
+  padding: 18px;
   border: 2px solid var(--color-ink);
   box-shadow: var(--paper-shadow);
 }
@@ -12,6 +12,8 @@
   justify-content: space-between;
   gap: 8px;
   margin-bottom: 8px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--color-line);
 }
 
 .passage-title {
@@ -57,13 +59,14 @@
 
 .sentence-no {
   flex: none;
+  position: relative;
   min-width: 28px;
   height: 28px;
   display: grid;
   place-items: center;
   font-size: 14px;
   color: var(--color-accent);
-  border: 1px solid var(--color-line);
+  border: 2px solid var(--color-line);
 }
 
 .sentence.is-selected .sentence-no {
@@ -75,23 +78,52 @@
 .fog {
   color: var(--color-muted);
   background: var(--color-lavender-surface);
-  outline: 1px dashed var(--color-muted);
+  outline: 2px dashed var(--color-muted);
   letter-spacing: -1px;
   padding: 0 2px;
 }
 
-/* 좁은 화면: 본문은 위에 붙어 있고 접었다 펼 수 있다 */
-@media (max-width: 720px) {
-  .passage {
-    position: sticky;
-    top: 8px;
-    z-index: 5;
-    padding: var(--space-3);
-  }
+/* 고른 근거 문장: 번호 칸에 체크 표시(색 말고도 알 수 있게) */
+.sentence.is-selected .sentence-no::after {
+  content: '✓';
+  position: absolute;
+  left: -8px;
+  top: -8px;
+  width: 16px;
+  height: 16px;
+  line-height: 12px;
+  font-size: 12px;
+  background: var(--color-panel);
+  color: var(--color-ink);
+  border: 2px solid var(--color-accent);
+}
 
+/* 전투 안 본문 문장은 전투 버튼 모양(.battle button)을 따르지 않는다. 언제나 18px로 또렷하게 */
+.battle .sentence {
+  font-size: 18px;
+  line-height: 1.7;
+  min-height: 48px;
+  gap: 12px;
+  padding: 8px 4px;
+  color: var(--color-ink);
+  border-color: transparent;
+  border-style: solid;
+  background: transparent;
+}
+
+.battle .sentence:disabled { color: var(--color-ink); border-style: solid; }
+
+.battle .sentence.is-selected {
+  border-color: var(--color-accent);
+  background: var(--color-select);
+}
+
+/* 좁은 화면: 본문은 접었다 펼 수 있고 문장 영역만 스크롤 */
+@media (max-width: 720px) {
+  .passage { padding: var(--space-3); }
   .passage-toggle { display: inline-flex; align-items: center; }
-  .passage-list { max-height: 236px; overflow-y: auto; }
+  .passage-list { max-height: 264px; overflow-y: auto; overscroll-behavior: contain; }
   .passage.is-folded .passage-list { display: none; }
   .passage-title { font-size: 18px; }
-  .sentence { font-size: 17px; }
+  .battle .sentence { padding: 6px 2px; gap: 8px; }
 }

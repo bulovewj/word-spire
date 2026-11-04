@@ -59,3 +59,23 @@ button {
     transition-duration: 0ms !important;
   }
 }
+
+/* 게임 화면 맨 위 줄: 제목 · 탑과 층 · 채점 준비 배지(오른쪽 끝) */
+.game-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: center;
+  max-width: 1144px;
+  margin: 12px auto 0;
+  padding: 0 12px;
+}
+
+.game-header h1 { margin: 0; font-size: 24px; font-weight: 700; white-space: nowrap; }
+.game-header .badge { margin-left: auto; }
+
+@media (max-width: 720px) {
+  .game-header { margin-top: 8px; padding: 0 8px; gap: 8px; }
+  .game-header h1 { font-size: 22px; }
+  .game-header .badge { font-size: 11px; max-width: 180px; margin-left: 0; }
+}

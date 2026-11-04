@@ -1,37 +1,53 @@
-/* 적·나 상태 패널, 체력바, 생각력 (디자인 명세 C) */
+/* 적·나 상태, 체력바, 생각력. 무대 안에서 두 인물이 가운데에서 마주 보고 정보는 바깥쪽 */
 .unit {
-  background: var(--color-panel);
-  border: 2px solid var(--color-ink);
-  box-shadow: var(--paper-shadow);
-  padding: var(--space-2) var(--space-3);
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: var(--space-3);
+  grid-template-columns: minmax(0, 1fr) auto;
   align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3);
+  min-width: 0;
 }
 
+/* 나: 정보 | 그림 · 적: 그림 | 정보 */
+.unit-player .unit-art { order: 2; }
+.unit-enemy { grid-template-columns: auto minmax(0, 1fr); border-left: 2px solid var(--color-line); }
+
+/* 그림은 일반 128px·보스 160px 그대로(정수 배율), 발밑에 바닥선 */
 .unit-art {
+  position: relative;
   display: grid;
   place-items: end center;
   min-width: 128px;
+  padding-bottom: 8px;
+}
+
+.unit-art::after {
+  content: '';
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 2px;
+  height: 2px;
+  background: var(--color-line);
 }
 
 .unit-info {
   display: grid;
-  gap: 6px;
+  gap: var(--space-2);
+  min-width: 0;
 }
 
-.unit-player.is-guarded {
-  border-color: var(--color-block);
-  box-shadow: 0 0 0 2px var(--color-block), var(--paper-shadow);
-}
+.unit-player.is-guarded { box-shadow: inset 0 0 0 2px var(--color-block); }
 
 .unit-head {
   display: flex;
-  gap: 12px;
+  gap: 6px 10px;
   align-items: center;
   flex-wrap: wrap;
 }
+
+.unit-head > strong { font-size: 18px; }
+.unit-enemy .unit-head > strong { width: 100%; }
 
 .intent,
 .incoming {
@@ -40,38 +56,47 @@
   align-items: center;
   flex-wrap: wrap;
   margin: 0;
+  font-size: 16px;
+  line-height: 1.5;
 }
 
-.forecast { color: var(--color-ink); }
+.intent { font-weight: 700; }
+.forecast { display: block; width: 100%; padding-left: 18px; font-size: 14px; color: var(--color-ink); }
 
 .block-badge {
   display: inline-flex;
   align-items: center;
+  min-height: 28px;
+  font-size: 14px;
   color: var(--color-muted);
-  border: 1px dashed var(--color-muted);
-  padding: 0 6px;
+  background: var(--color-block-surface);
+  border: 2px dashed var(--color-muted);
+  padding: 2px 6px;
 }
 
 .block-badge.is-on {
   color: var(--color-block);
-  background: var(--color-block-surface);
   border: 2px solid var(--color-block);
   font-weight: 700;
 }
 
-.unit-line { margin: 0; font-style: italic; }
+.unit-line { margin: 0; font-size: 14px; line-height: 1.5; color: var(--color-muted); }
 
 .unit-note {
   margin: 0;
   display: flex;
   align-items: center;
   font-family: var(--font-small);
+  font-size: 13px;
+  line-height: 1.5;
   color: var(--color-muted);
+  border-left: 2px solid var(--color-muted);
+  padding-left: 6px;
 }
 
 .hpbar {
   position: relative;
-  height: 20px;
+  height: 24px;
   background: var(--color-bg);
   border: 2px solid var(--color-ink);
 }
@@ -93,7 +118,7 @@
   justify-content: center;
   color: var(--color-ink);
   font-family: var(--font-small);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
   z-index: 1;
 }
@@ -105,8 +130,8 @@
   display: block;
   text-align: center;
   font-family: var(--font-small);
-  font-size: 12px;
-  line-height: 16px;
+  font-size: 14px;
+  line-height: 20px;
   font-variant-numeric: tabular-nums;
 }
 
@@ -122,10 +147,33 @@
 
 .think-text {
   margin-left: 4px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--color-accent);
 }
 
+/* 390px: 두 칸 나란히, 그림 위·정보 아래 */
 @media (max-width: 720px) {
-  .unit-art { min-width: 96px; }
+  .unit,
+  .unit-enemy {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 6px;
+    padding: var(--space-2);
+  }
+  .unit-player .unit-art { order: 0; }
+  .unit-art { align-self: center; padding-bottom: 0; }
+  .unit-art::after { bottom: 0; }
+  .unit-info { gap: 6px; }
+  .unit-head { min-height: 28px; gap: 4px; }
+  .unit-head > strong { font-size: 14px; }
+  .unit-enemy .unit-head > strong { width: auto; }
+  .block-badge { font-size: 12px; min-height: 24px; padding: 0 4px; }
+  .unit-line, .forecast { display: none; }
+  .intent { font-size: 14px; }
+  .incoming { font-size: 13px; }
+  .unit-note { font-size: 11px; line-height: 1.7; padding-left: 4px; }
+  .think { gap: 2px; }
+  .think-text { font-size: 14px; }
 }

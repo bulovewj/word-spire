@@ -94,8 +94,8 @@ export default function App() {
 
   return (
     <main>
-      {!isTitle && <header style={{ display: 'flex', gap: 12, alignItems: 'center', margin: '12px 12px 0' }}>
-        <h1 style={{ fontSize: 24, fontWeight: 700, margin: 0 }}>{GAME_TITLE}</h1>
+      {!isTitle && <header className="game-header">
+        <h1>{GAME_TITLE}</h1>
         {tower && <span>{tower.title} 탑 {run?.phase === 'complete' ? '완료' : `${run?.floor}층`}</span>}
         <GradingBadge />
       </header>}

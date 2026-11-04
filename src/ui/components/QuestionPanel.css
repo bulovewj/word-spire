@@ -1,9 +1,10 @@
 .qpanel {
   background: var(--color-panel);
   border: 2px solid var(--color-accent);
-  padding: 12px;
+  padding: 16px;
   display: grid;
-  gap: 8px;
+  gap: 10px;
+  box-shadow: var(--paper-shadow);
 }
 
 .qpanel-type {
@@ -14,14 +15,20 @@
 
 .qpanel-prompt {
   margin: 0;
-  font-size: 16px;
+  font-size: 18px;
+  line-height: 1.6;
 }
 
 .qpanel-options,
 .qpanel-conf {
   display: grid;
-  gap: 4px;
+  gap: 6px;
 }
+
+/* 보기는 모두 같은 높이·같은 색: 제출 전에 정답을 암시하지 않는다 */
+.qpanel-options { grid-auto-rows: 1fr; }
+.qpanel .qopt { min-height: 52px; line-height: 1.5; background: var(--color-panel); border-color: var(--color-line); }
+.qpanel .qconf { min-height: 44px; text-align: center; }
 
 .qpanel-conf {
   grid-template-columns: 1fr 1fr;
@@ -42,6 +49,9 @@
   background: var(--color-select);
 }
 
+.qpanel .qopt.is-on::after,
+.qpanel .qconf.is-on::after { content: ' · 선택'; font-size: 13px; }
+
 .qpanel button:disabled {
   opacity: 0.4;
   cursor: default;
@@ -54,6 +64,9 @@
   color: var(--color-muted);
 }
 
+.qpanel-hint { line-height: 1.7; padding: 8px; background: var(--color-bg); border-left: 4px solid var(--color-accent); }
+.qpanel-preview { padding: 8px 0; border-top: 2px solid var(--color-line); }
+
 .qpanel-actions {
   display: flex;
   gap: 8px;
@@ -65,6 +78,9 @@
   min-width: 96px;
 }
 
+.qpanel .qsubmit:not(:disabled) { color: var(--color-panel); background: var(--color-ink); border-color: var(--color-ink); box-shadow: 2px 2px 0 var(--color-shadow); }
+.qpanel-actions button { min-width: 88px; text-align: center; }
+
 .qpanel-attach {
   display: grid;
   gap: 4px;
@@ -72,7 +88,8 @@
 
 .qpanel button.is-dim {
   text-decoration: line-through;
-  opacity: 0.35;
+  color: var(--color-muted);
+  background: var(--color-bg);
 }
 
 .qpanel-cluebar {
@@ -83,4 +100,10 @@
 .qpanel .qclue {
   font-family: var(--font-small);
   border-style: dashed;
+}
+
+@media (max-width: 720px) {
+  .qpanel { padding: 12px; }
+  .qpanel .qopt { min-height: 68px; }
+  .qpanel-hint { font-size: 13px; }
 }
