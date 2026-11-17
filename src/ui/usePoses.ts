@@ -9,8 +9,9 @@ interface Poses { reader: string; enemy: string }
 function flashFor(events: BattleEvent[]): Partial<Poses> {
   const p: Partial<Poses> = {}
   for (const e of events) {
-    if (e.kind === 'enemy') p.enemy = 'attack'
+    if (e.kind === 'enemy') { p.enemy = 'attack'; if (e.damage === 0) p.reader = 'defend' }
     if ((e.kind === 'question' || e.kind === 'rumor') && e.grade !== 'miss') { p.enemy = 'flinch'; p.reader = 'point' }
+    if (e.kind === 'fog' && e.pass) { p.enemy = 'flinch'; p.reader = 'point' }
     if (e.kind === 'word' && e.pass) p.reader = 'defend'
   }
   return p

@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { decodeResult, encodeResult } from './resultCode'
 import type { Stats } from './stats'
 
@@ -35,6 +35,14 @@ describe('결과 코드', () => {
     expect(await decodeResult('아무 글')).toBeNull()
     expect(await decodeResult(code.slice(0, -6))).toBeNull()
     expect(await decodeResult('NT1-!!!')).toBeNull()
+  })
+  it('압축 API가 있어도 deflate-raw 미지원이면 비압축 코드로 이어진다', async () => {
+    vi.stubGlobal('CompressionStream', class { constructor() { throw new TypeError('미지원 형식') } })
+    try {
+      const code = await encodeResult({ name: '하늘', stats })
+      expect(code.startsWith('NT1R-')).toBe(true)
+      expect(await decodeResult(code)).toEqual({ name: '하늘', stats })
+    } finally { vi.unstubAllGlobals() }
   })
   it('모양이 맞지 않는 내용(정답 수 > 문항 수)도 null', async () => {
     const bad = { ...stats, sure: { correct: 9, total: 8 } }

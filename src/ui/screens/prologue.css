@@ -1,0 +1,47 @@
+/* 프롤로그: 밤 서고 무대 위에 인물, 아래에 두 줄 이야기 */
+.prologue {
+  min-height: 100dvh;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: var(--stage-top);
+}
+.prologue-frame {
+  width: min(100%, 640px);
+  display: grid;
+  background: var(--color-panel);
+  border: 2px solid var(--color-ink);
+  box-shadow: 6px 6px 0 #15132a;
+}
+.prologue-art {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 4px;
+  min-height: 220px;
+  padding: 16px 8px 0;
+  line-height: 0;
+  overflow: hidden;
+  background: linear-gradient(180deg, var(--stage-top) 0, var(--stage-mid) 84%, var(--stage-floor) 84%);
+  border-bottom: 2px solid var(--color-ink);
+  animation: prologue-in 320ms ease-out both;
+}
+.prologue-trio { background: linear-gradient(180deg, #1c1838 0, #3a2d63 84%, var(--stage-floor) 84%); }
+.prologue-token { align-self: center; margin-left: 12px; animation: token-bob 2.4s ease-in-out infinite; }
+.prologue-token .icon { margin: 0; }
+@keyframes prologue-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes token-bob { 50% { transform: translateY(-8px); } }
+
+.prologue-text { display: grid; gap: 6px; padding: 16px 18px 6px; min-height: 132px; align-content: start; }
+.prologue-text p { font-size: 18px; line-height: 1.7; word-break: keep-all; }
+.prologue-world { font-family: var(--font-small); font-size: 12px; color: var(--color-accent); }
+.prologue-actions { display: flex; justify-content: flex-end; gap: 8px; padding: 8px 18px 16px; }
+.prologue-actions .btn { min-height: 48px; min-width: 120px; }
+
+@media (max-width: 520px) {
+  .prologue { padding: 8px; }
+  .prologue-art { min-height: 176px; }
+  .prologue-trio { zoom: 0.72; min-height: 230px; }
+  .prologue-text p { font-size: 17px; }
+}
+@media (prefers-reduced-motion: reduce) { .prologue-art, .prologue-token { animation: none; } }

@@ -1,0 +1,138 @@
+/* 손패: 한지 부적패. 위쪽 띠 빛깔과 도장 글자로 종류를 알린다 */
+.hand {
+  list-style: none;
+  margin: 0;
+  padding: 8px 4px 10px;
+  display: flex;
+  gap: 8px;
+  justify-content: safe center;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+}
+.hand li { flex: 0 1 112px; min-width: 84px; animation: card-deal 240ms cubic-bezier(0.2, 0.9, 0.3, 1.2) both; }
+@keyframes card-deal { from { opacity: 0; transform: translateY(18px) rotate(-3deg); } to { opacity: 1; transform: none; } }
+
+.card {
+  --kind: var(--color-gold);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 148px;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+  justify-items: center;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 6px 9px;
+  text-align: center;
+  background: var(--color-panel);
+  border: 2px solid var(--color-ink);
+  border-top: 8px solid var(--kind);
+  box-shadow: 0 4px 0 var(--color-ink);
+  transition: transform 110ms ease-out, box-shadow 110ms ease-out;
+}
+.card-literal { --kind: #b8862b; }
+.card-connect { --kind: #b56a2c; }
+.card-author { --kind: #a8473e; }
+.card-fog { --kind: #7566b0; }
+.card-rumor { --kind: #5b4a9a; }
+.card-summary { --kind: var(--color-seal); }
+.card-word { --kind: var(--color-block); }
+
+@media (hover: hover) {
+  .card:not(:disabled):hover { transform: translateY(-8px); box-shadow: 0 12px 0 -2px rgba(47, 42, 61, 0.35), 0 4px 0 var(--color-ink); }
+}
+.card:not(:disabled):active { transform: translateY(2px); box-shadow: 0 2px 0 var(--color-ink); }
+.card:focus-visible { outline-offset: 3px; transform: translateY(-6px); }
+
+/* 못 내는 카드: 글자는 읽히게 두고 빛깔만 뺀다 */
+.card:disabled {
+  background: var(--color-bg);
+  border-style: dashed;
+  border-top-style: solid;
+  box-shadow: none;
+  color: var(--color-muted);
+}
+.card:disabled .stamp, .card:disabled .cost { filter: grayscale(1) opacity(0.55); }
+
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  width: 100%;
+  min-height: 18px;
+}
+.cost { display: inline-flex; align-items: center; gap: 1px; line-height: 0; }
+.cost .icon { margin: 0; }
+.card-power {
+  font-family: var(--font-small);
+  font-size: 12px;
+  line-height: 1.3;
+  color: var(--color-accent);
+  white-space: nowrap;
+}
+.card:disabled .card-power { color: var(--color-muted); }
+.card-title { font-size: 16px; font-weight: 700; line-height: 1.25; word-break: keep-all; }
+.card-caption { font-family: var(--font-small); font-size: 12px; line-height: 1.3; color: var(--color-muted); white-space: nowrap; }
+.card:disabled .card-caption { color: var(--color-hp); }
+
+/* 질문 미리보기: 높은 화면에서만 (카드가 커질 자리가 있을 때) */
+.card-detail { display: none; }
+@media (min-width: 900px) and (min-height: 840px) {
+  .hand { align-items: stretch; }
+  .hand li { flex-basis: 136px; }
+  .card { grid-template-rows: auto auto auto auto 1fr; min-height: 214px; }
+  .card-detail {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+    align-self: start;
+    padding-top: 5px;
+    border-top: 2px dashed var(--color-line);
+    font-family: var(--font-small);
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--color-muted);
+    word-break: keep-all;
+  }
+}
+
+/* 요약 봉인이 열리면 반짝인다 */
+.card.is-glow { animation: card-glow 1.2s steps(2, jump-none) infinite; }
+@keyframes card-glow {
+  50% { box-shadow: 0 4px 0 var(--color-ink), 0 0 0 4px var(--color-gold-bright); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hand li, .card.is-glow { animation: none; }
+  .card.is-glow { box-shadow: 0 4px 0 var(--color-ink), 0 0 0 4px var(--color-gold-bright); }
+  .card:not(:disabled):hover, .card:not(:disabled):active { transform: none; }
+}
+
+/* 좁은 책상(폰): 세 칸 타일. 옆으로 밀지 않아도 모든 카드가 보인다 */
+@container desk (max-width: 480px) {
+  .hand { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; padding: 4px 0 6px; overflow: visible; }
+  .hand li { min-width: 0; }
+  .card {
+    min-height: 62px;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto auto;
+    justify-items: start;
+    align-content: center;
+    column-gap: 6px;
+    row-gap: 0;
+    padding: 4px 4px 5px;
+    text-align: left;
+    border-top-width: 6px;
+    box-shadow: 0 3px 0 var(--color-ink);
+  }
+  .card .stamp-lg { grid-row: 1 / span 2; width: 32px; height: 32px; font-size: 20px; }
+  .card-top { grid-column: 2; grid-row: 2; justify-content: flex-start; min-height: 16px; }
+  .card-title { grid-column: 2; grid-row: 1; font-size: 14px; line-height: 1.2; }
+  .card-power { display: none; }
+  .card-caption { display: none; }
+  .card:disabled .card-caption { display: block; grid-column: 1 / -1; font-size: 11px; }
+}

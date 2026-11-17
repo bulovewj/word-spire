@@ -27,8 +27,10 @@ export interface Enemy {
 export interface Tower {
   id: string
   title: string
+  blurb: string            // 탑 고르기 화면의 한 줄 (무엇에 관한 글인지)
   intro: string[]          // 탑에 들어갈 때 2줄
   outro: string[]          // 3층 봉인 뒤 2줄
+  starter?: string[]       // 이 탑의 처음 낱말 묶음 (낱말 id). 없으면 기본 묶음
 }
 
 export interface LockedWord {

@@ -1,0 +1,154 @@
+/* 전투 무대: 왼쪽 나, 오른쪽 요괴. 위에 상태 패, 아래에 그림. 무대가 넉넉하면 그림을 2배로 */
+.stage {
+  position: relative;
+  container: stage / size;
+  height: 100%;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--stage-ink);
+  background: var(--stage-top);
+  border: 2px solid var(--color-ink);
+  box-shadow: var(--paper-shadow);
+}
+
+/* 상태 패는 위쪽에 떠 있고(그림 머리 위 빈 자리), 그림은 마루에 선다.
+   나는 왼쪽 끝, 요괴는 오른쪽 끝에서 가운데를 보고 선다. 제 칸보다 큰 그림은 가운데 쪽으로 넘친다 */
+.stage-side {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 clamp(4px, 5cqw, 56px) 4px;
+}
+.stage-player { justify-content: flex-start; }
+.stage-enemy { justify-content: flex-end; }
+
+.stage-actor { position: relative; flex: none; line-height: 0; --unit-zoom: 1; }
+.stage-actor > .breath, .stage-actor > .sprite { zoom: var(--unit-zoom); }
+
+/* 그림 배율은 정수만: 무대가 넉넉할 때 2배. 우두머리(160px)는 더 큰 무대에서만 */
+@container stage (min-height: 272px) and (min-width: 500px) {
+  .stage-actor { --unit-zoom: 2; }
+  .is-boss .stage-actor { --unit-zoom: 1; }
+}
+@container stage (min-height: 334px) and (min-width: 510px) {
+  .is-boss .stage-actor { --unit-zoom: 2; }
+}
+
+/* 방어가 있으면 발밑에 푸른 띠 */
+.stage-actor.is-guarded::after {
+  content: '';
+  position: absolute;
+  left: 12%;
+  right: 12%;
+  bottom: 2px;
+  height: 6px;
+  background: repeating-linear-gradient(90deg, #8fb7e0 0 6px, transparent 6px 10px);
+  opacity: 0.9;
+}
+
+/* 맞은 쪽이 번쩍, 센 타격은 무대가 흔들 */
+.stage-actor.is-flash > .breath, .stage-actor.is-flash > .sprite { animation: hit-flash 320ms steps(2, jump-none); }
+@keyframes hit-flash {
+  0% { filter: brightness(3) saturate(0); transform: translateX(-4px); }
+  50% { filter: brightness(1.6); transform: translateX(4px); }
+  100% { filter: none; transform: none; }
+}
+.stage.is-shake { animation: stage-shake 320ms steps(4, jump-none); }
+@keyframes stage-shake {
+  0% { transform: translate(3px, -2px); }
+  33% { transform: translate(-3px, 2px); }
+  66% { transform: translate(2px, 2px); }
+  100% { transform: none; }
+}
+
+/* 떠오르는 숫자: 몸 가운데쯤에서 위로 */
+.floats {
+  position: absolute;
+  left: 50%;
+  bottom: 34%;
+  width: 0;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: center;
+  gap: 2px;
+  z-index: 4;
+  pointer-events: none;
+}
+.float {
+  white-space: nowrap;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+  padding: 2px 8px;
+  color: var(--stage-ink);
+  background: var(--color-ink);
+  border: 2px solid currentColor;
+  opacity: 0;
+  animation: float-up 1150ms cubic-bezier(0.2, 0.9, 0.3, 1) forwards;
+}
+.float-hit { color: var(--color-gold-bright); }
+.float-crit { color: var(--color-gold-bright); font-size: 28px; border-width: 3px; }
+.float-weak { color: #e5c79a; font-size: 17px; }
+.float-miss { color: #c9c4d4; font-size: 16px; }
+.float-block { color: #a9cdf2; }
+.float-hurt { color: #ff9d8e; font-size: 24px; }
+.float-good { color: #bfe6b4; font-size: 17px; }
+.float-think { color: var(--color-gold-bright); font-size: 16px; }
+@keyframes float-up {
+  0% { opacity: 0; transform: translateY(14px) scale(0.6); }
+  14% { opacity: 1; transform: translateY(0) scale(1.15); }
+  24% { transform: translateY(-2px) scale(1); }
+  78% { opacity: 1; transform: translateY(-16px); }
+  100% { opacity: 0; transform: translateY(-26px); }
+}
+
+/* 요괴의 한마디: 두 인물 사이 위쪽에. 꼬리는 요괴 쪽 */
+.bubble {
+  position: absolute;
+  left: 50%;
+  top: 38%;
+  z-index: 3;
+  width: max-content;
+  max-width: min(230px, 34cqw);
+  transform: translateX(-42%);
+  padding: 6px 10px;
+  font-size: 14px;
+  line-height: 1.45;
+  word-break: keep-all;
+  color: var(--color-ink);
+  background: var(--color-panel);
+  border: 2px solid var(--color-ink);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.35);
+  animation: bubble-in 160ms steps(3, jump-none);
+}
+.bubble::after {
+  content: '';
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  margin-top: -6px;
+  border: 6px solid transparent;
+  border-left-color: var(--color-ink);
+}
+.bubble-who { display: none; }
+@keyframes bubble-in { from { opacity: 0; } to { opacity: 1; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .stage.is-shake, .stage-actor.is-flash > .breath, .stage-actor.is-flash > .sprite, .bubble { animation: none; }
+  .float { animation: none; opacity: 1; }
+}
+
+/* 좁은 무대: 말풍선 대신 아래 자막 띠 (누가 한 말인지 이름을 붙인다) */
+@container stage (max-width: 480px) {
+  .stage-side { padding: 0 6px 2px; }
+  .float { font-size: 16px; }
+  .float-crit, .float-hurt { font-size: 20px; }
+  .bubble { left: 4px; right: 4px; top: auto; bottom: 4px; width: auto; max-width: none; transform: none; padding: 3px 8px; font-size: 13px; }
+  .bubble::after { display: none; }
+  .bubble-who { display: inline; margin-right: 6px; font-family: var(--font-small); font-size: 11px; color: var(--color-accent); }
+}

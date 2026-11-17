@@ -1,0 +1,42 @@
+/* 탑 소개: 왼쪽 이야기, 오른쪽 탑(층마다 요괴) */
+.tower-layout { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 16px; align-items: start; }
+.tower-blurb { font-size: 20px; font-weight: 700; line-height: 1.5; color: var(--color-accent); word-break: keep-all; }
+.tower-total { display: inline-flex; align-items: center; gap: 4px; font-size: 16px; font-weight: 700; white-space: nowrap; }
+
+.tower-deck { display: grid; gap: 6px; padding-top: 10px; border-top: 2px solid var(--color-line); }
+.tower-deck ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.tower-deck li { padding: 2px 8px; font-size: 15px; line-height: 1.6; background: var(--color-block-surface); border: 2px solid var(--color-block); }
+
+/* 탑: 층을 쌓아 올린 모양. 층마다 처마(위 테두리)가 있다 */
+.spire { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+.spire-floor {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 80px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 92px;
+  padding: 8px 12px;
+  color: var(--stage-ink);
+  background: linear-gradient(180deg, var(--stage-top), var(--stage-mid));
+  border: 2px solid var(--color-ink);
+  border-top: 8px solid #3a2c2a;
+  margin-top: -2px;
+}
+.spire-floor:first-child { margin-inline: 14px; }
+.spire-floor:nth-child(2) { margin-inline: 7px; }
+.spire-floor.is-now { outline: 4px solid var(--color-gold-bright); outline-offset: -4px; z-index: 1; }
+.spire-floor.is-done { filter: saturate(0.6); }
+.spire-no { font-size: 16px; font-weight: 700; white-space: nowrap; }
+.spire-art { display: grid; place-items: center; line-height: 0; min-height: 64px; }
+.spire-art.is-unknown { filter: brightness(0) opacity(0.55); }
+.spire-name { font-size: 16px; line-height: 1.4; word-break: keep-all; }
+.spire-name em { display: block; font-style: normal; font-family: var(--font-small); font-size: 12px; color: #ffb0a3; }
+
+@media (max-width: 760px) {
+  .tower-layout { grid-template-columns: minmax(0, 1fr); }
+  .tower-side { order: -1; }
+  .spire-floor { min-height: 76px; grid-template-columns: auto 72px minmax(0, 1fr) auto; gap: 6px; padding: 4px 8px; }
+  .spire-name { font-size: 14px; }
+  .tower-blurb { font-size: 18px; }
+}

@@ -1,23 +1,37 @@
-/* 색·글꼴·공통 조작 규칙 (docs/design/디자인-명세.md B). 작은 글자 대비 4.5:1 이상으로 보정한 값 */
+/* 색·글꼴·공통 조작 규칙. 읽는 곳은 한지(밝은 종이), 겨루는 곳은 밤 서고(어두운 무대)로 나눈다 */
 :root {
-  /* 밝은 종이 톤: 크림 바탕, 잉크색 글자, 세이지·라벤더·금빛 */
+  /* 한지: 본문·카드·패널 */
   --color-bg: #f5eedb;
   --color-panel: #fffaf0;
   --color-ink: #2f2a3d;
   --color-muted: #686176;
   --color-accent: #825515;
   --color-select: rgba(214, 163, 58, 0.22);
-  --color-hp: #c34e49;
-  --color-block: #3c648f;
-  --color-good: #6faa76;
-  --color-weak: #845815;
-  --color-fail: #777080;
   --color-line: #d8cbb3;
   --color-shadow: #dfd2b8;
   --color-gold: #d6a33a;
+  --color-gold-bright: #f6c453;
+
+  /* 뜻이 있는 색: 체력·방어·좋음·약함·실패 */
+  --color-hp: #c34e49;
+  --color-block: #3c648f;
+  --color-good: #4f8f5b;
+  --color-weak: #845815;
+  --color-fail: #777080;
+  --color-seal: #b93a32;            /* 낙관(도장) 붉은색 */
+  --color-mist: #8f7fc4;            /* 요괴의 안개 */
   --color-lavender-surface: #e7e0ef;
   --color-block-surface: #e7eff6;
+  --color-good-surface: #e3f0e2;
   --color-damage-surface: #f0c2b6;
+
+  /* 밤 서고 무대 */
+  --stage-top: #25223f;
+  --stage-mid: #3a3360;
+  --stage-floor: #4b3a34;
+  --stage-floor-line: #6d5646;
+  --stage-ink: #fff6e0;
+  --stage-plate: rgba(24, 21, 44, 0.78);
 
   --font-body: 'Galmuri11', system-ui, sans-serif;
   --font-small: 'Galmuri9', system-ui, sans-serif;
@@ -28,11 +42,12 @@
   --space-4: 16px;
   --space-5: 24px;
   --paper-shadow: 4px 4px 0 var(--color-shadow);
+  --ink-shadow: 3px 3px 0 var(--color-ink);
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
+
+html, body, #root { height: 100%; }
 
 body {
   margin: 0;
@@ -40,42 +55,67 @@ body {
   color: var(--color-ink);
   font-family: var(--font-body);
   -webkit-font-smoothing: none;
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior: none;
 }
+
+h1, h2, h3, p { margin: 0; }
 
 /* 터치 대상 44px 이상, 키보드 초점은 3px 파랑 */
 button {
   min-height: 44px;
+  font: inherit;
+  color: var(--color-ink);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
 }
+button:disabled { cursor: default; }
 
 :focus-visible {
   outline: 3px solid var(--color-block);
-  outline-offset: 3px;
+  outline-offset: 2px;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    transition-duration: 0ms !important;
-  }
-}
-
-/* 게임 화면 맨 위 줄: 제목 · 탑과 층 · 채점 준비 배지(오른쪽 끝) */
-.game-header {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 12px;
+/* 공통 단추: 종이 단추(.btn), 먹 단추(.btn-ink), 금빛 단추(.btn-gold) */
+.btn {
+  display: inline-flex;
   align-items: center;
-  max-width: 1144px;
-  margin: 12px auto 0;
-  padding: 0 12px;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--color-panel);
+  border: 2px solid var(--color-ink);
+  box-shadow: 0 3px 0 var(--color-ink);
+  font-size: 16px;
+  line-height: 1.3;
+  transition: transform 80ms ease-out, box-shadow 80ms ease-out, background-color 120ms ease-out;
+}
+.btn:not(:disabled):active { transform: translateY(2px); box-shadow: 0 1px 0 var(--color-ink); }
+.btn:disabled { color: var(--color-muted); border-color: var(--color-muted); border-style: dashed; box-shadow: none; }
+.btn-ink { background: var(--color-ink); color: var(--color-panel); }
+.btn-gold { background: var(--color-gold-bright); border-color: var(--color-accent); box-shadow: 0 3px 0 var(--color-accent); font-weight: 700; }
+.btn-gold:not(:disabled):active { box-shadow: 0 1px 0 var(--color-accent); }
+.btn-quiet { background: transparent; border-color: var(--color-muted); box-shadow: none; }
+@media (hover: hover) {
+  .btn:not(:disabled):hover { background: var(--color-bg); }
+  .btn-ink:not(:disabled):hover { background: #453f58; }
+  .btn-gold:not(:disabled):hover { background: #ffd66e; }
 }
 
-.game-header h1 { margin: 0; font-size: 24px; font-weight: 700; white-space: nowrap; }
-.game-header .badge { margin-left: auto; }
+.muted { font-family: var(--font-small); color: var(--color-muted); }
 
-@media (max-width: 720px) {
-  .game-header { margin-top: 8px; padding: 0 8px; gap: 8px; }
-  .game-header h1 { font-size: 22px; }
-  .game-header .badge { font-size: 11px; max-width: 180px; margin-left: 0; }
+/* 화면에는 안 보이고 읽어 주기만 하는 글 */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* 움직임 줄이기: 전환은 바로, 연출(animation)은 파일마다 따로 끈다 */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: 0ms !important; }
 }

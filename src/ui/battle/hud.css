@@ -1,0 +1,57 @@
+/* 전투 화면 맨 위 줄 */
+.hud {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  min-width: 0;
+}
+.hud-gap { flex: 1; }
+.hud-btn {
+  flex: none;
+  min-height: 36px;
+  padding: 0 10px;
+  font-size: 14px;
+  white-space: nowrap;
+  background: var(--color-panel);
+  border: 2px solid var(--color-muted);
+}
+.hud-btn[aria-pressed='true'] { border-color: var(--color-accent); background: var(--color-select); }
+@media (hover: hover) { .hud-btn:hover { border-color: var(--color-ink); } }
+
+.hud-where { display: flex; align-items: center; gap: 8px; min-width: 0; font-size: 16px; white-space: nowrap; }
+.hud-floors { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
+.hud-floors li {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+  line-height: 1;
+  color: var(--color-muted);
+  border: 2px solid var(--color-line);
+}
+.hud-floors .is-done { color: var(--color-panel); background: var(--color-good); border-color: var(--color-good); }
+.hud-floors .is-now { color: var(--color-ink); font-weight: 700; background: var(--color-gold-bright); border-color: var(--color-accent); }
+
+.hud-boons { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; min-width: 0; }
+.hud-boons li {
+  display: inline-flex;
+  align-items: center;
+  padding: 0 6px;
+  min-height: 24px;
+  font-family: var(--font-small);
+  font-size: 12px;
+  white-space: nowrap;
+  background: var(--color-panel);
+  border: 2px solid var(--color-line);
+}
+
+@media (max-width: 640px) {
+  .hud { gap: 4px; min-height: 36px; }
+  .hud-btn { padding: 0 6px; font-size: 13px; }
+  .hud-where { font-size: 14px; gap: 4px; }
+  .hud-floors li { width: 20px; height: 20px; }
+  .hud-boons { display: none; }
+  .hud-floors { flex: none; }
+}

@@ -14,6 +14,8 @@ export interface QuestionAnswer {
 
 export interface JudgeContext {
   shield: boolean           // 안개 보호막
+  combo?: number            // 지금까지 이어진 연속 정타 (이번 정타에 붙는 보너스의 바탕)
+  brush?: boolean           // 굳센 붓(보물): 정타 피해 +
 }
 
 export interface QuestionResult {
@@ -36,7 +38,12 @@ export function gradeQuestion(q: Question, option: number, evidence: number[]): 
   return evidenceOk(q.evidence, evidence) ? 'hit' : 'weak'
 }
 
-/** 피해 계산 순서: 기본 → 보너스 낱말 → 약타 절반 → 정타+확실 ×1.5 → 보호막 */
+/** 연속 정타 보너스: 이어진 횟수만큼, 상한까지 */
+export function comboBonus(combo: number): number {
+  return Math.min(Math.max(0, combo), BALANCE.comboDamageMax) * BALANCE.comboDamageStep
+}
+
+/** 피해 계산 순서: 기본 → 보너스 낱말 → 약타 절반 → 정타+확실 ×1.5 → 정타 덤(연속 정타·굳센 붓) → 보호막 */
 export function computeDamage(
   q: Question, grade: Grade, confidence: Confidence, attachedWordId: string | undefined, ctx: JudgeContext,
 ): number {
@@ -46,7 +53,10 @@ export function computeDamage(
     dmg += BALANCE.bonusWordDamage
   }
   if (grade === 'weak') dmg = Math.floor(dmg / 2)
-  if (grade === 'hit' && confidence === 'sure') dmg = Math.round(dmg * BALANCE.sureMultiplier)
+  if (grade === 'hit') {
+    if (confidence === 'sure') dmg = Math.round(dmg * BALANCE.sureMultiplier)
+    dmg += comboBonus(ctx.combo ?? 0) + (ctx.brush ? BALANCE.boon.brushDamage : 0)
+  }
   if (ctx.shield) dmg = Math.max(0, dmg - BALANCE.fogShield)
   return dmg
 }

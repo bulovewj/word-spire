@@ -2,6 +2,8 @@ import { describe, expect, it } from 'vitest'
 import { bee1 } from '../content/passages/bee-1'
 import { STARTER_DECK_56 } from '../content/words/pack-5-6'
 import type { Passage, Question } from '../content/types'
+import { BALANCE } from './balance'
+import { wordPickOrder } from './defend'
 import { createBattle, incomingDamage, reduce, type Action, type GameState } from './state'
 
 const setup = (passage: Passage = bee1, deck: string[] = STARTER_DECK_56) =>
@@ -47,7 +49,7 @@ describe('질문 카드', () => {
   })
   it('다 맞히면 요약 전 적 체력 1에서 멈추고 요약 봉인이 열린다', () => {
     const s = run(setup(), right('q1'), right('q2'), end, right('q3'))
-    expect(s.enemy.hp).toBe(1)   // 7 + 13 + 19 (보호막 -2씩)
+    expect(s.enemy.hp).toBe(1)   // 7 + 14 + 21 (보호막 -2씩, 연속 정타 +0·+1·+2)
     expect(s.textCards.some((c) => c.kind === 'summary')).toBe(true)
     expect(s.outcome).toBe('playing')
   })
@@ -80,13 +82,26 @@ describe('턴 끝과 적', () => {
     expect(t2.player.hp).toBe(31)
     expect(incomingDamage(t2)).toBe(8)
   })
-  it('낱말 뜻 통과 = 방어 5, 실패 = 방어 없음. 맞히든 틀리든 횟수 1 깎임', () => {
+  it('낱말 뜻 쓰기 통과 = 방어 7, 실패 = 방어 없음. 맞히든 틀리든 횟수 1 깎임', () => {
     const word = (wordId: string, pass: boolean): Action => ({ type: 'resolveWordCard', wordId, pass, answer: '' })
     const s = run(setup(), word('h01', true), word('h02', false))
-    expect(s.player.block).toBe(5)
+    expect(s.player.block).toBe(BALANCE.wordBlockWrite)
     expect([s.wordUses.h01, s.wordUses.h02]).toEqual([1, 1])
-    expect(incomingDamage(s)).toBe(1)
-    expect(run(s, end).player.hp).toBe(39)
+    expect(incomingDamage(s)).toBe(0)
+    expect(run(s, end).player.hp).toBe(40)
+  })
+  it('낱말 뜻 고르기: 바른 뜻(0번)이면 방어 4, 아니면 방어 없음. 둘 다 횟수 1 깎임', () => {
+    const pick = (wordId: string, choice: number): Action => ({ type: 'resolveWordPick', wordId, choice })
+    const s = run(setup(), pick('h01', 0), pick('h02', 1))
+    expect(s.player.block).toBe(BALANCE.wordBlockPick)
+    expect([s.wordUses.h01, s.wordUses.h02]).toEqual([1, 1])
+    expect(s.events).toEqual([{ kind: 'word', wordId: 'h02', pass: false, block: 0, mode: 'pick' }])
+    expect(incomingDamage(s)).toBe(6 - BALANCE.wordBlockPick)
+  })
+  it('뜻 고르기 보기 순서: 같은 상태면 같고, 0~n-1의 순열', () => {
+    const s = setup()
+    expect(wordPickOrder(s, 'h01', 3)).toEqual(wordPickOrder(s, 'h01', 3))
+    expect([...wordPickOrder(s, 'h01', 3)].sort()).toEqual([0, 1, 2])
   })
   it('횟수를 다 쓴 낱말·묶음에 없는 낱말은 쓸 수 없다', () => {
     const word = (wordId: string): Action => ({ type: 'resolveWordCard', wordId, pass: true, answer: '' })
@@ -142,7 +157,7 @@ describe('질문을 다 썼을 때', () => {
   it('다 맞혔는데 피해가 모자라도 질문을 다 쓰면 요약 봉인이 열린다', () => {
     const boss = { ...bee1, enemy: { ...bee1.enemy, maxHp: 55 } }
     const s = run(setup(boss), right('q1', 'unsure'), right('q2', 'unsure'), end, right('q3', 'unsure'))
-    expect(s.enemy.hp).toBe(55 - 24)
+    expect(s.enemy.hp).toBe(55 - 27)   // 4 + 9 + 14 (보호막 -2씩, 연속 정타 +0·+1·+2)
     expect(s.textCards.map((c) => c.kind)).toEqual(['fog', 'summary'])
   })
 })

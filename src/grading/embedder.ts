@@ -7,9 +7,10 @@ export interface EmbedderStatus {
   progress: number
 }
 
-type Pending = { resolve: (v: number[][]) => void; reject: (e: Error) => void }
+type Pending = { resolve: (v: number[][]) => void; reject: (e: Error) => void; timer: ReturnType<typeof setTimeout> }
+const REQUEST_TIMEOUT = 60_000
 
-class Embedder {
+export class Embedder {
   private worker: Worker | null = null
   private status: EmbedderStatus = { state: 'idle', progress: 0 }
   private listeners = new Set<(s: EmbedderStatus) => void>()
@@ -36,7 +37,8 @@ class Embedder {
       return
     }
     this.worker.onmessage = (ev: MessageEvent<WorkerOut>) => this.onMessage(ev.data)
-    this.worker.onerror = () => this.setStatus({ state: 'failed', progress: this.status.progress })
+    this.worker.onerror = () => this.fail(new Error('의미 채점 워커 오류'))
+    this.worker.onmessageerror = () => this.fail(new Error('의미 채점 응답 오류'))
     this.setStatus({ state: 'loading', progress: 0 })
     this.send({ type: 'load' })
   }
@@ -63,10 +65,14 @@ class Embedder {
   }
 
   private request(texts: string[]): Promise<number[][]> {
+    if (!this.worker || this.status.state !== 'ready') return Promise.reject(new Error('의미 채점이 준비되지 않음'))
     const id = this.nextId++
     return new Promise((resolve, reject) => {
-      this.pending.set(id, { resolve, reject })
-      this.send({ type: 'embed', id, texts })
+      const timer = setTimeout(() => this.fail(new Error('의미 채점 시간 초과')), REQUEST_TIMEOUT)
+      this.pending.set(id, { resolve, reject, timer })
+      try { this.send({ type: 'embed', id, texts }) } catch {
+        this.fail(new Error('의미 채점 요청 오류'))
+      }
     })
   }
 
@@ -77,13 +83,23 @@ class Embedder {
   private onMessage(m: WorkerOut): void {
     if (m.type === 'progress') this.setStatus({ state: 'loading', progress: m.progress })
     else if (m.type === 'ready') this.setStatus({ state: 'ready', progress: 100 })
-    else if (m.type === 'failed') this.setStatus({ state: 'failed', progress: this.status.progress })
+    else if (m.type === 'failed') this.fail(new Error(m.message))
     else {
       const p = this.pending.get(m.id)
       this.pending.delete(m.id)
+      if (p) clearTimeout(p.timer)
       if (m.type === 'result') p?.resolve(m.vectors)
       else p?.reject(new Error(m.message))
     }
+  }
+
+  /** 기다리는 채점도 모두 끝내야 화면이 간이 채점으로 이어진다. */
+  private fail(error: Error): void {
+    this.worker?.terminate()
+    this.worker = null
+    for (const p of this.pending.values()) { clearTimeout(p.timer); p.reject(error) }
+    this.pending.clear()
+    this.setStatus({ state: 'failed', progress: this.status.progress })
   }
 
   private setStatus(s: EmbedderStatus): void {

@@ -1,0 +1,47 @@
+/* 닫힌궁(탑 고르기): 탑마다 기와지붕을 얹은 한지 판 */
+.map-total { display: inline-flex; align-items: center; gap: 4px; font-size: 16px; font-weight: 700; white-space: nowrap; }
+.map-towers { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 18px; align-items: start; }
+.map-tower { display: grid; filter: drop-shadow(4px 4px 0 var(--color-shadow)); }
+
+/* 기와지붕: 처마가 양옆으로 나온 사다리꼴 + 용마루 */
+.map-roof {
+  height: 34px;
+  margin: 0 -6px;
+  background:
+    linear-gradient(180deg, #2a2233 0 6px, transparent 6px),
+    repeating-linear-gradient(90deg, #4a3f5c 0 10px, #3a3149 10px 14px);
+  clip-path: polygon(8% 0, 92% 0, 100% 100%, 0 100%);
+}
+.map-tower.is-sealed .map-roof { background: linear-gradient(180deg, #7a2620 0 6px, transparent 6px), repeating-linear-gradient(90deg, #b5584a 0 10px, #9a4439 10px 14px); }
+
+.map-body {
+  display: grid;
+  gap: 8px;
+  padding: 14px;
+  background: var(--color-panel);
+  border: 2px solid var(--color-ink);
+  border-top-width: 4px;
+}
+.map-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 56px; }
+.map-head h2 { font-size: 24px; line-height: 1.3; }
+.map-blurb { font-size: 16px; line-height: 1.6; word-break: keep-all; min-height: 3.2em; }
+.map-yokai {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  min-height: 88px;
+  padding: 4px 4px 0;
+  line-height: 0;
+  background: linear-gradient(180deg, var(--stage-top), var(--stage-mid) 82%, var(--stage-floor) 82%);
+  border: 2px solid var(--color-ink);
+}
+.map-yokai .is-unknown { filter: brightness(0) opacity(0.5); }
+.map-stars { display: flex; align-items: center; gap: 8px; font-size: 15px; }
+.map-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.map-actions .btn { min-height: 48px; }
+.map-actions .btn-gold { flex: 1; font-size: 18px; }
+
+@media (max-width: 640px) {
+  .map-towers { grid-template-columns: 1fr; gap: 14px; }
+  .map-blurb { min-height: 0; }
+}

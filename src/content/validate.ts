@@ -50,6 +50,10 @@ export function validatePassage(p: Passage, knownWordIds: Set<string>): string[]
     if (sentence !== undefined && !sentence.includes(lw.word)) {
       errors.push(`${where}: "${lw.word}"가 문장 ${lw.sentence}에 없음`)
     }
+    if (p.sentences.filter((x) => x.includes(lw.word)).length > 1) {
+      errors.push(`${where}: "${lw.word}"가 본문에 두 번 이상 나옴(한 곳만 가려지므로 뜻이 드러남)`)
+    }
+    if (lw.clues.includes(lw.sentence)) errors.push(`${where}.clues: 가려진 낱말이 있는 문장은 단서가 될 수 없음`)
     if (lw.clues.length < 1) errors.push(`${where}.clues: 1개 이상이어야 함`)
     errors.push(...checkWord(lw.card, `${where}.card`))
   })
@@ -108,11 +112,17 @@ function checkSpec(s: SummarySpec, where: string): string[] {
   return errors
 }
 
-export function validateTowers(towers: Tower[], passages: Passage[]): string[] {
+export function validateTowers(towers: Tower[], passages: Passage[], knownWordIds?: Set<string>): string[] {
   const errors: string[] = []
   const ids = new Set(towers.map((t) => t.id))
   for (const t of towers) {
     if (t.intro.length < 1 || t.outro.length < 1) errors.push(`towers/${t.id}: intro·outro가 필요함`)
+    if (!t.blurb) errors.push(`towers/${t.id}: blurb(한 줄 소개)가 필요함`)
+    const floors = passages.filter((p) => p.towerId === t.id).map((p) => p.floor).sort()
+    if (floors.join() !== '1,2,3') errors.push(`towers/${t.id}: 1·2·3층 글이 하나씩 있어야 함(지금 ${floors.join() || '없음'})`)
+    for (const id of t.starter ?? []) {
+      if (knownWordIds && !knownWordIds.has(id)) errors.push(`towers/${t.id}.starter: 모르는 낱말 id ${id}`)
+    }
   }
   for (const p of passages) {
     if (!ids.has(p.towerId)) errors.push(`passages/${p.id}: 모르는 탑 ${p.towerId}`)
@@ -130,6 +140,6 @@ export function validateContent(packs: Record<string, WordEntry[]>, passages: Pa
     }
   }
   for (const p of passages) errors.push(...validatePassage(p, ids))
-  if (towers.length > 0) errors.push(...validateTowers(towers, passages))
+  if (towers.length > 0) errors.push(...validateTowers(towers, passages, ids))
   return errors
 }

@@ -1,0 +1,85 @@
+/* 전투 화면 배치: 한 화면에 다 들어오고, 넘치는 것은 그 칸 안에서만 스크롤한다
+   넓은 화면(컴퓨터·패드 가로): 왼쪽 본문 | 오른쪽 무대·손패·막대. 패널은 오른쪽 칸 아래에서 올라와 무대 아랫부분을 덮는다
+   세로 화면(패드 세로·폰): 무대 → 본문 → 손패 → 막대. 패널은 손패 자리에 열리고 본문이 그만큼 줄어든다 */
+.battle {
+  position: relative;
+  height: 100vh;
+  height: 100dvh;
+  max-width: 1500px;
+  margin: 0 auto;
+  padding: 6px 12px 10px;
+  display: grid;
+  gap: 8px 12px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+  /* 무대는 460px까지만 자라고, 남는 높이는 손패 칸이 받는다(높은 화면에서는 카드가 커져 질문이 미리 보인다) */
+  grid-template-rows: auto minmax(0, 460px) minmax(min-content, 1fr) auto;
+  grid-template-areas: "hud hud" "book stage" "book desk" "book bar";
+  overflow: hidden;
+  font-variant-numeric: tabular-nums;
+}
+
+.battle > .hud { grid-area: hud; }
+/* 본문과 패널은 칸에 겹쳐 띄운다(absolute): 안의 글 길이가 오른쪽 칸들의 높이 계산에 끼어들지 않게 */
+.battle-book { grid-area: book; position: absolute; inset: 0; min-height: 0; }
+.battle-stage { grid-area: stage; min-height: 0; }
+.battle-desk { grid-area: desk; container: desk / inline-size; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
+.battle > .bar { grid-area: bar; }
+
+/* 패널: 무대·손패·막대 칸에 겹쳐 놓고 아래에 붙인다. 무대 위쪽(상태 패)은 가리지 않는다 */
+.battle-panel {
+  grid-column: 2;
+  grid-row: 2 / -1;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 5;
+  container: desk / inline-size;
+  min-width: 0;
+  min-height: 0;
+  max-height: calc(100% - 78px);
+  display: flex;
+  flex-direction: column;
+}
+/* 패널이 덮는 동안 손패·막대는 자리만 지킨다(무대 높이가 바뀌지 않게) */
+.battle:not([data-mode='idle']) .battle-desk, .battle:not([data-mode='idle']) > .bar { visibility: hidden; }
+
+/* 글을 읽는 동안: 본문이 주인공 */
+.battle[data-mode='read'] .passage { box-shadow: 0 0 0 4px var(--color-gold-bright), var(--paper-shadow); }
+
+/* 세로 화면·좁은 화면: 한 줄로 쌓는다 */
+@media (max-width: 899px), (max-aspect-ratio: 1/1) {
+  .battle {
+    --stage-h: clamp(190px, 30dvh, 350px);
+    padding: 6px 8px 8px;
+    gap: 6px;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto var(--stage-h) minmax(96px, 1fr) auto auto;
+    grid-template-areas: "hud" "stage" "book" "desk" "bar";
+    transition: grid-template-rows 160ms ease-out;
+  }
+  .battle-book { position: static; }
+  .battle-panel { position: static; grid-column: 1; grid-row: 4 / -1; max-height: 56dvh; }
+  .battle:not([data-mode='idle']) .battle-desk, .battle:not([data-mode='idle']) > .bar { display: none; }
+}
+
+/* 폰: 그림은 1배. 패널이 열리면 무대를 상태 패만 남기고 접어 본문 자리를 넓힌다 */
+@media (max-width: 599px) {
+  .battle { --stage-h: 184px; }
+  .battle[data-boss] { --stage-h: 208px; }
+  .battle[data-mode='panel'] { --stage-h: 78px; }
+  .battle[data-mode='panel'] .stage-actor,
+  .battle[data-mode='panel'] .stage-bg > :not(.bg-floor),
+  .battle[data-mode='panel'] .plate-chips,
+  .battle[data-mode='panel'] .bubble { display: none; }
+}
+
+/* 아주 낮은 화면(폰 가로 등): 한 화면에 가두지 않고 페이지를 스크롤한다 */
+@media (max-height: 480px) {
+  .battle { height: auto; min-height: 100dvh; overflow: visible; grid-template-rows: auto 220px auto auto auto; }
+  .battle-panel { max-height: none; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .battle { transition: none; }
+}

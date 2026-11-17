@@ -1,0 +1,38 @@
+/* 탑 완료: 왕명 인장이 쾅 찍힌다 */
+.complete-hero { grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 16px; }
+.complete-total { font-size: 16px; white-space: nowrap; }
+
+.royal-seal {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 2px;
+  width: 112px;
+  height: 112px;
+  color: var(--color-seal);
+  border: 6px double var(--color-seal);
+  transform: rotate(-6deg);
+  animation: seal-stamp 520ms cubic-bezier(0.3, 1.6, 0.4, 1) 200ms both;
+}
+.royal-seal span { font-size: 36px; font-weight: 700; line-height: 1.1; }
+.royal-seal small { font-family: var(--font-small); font-size: 12px; }
+@keyframes seal-stamp {
+  from { opacity: 0; transform: rotate(-18deg) scale(2.2); }
+  to { opacity: 1; transform: rotate(-6deg) scale(1); }
+}
+.royal-seal.is-small { width: 56px; height: 56px; border-width: 4px; animation: none; }
+.royal-seal.is-small span { font-size: 16px; }
+.royal-seal.is-small small { display: none; }
+
+.complete-floors { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; }
+.complete-floors li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 6px 10px; border: 2px solid var(--color-line); }
+.complete-floor-no { font-weight: 700; }
+.complete-floor-name { font-size: 15px; line-height: 1.5; word-break: keep-all; }
+.complete-epilogue { border-color: var(--color-seal); background: var(--color-select); }
+
+@media (max-width: 640px) {
+  .complete-hero { grid-template-columns: 1fr; justify-items: center; }
+  .royal-seal { width: 96px; height: 96px; }
+  .royal-seal span { font-size: 30px; }
+}
+@media (prefers-reduced-motion: reduce) { .royal-seal { animation: none; } }

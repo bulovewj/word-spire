@@ -1,13 +1,7 @@
 // reduce가 쓰는 턴 단계들. 전부 순수 함수.
 import { BALANCE } from './balance'
-import { rumorAttackBonus } from './rumor'
+import { nextEnemyAttack, summaryOpen } from './select'
 import type { GameState, TextCard } from './state'
-
-/** 적의 다음 공격 (확신 벌·헛소문 포함) */
-export function nextEnemyAttack(s: GameState): number {
-  const p = s.passage.enemy.pattern
-  return (p[s.enemy.patternIndex % p.length] ?? 0) + s.enemy.attackBonus + rumorAttackBonus(s)
-}
 
 export function startTurn(s: GameState): GameState {
   return {
@@ -19,12 +13,14 @@ export function startTurn(s: GameState): GameState {
   }
 }
 
+/** 턴 끝 적 공격. 방어와 돌문진(이 층 첫 공격만)이 먼저 막는다 */
 export function enemyAttack(s: GameState): GameState {
   const attack = nextEnemyAttack(s)
-  const damage = Math.max(0, attack - s.player.block)
+  const damage = Math.max(0, attack - s.player.block - s.guard)
   const hp = s.player.hp - damage
   return {
     ...s,
+    guard: 0,
     player: { ...s.player, hp: Math.max(0, hp) },
     enemy: { ...s.enemy, patternIndex: s.enemy.patternIndex + 1, attackBonus: 0 },
     outcome: hp <= 0 ? 'lost' : s.outcome,
@@ -32,8 +28,15 @@ export function enemyAttack(s: GameState): GameState {
   }
 }
 
-function summaryOpen(s: GameState): boolean {
-  return s.textCards.some((c) => c.kind === 'summary')
+/**
+ * 연속 정타: 정타면 +1, 아니면 끊긴다. 배수(comboThinkEvery)에 닿을 때마다 번뜩임으로 생각력 +1.
+ * 탑 안에서 층을 넘어 이어진다(run.ts)
+ */
+export function applyCombo(s: GameState, hit: boolean): GameState {
+  if (!hit) return s.combo === 0 ? s : { ...s, combo: 0 }
+  const combo = s.combo + 1
+  if (combo % BALANCE.comboThinkEvery !== 0) return { ...s, combo }
+  return { ...s, combo, think: s.think + 1, events: [...s.events, { kind: 'spark', think: 1 }] }
 }
 
 function withSummaryCard(s: GameState): GameState {

@@ -1,0 +1,62 @@
+/* 화면 아래 막대: 생각력 · 턴을 끝내면 벌어질 일 · 턴 끝내기 */
+.bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 6px 8px 6px 12px;
+  background: var(--color-panel);
+  border: 2px solid var(--color-ink);
+  border-top-width: 4px;
+  box-shadow: var(--paper-shadow);
+  font-variant-numeric: tabular-nums;
+}
+
+.think { display: flex; align-items: center; gap: 4px; flex: none; }
+.gem { line-height: 0; transition: transform 160ms ease-out; }
+.gem .icon { margin: 0; }
+.gem:not(.is-on) { opacity: 0.28; filter: grayscale(1); }
+.gem.is-bonus.is-on { animation: gem-bonus 600ms steps(3, jump-none) 2; }
+@keyframes gem-bonus { 50% { transform: translateY(-6px) scale(1.2); } }
+.think-text { margin-left: 4px; font-size: 16px; font-weight: 700; color: var(--color-accent); white-space: nowrap; }
+
+.forecast {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-small);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-muted);
+  text-align: right;
+  word-break: keep-all;
+}
+.forecast strong { font-family: var(--font-body); font-size: 15px; color: var(--color-ink); }
+.forecast .is-hurt { color: var(--color-hp); }
+.forecast .is-safe { color: var(--color-block); }
+.forecast-turn { margin-right: 8px; padding: 0 6px; border: 2px solid var(--color-line); }
+
+.end-turn { flex: none; min-height: 44px; padding-inline: 18px; white-space: nowrap; }
+/* 더 낼 카드가 없으면 턴 끝내기가 손짓한다 */
+.end-turn.is-nudge { animation: end-nudge 1s steps(2, jump-none) infinite; }
+@keyframes end-nudge { 50% { box-shadow: 0 3px 0 var(--color-ink), 0 0 0 4px var(--color-gold-bright); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .gem.is-bonus.is-on, .end-turn.is-nudge { animation: none; }
+  .end-turn.is-nudge { box-shadow: 0 3px 0 var(--color-ink), 0 0 0 4px var(--color-gold-bright); }
+}
+
+@media (max-width: 640px) {
+  .bar { gap: 6px; padding: 4px 6px 4px 8px; min-height: 52px; }
+  .think-text { font-size: 14px; }
+  .forecast { font-size: 12px; line-height: 1.35; }
+  .forecast strong { font-size: 15px; }
+  .forecast-turn { display: none; }
+  .forecast-long strong { font-size: 13px; }
+  .end-turn { padding-inline: 10px; }
+}
+
+/* 아주 좁은 화면: 결과만 한 줄로 */
+@media (max-width: 420px) {
+  .forecast-long { display: none; }
+  .forecast::before { content: '턴 끝 → '; }
+}

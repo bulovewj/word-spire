@@ -1,0 +1,26 @@
+/* 낙관(도장): 붉은 네모 안에 한 글자. 카드 종류마다 빛깔이 다르다 */
+.stamp {
+  --stamp: var(--color-seal);
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--color-panel);
+  background: var(--stamp);
+  border: 2px solid var(--color-ink);
+  box-shadow: inset 0 0 0 2px var(--stamp), inset 0 0 0 3px rgba(255, 250, 240, 0.65);
+}
+.stamp-sm { width: 24px; height: 24px; font-size: 12px; box-shadow: none; }
+.stamp-lg { width: 48px; height: 48px; font-size: 24px; }
+
+.stamp-literal { --stamp: #b8862b; }
+.stamp-connect { --stamp: #b56a2c; }
+.stamp-author { --stamp: #a8473e; }
+.stamp-fog { --stamp: #7566b0; }
+.stamp-rumor { --stamp: #5b4a9a; }
+.stamp-summary { --stamp: var(--color-seal); }
+.stamp-word { --stamp: var(--color-block); }

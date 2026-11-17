@@ -1,6 +1,7 @@
 // 판정 기록 (작업지시서 F8). 전투 action 앞뒤 상태에서 뽑는다. GameState는 바꾸지 않는다.
 import type { QuestionType } from '../content/types'
 import type { Confidence } from './judge'
+import { summaryHelpOn } from './select'
 import type { Action, GameState } from './state'
 
 export type Area = 'word' | QuestionType | 'summary'
@@ -11,7 +12,7 @@ export interface Judgement {
   ref: string
   correct: boolean
   confidence?: Confidence
-  helped: boolean            // 단서 보기를 거침
+  helped: boolean            // 도움을 받음: 단서 보기 / 낱말 뜻 고르기(보기가 주어짐) / 요약 틀
 }
 
 export interface JudgeRecord extends Judgement {
@@ -30,11 +31,11 @@ export function judgementsFrom(prev: GameState, a: Action, next: GameState): Jud
       if (!q) continue
       out.push({ area: q.type, ref: q.id, correct: e.grade === 'hit', confidence: a.confidence, helped: prev.hints[q.id] !== undefined })
     } else if (e.kind === 'word') {
-      out.push({ area: 'word', ref: e.wordId, correct: e.pass, helped: false })
+      out.push({ area: 'word', ref: e.wordId, correct: e.pass, helped: e.mode === 'pick' })   // 뜻 고르기는 보기가 도움
     } else if (e.kind === 'rumor') {
       out.push({ area: 'author', ref: `${prev.passage.id}:rumor`, correct: e.grade === 'hit', helped: false })   // 비판적 읽기 = 추리의 눈
     } else if (e.kind === 'summary') {
-      out.push({ area: 'summary', ref: prev.passage.id, correct: e.pass, helped: false })
+      out.push({ area: 'summary', ref: prev.passage.id, correct: e.pass, helped: summaryHelpOn(prev) })   // 요약 틀을 보고 씀
     }
   }
   return out

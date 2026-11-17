@@ -3,7 +3,7 @@
 ## 개요
 초등 문해력 카드 전투 웹 게임. 글을 읽고 근거를 대며 질문에 답하면 공격, 낱말 뜻을 쓰면 방어, 한 문장 요약으로 적을 마무리한다.
 수업 자투리 시간용(한 층 5~10분). 학생 기기에서만 돌고 서버·계정 없음.
-규칙 기준 `docs/기획안.md` 6장 · 구현 명세 `docs/작업지시서.md` · 마일스톤 `CODING_PLAN.md`
+규칙 기준 `docs/기획안.md` 6장 **+ 바뀐 곳은 `docs/개편-기록.md`(2026-11 재미 개편, 이쪽이 우선)** · 구현 명세 `docs/작업지시서.md` · 마일스톤 `CODING_PLAN.md`
 
 ## 기술 스택 (바꾸지 않는다)
 - Vite + React + TypeScript: 의미 모델 워커를 묶으려면 빌드 도구가 필요해서. 상태는 useState + 엔진 `reduce`
@@ -16,13 +16,13 @@
 ## 폴더 구조
 ```
 src/
-  content/   types.ts, validate.ts, index.ts(콘텐츠 모음·findWord), story.ts(주인공 '나'·공통 문구), words/(낱말 팩), passages/(글), towers/(탑 문구)
-  engine/    balance.ts(숫자), judge.ts(판정), state.ts(GameState·reduce), battle.ts(턴 단계), support.ts(안개 걷기·단서 보기), run.ts(탑 진행 RunState), rng.ts — React·DOM 의존 금지
+  content/   types.ts, validate.ts, index.ts(콘텐츠 모음·findWord), story.ts(주인공 '나'·프롤로그·공통 문구), yokai.ts(요괴 삼총사 성격·한마디), words/(낱말 팩), passages/(글), towers/(탑 문구·처음 낱말 묶음)
+  engine/    balance.ts(숫자), judge.ts(판정), state.ts(GameState·reduce), 규칙별 파일: question·defend(낱말 방어)·seal(요약)·rumor·support(안개·단서)·battle(턴·연속 정타)·select(읽어 내는 값), boons.ts(보물), stars.ts(층 별), run.ts(탑 진행 RunState), profile.ts(성장 기록), simPolicies.ts(시뮬레이션 학생 모형, 테스트 전용), rng.ts — React·DOM 의존 금지
   grading/   embed.worker.ts, embedder.ts, cosine.ts, policy.ts(기준값), word.ts, summary.ts
-  storage/   store.ts
-  ui/        App.tsx(게임 상태를 여기 한곳에), screens/, components/, sprites/, eventText.ts(사건 → 문구)
+  storage/   store.ts (진행·판정 기록·성장 기록·설정)
+  ui/        App.tsx(화면 고르기만), useGame.ts(게임 상태를 여기 한곳에), screens/(화면), battle/(전투 화면 부품: 무대·손패·패널·길잡이), components/, sprites/, sfx.ts(효과음), eventText.ts(사건 → 낭독 문구)
   styles/    tokens.css
-docs/        기획안.md(읽기 전용), 작업지시서.md
+docs/        기획안.md(읽기 전용), 개편-기록.md(기획안과 다른 곳), 작업지시서.md
 references/  문해력 근거 자료(기획안 4장)
 _archive/    옛 게임 코드·원화. 참고·빌드 대상 아님
 ```
@@ -68,8 +68,13 @@ _archive/    옛 게임 코드·원화. 참고·빌드 대상 아님
 | M10 | 교사 화면 | ✅ |
 | M11 | 도트 디자인 | ✅ (실기기 확인 남음) |
 | M12 | 정리·배포 | ⬜ |
+| M13 | 재미 개편(규칙·화면·한글 탑) | 🔄 (커밋 전 · 사용자 플레이·사실 검수 남음) |
 
 ### 다음 세션 메모
+- **2026-11-12 재미 개편(M13, 커밋 안 함)**: 사용자 지시 "마음대로 고쳐 봐". 바뀐 규칙·화면·균형·검수 목록은 전부 `docs/개편-기록.md`. 요점 — 층마다 체력 가득, 다시 하면 요괴 공격 -1, 낱말 방어 고르기 +5/쓰기 +8, 연속 정타, 층 별 3개, 보상 셋 중 하나, 요약 틀, 닫힌궁(탑 고르기)·부적첩·프롤로그·길잡이·효과음(기본 꺼짐), 한글 탑 초안. 아래 옛 메모 중 체력 30·회복 8·"공격만 하면 3층에서 짐"·방어 5는 이 개편으로 바뀜.
+- 남은 일: ① 사용자 실기기 플레이(웨일북·패드·폰) ② 한글 탑 사실·난도 검수 + 실제 학생 답으로 요약·반박 채점 확인 ③ 단잠 탑(설계만 함) ④ 픽셀 이펙트(pixelfx)·근거 문장이 날아가는 연출 ⑤ 커밋(`M13: …`).
+- 화면 점검 요령: 헤드리스 크롬(CDP)으로 화면을 직접 눌러 탑을 끝까지 오르는 스크립트를 썼다(프로젝트 밖 임시 폴더, 남기지 않음). 워커의 모델 내려받기는 페이지 쪽 차단이 안 먹어 실제로 내려받아진다 → 의미 채점까지 확인 가능.
+- 전투 배치에서 조심할 것: 본문·패널은 격자 칸에 `position: absolute`로 띄운다(안의 글 길이가 무대 높이 계산에 끼어들지 않게). 손패·막대는 패널이 열려도 자리를 지킨다(visibility) — 그래야 무대 높이와 그림 배율이 안 바뀐다. 그림 배율은 무대 container query로 1배/2배만.
 - Codex 스토리·디자인(왕명과 닫힌궁, 한국풍) main 병합 완료(2026-10-21). 적 이름·sprite id(dokkaebi·tiger·fox)·대사·탑 문구 데이터 연결함. 다시 맡길 땐 `docs/codex-요청.md`에 요청 추가 → Codex가 `git merge main` 후 처리.
 - M11 주의: `src/ui/sprites/`의 PNG는 v1 초안(drought·bloomgap·erasure)이라 새 id와 안 맞음 → 새 게임용 시트 필요. 한국풍 컨셉 PNG(reader·부적패·봉인 도구)는 RGBA지만 완전 불투명 픽셀이 0개(어두운 번짐이 반투명으로 구워짐) → 컨셉 참고용, 스프라이트로 못 씀.
 - M8 남은 것: Codex 요청 3(2·3층 근거 범위·정답 보기 바꿔 쓰기) 병합 → `npm test`의 시뮬레이션이 그대로 통과하는지 확인 → 사용자 사실 검수 → M8 ✅. 그 뒤 M9(기록·스탯·결과 코드). Codex 작업 중에는 `bee-2·3.ts`, `docs/스토리.md`를 건드리지 않는다.

@@ -32,8 +32,17 @@ describe('판정 기록', () => {
     const s = setup()
     expect(step(s, { type: 'resolveWordCard', wordId: 'h01', pass: false, answer: '' }).items)
       .toEqual([{ area: 'word', ref: 'h01', correct: false, helped: false }])
+    expect(step(s, { type: 'resolveWordPick', wordId: 'h01', choice: 0 }).items)
+      .toEqual([{ area: 'word', ref: 'h01', correct: true, helped: true }])   // 뜻 고르기는 도움받아 해결
     expect(step(s, { type: 'resolveFog', wordIndex: 0, sentence: 0 }).items).toEqual([])
     expect(step(s, { type: 'endTurn' }).items).toEqual([])
+  })
+  it('요약을 두 번 실패한 뒤(요약 틀을 본 뒤)의 요약은 도움받음', () => {
+    const open = { ...setup(), textCards: [{ kind: 'summary' as const, refId: 'bee-1', lockedThisTurn: false }] }
+    expect(step(open, { type: 'resolveSummary', pass: true, answer: '' }).items)
+      .toEqual([{ area: 'summary', ref: 'bee-1', correct: true, helped: false }])
+    const helped = { ...open, tally: { ...open.tally, summaryFails: 2 } }
+    expect(step(helped, { type: 'resolveSummary', pass: true, answer: '' }).items[0]?.helped).toBe(true)
   })
   it('생각력이 모자라 아무 일도 없으면 기록 없음', () => {
     const s = { ...setup(), think: 0 }

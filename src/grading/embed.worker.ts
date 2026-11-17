@@ -38,8 +38,7 @@ function load(): Promise<FeatureExtractionPipeline> {
   return extractor
 }
 
-ctx.onmessage = async (ev: MessageEvent<WorkerIn>) => {
-  const msg = ev.data
+async function handle(msg: WorkerIn): Promise<void> {
   if (msg.type === 'load') {
     try {
       await load()
@@ -52,9 +51,18 @@ ctx.onmessage = async (ev: MessageEvent<WorkerIn>) => {
   }
   try {
     const run = await load()
-    const out = await run(msg.texts.map((t) => POLICY.inputPrefix + t), { pooling: 'mean', normalize: true })
-    post({ type: 'result', id: msg.id, vectors: out.tolist() as number[][] })
+    const vectors: number[][] = []
+    // 기본 낱말 전체를 비교해도 한꺼번에 큰 텐서를 만들지 않는다(학생 기기 메모리).
+    for (let i = 0; i < msg.texts.length; i += 16) {
+      const out = await run(msg.texts.slice(i, i + 16).map((t) => POLICY.inputPrefix + t), { pooling: 'mean', normalize: true })
+      vectors.push(...out.tolist() as number[][])
+    }
+    post({ type: 'result', id: msg.id, vectors })
   } catch (e) {
     post({ type: 'embedFailed', id: msg.id, message: e instanceof Error ? e.message : String(e) })
   }
 }
+
+// 미리 계산과 학생 답 채점이 같은 ONNX 세션을 동시에 실행하지 않게 한다.
+let queue = Promise.resolve()
+ctx.onmessage = (ev: MessageEvent<WorkerIn>) => { queue = queue.then(() => handle(ev.data)) }

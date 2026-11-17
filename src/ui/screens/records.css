@@ -1,0 +1,30 @@
+/* 내 기록 · 선생님 화면 */
+.stat-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+.stat-list li { display: grid; gap: 4px; padding: 10px 12px; border: 2px solid var(--color-line); }
+.stat-list li.is-weak { border-color: var(--color-hp); }
+.stat-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 8px; }
+.stat-head strong { font-size: 17px; }
+.stat-weak { padding: 0 6px; font-family: var(--font-small); font-size: 12px; font-weight: 700; color: var(--color-hp); border: 2px solid var(--color-hp); }
+.stat-meter { height: 14px; background: var(--color-bg); border: 2px solid var(--color-ink); }
+.stat-meter > span { display: block; height: 100%; background: var(--color-good); transition: width 400ms ease-out; }
+.is-weak .stat-meter > span { background: var(--color-hp); }
+.stat-foot { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 15px; line-height: 1.6; font-variant-numeric: tabular-nums; }
+
+.name-field { display: grid; gap: 4px; }
+.name-field input, .code-box {
+  width: 100%;
+  font: inherit;
+  padding: 8px;
+  border: 2px solid var(--color-muted);
+  background: var(--color-bg);
+  color: var(--color-ink);
+}
+.code-box { font-family: var(--font-small); word-break: break-all; }
+
+.broken-list { margin: 0; padding-left: 20px; color: var(--color-hp); line-height: 1.7; }
+.table-wrap { overflow-x: auto; }
+.class-table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+.class-table th, .class-table td { border: 1px solid var(--color-muted); padding: 6px 8px; text-align: left; vertical-align: top; }
+.class-table thead th { background: var(--color-bg); }
+.class-table td.weak { background: rgba(208, 82, 79, 0.12); }
+.class-table tfoot { font-weight: 700; }

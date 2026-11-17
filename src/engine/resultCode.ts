@@ -34,10 +34,15 @@ export async function encodeResult({ name, stats }: ResultCard): Promise<string>
   }
   const json = new TextEncoder().encode(JSON.stringify(p))
   if (typeof CompressionStream === 'undefined') return PREFIX_RAW + toBase64Url(json)
-  return PREFIX + toBase64Url(await pipe(json, new CompressionStream('deflate-raw')))
+  try {
+    return PREFIX + toBase64Url(await pipe(json, new CompressionStream('deflate-raw')))
+  } catch {
+    // CompressionStream이 있어도 deflate-raw를 지원하지 않는 브라우저가 있다.
+    return PREFIX_RAW + toBase64Url(json)
+  }
 }
 
-const isCount = (x: unknown): x is number => Number.isInteger(x) && (x as number) >= 0
+const isCount = (x: unknown): x is number => Number.isSafeInteger(x) && (x as number) >= 0
 
 function tallyOf(c: unknown, t: unknown): Tally | null {
   return isCount(c) && isCount(t) && c <= t ? { correct: c, total: t } : null

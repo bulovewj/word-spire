@@ -1,18 +1,14 @@
 // 기기 안 저장. localStorage는 이 파일에서만 다룬다. 학생 답·기록은 기기 밖으로 나가지 않는다.
 import type { Passage } from '../content/types'
+import { emptyProfile, PROFILE_VERSION, type Profile } from '../engine/profile'
 import type { Area, JudgeRecord } from '../engine/records'
 import { RUN_VERSION, type RunState } from '../engine/run'
-import { STATE_VERSION, type GameState } from '../engine/state'
+import { STATE_VERSION } from '../engine/state'
 import { AREAS } from '../engine/stats'
+import { count, object, restoreRun, type Saved } from './savedRun'
 
 const RUN_KEY = 'wordSpire.v2.run'
 const FORMAT = `${RUN_VERSION}.${STATE_VERSION}`   // 둘 중 하나라도 바뀌면 옛 저장은 이어하지 않는다
-
-/** 저장 형식: 전투 속 글 데이터는 id만 남긴다(불러올 때 지금 데이터로 되돌림) */
-interface Saved {
-  format: string
-  run: Omit<RunState, 'battle'> & { battle: (Omit<GameState, 'passage'> & { passageId: string }) | null }
-}
 
 function storage(): Storage | null {
   try {
@@ -42,13 +38,7 @@ export function loadRun(findPassage: (id: string) => Passage | undefined): RunSt
   try {
     const raw = storage()?.getItem(RUN_KEY)
     if (!raw) return null
-    const data = JSON.parse(raw) as Saved
-    if (data.format !== FORMAT) return null
-    const { battle, ...rest } = data.run
-    if (!battle) return { ...rest, battle: null }
-    const { passageId, ...b } = battle
-    const passage = findPassage(passageId)
-    return passage ? { ...rest, battle: { ...b, passage } } : null
+    return restoreRun(JSON.parse(raw), FORMAT, findPassage)
   } catch {
     return null
   }
@@ -71,6 +61,7 @@ const isRecord = (r: unknown): r is JudgeRecord => {
   const x = r as Partial<JudgeRecord> | null
   return !!x && AREAS.includes(x.area as Area) && typeof x.ref === 'string' && typeof x.correct === 'boolean'
     && typeof x.helped === 'boolean' && typeof x.firstTry === 'boolean' && typeof x.scope === 'string'
+    && count(x.at) && (x.confidence === undefined || x.confidence === 'sure' || x.confidence === 'unsure')
 }
 
 /** 모양이 맞지 않는 기록 한 줄은 버린다 */
@@ -104,6 +95,60 @@ export function loadName(): string {
 export function saveName(name: string): void {
   try {
     storage()?.setItem(NAME_KEY, name)
+  } catch {
+    // 오류 없이 저장만 안 됨
+  }
+}
+
+// 성장 기록(별·인장·낱말·봉인 수)과 설정. 진행 저장과 따로 두어 새 탑을 시작해도 남는다
+const PROFILE_KEY = 'wordSpire.v2.profile'
+const SETTINGS_KEY = 'wordSpire.v2.settings'
+
+const isCountMap = (x: unknown): x is Record<string, number> =>
+  object(x) && Object.values(x).every(count)
+const isStringList = (x: unknown): x is string[] => Array.isArray(x) && x.every((v) => typeof v === 'string')
+
+/** 모양이 맞지 않으면 빈 기록으로 시작한다 */
+export function loadProfile(): Profile {
+  try {
+    const raw = storage()?.getItem(PROFILE_KEY)
+    const p = raw ? (JSON.parse(raw) as Partial<Profile>) : null
+    if (p?.version === PROFILE_VERSION && isCountMap(p.stars) && isCountMap(p.sealed) && isStringList(p.seals) && isStringList(p.seen)
+      && object(p.words)) {
+      const words = Object.fromEntries(Object.entries(p.words).map(([id, m]) => [id, { wrote: m?.wrote === true }]))
+      return { version: PROFILE_VERSION, stars: p.stars, sealed: p.sealed, seals: p.seals, seen: p.seen, words }
+    }
+  } catch {
+    // 깨진 기록: 처음부터
+  }
+  return emptyProfile()
+}
+
+export function saveProfile(p: Profile): void {
+  try {
+    storage()?.setItem(PROFILE_KEY, JSON.stringify(p))
+  } catch {
+    // 오류 없이 저장만 안 됨
+  }
+}
+
+export interface Settings {
+  sound: boolean             // 효과음. 교실에서 쓰니 처음엔 꺼 둔다
+}
+
+export function loadSettings(): Settings {
+  try {
+    const raw = storage()?.getItem(SETTINGS_KEY)
+    const x = raw ? (JSON.parse(raw) as Partial<Settings>) : null
+    return { sound: x?.sound === true }
+  } catch {
+    return { sound: false }
+  }
+}
+
+export function saveSettings(x: Settings): void {
+  try {
+    storage()?.setItem(SETTINGS_KEY, JSON.stringify(x))
   } catch {
     // 오류 없이 저장만 안 됨
   }

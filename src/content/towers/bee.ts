@@ -4,6 +4,7 @@ import type { Tower } from '../types'
 export const beeTower: Tower = {
   id: 'bee',
   title: '꿀벌',
+  blurb: '꿀벌이 사라지면 우리 밥상은 어떻게 될까?',
   intro: [
     '왕명을 받아 닫힌궁의 꿀벌 탑에 들어왔어.',
     '요괴가 가린 글에서, 소문을 가려낼 근거를 찾아봐.',

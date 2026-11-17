@@ -1,7 +1,10 @@
 .badge {
+  flex: none;
   font-family: var(--font-small);
   font-size: 12px;
+  line-height: 1.6;
   padding: 2px 8px;
+  white-space: nowrap;
   border: 2px solid var(--color-muted);
   color: var(--color-muted);
   background: var(--color-panel);

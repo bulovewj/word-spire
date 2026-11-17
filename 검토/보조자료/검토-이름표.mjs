@@ -4,6 +4,7 @@ const symbols={think:'생각력',damage:'공격피해',defense:'방어',fog:'안
 const kinds={literal:'거기있음',connect:'연결',author:'글쓴이와나',fog:'안개걷기',seal:'요약봉인',word:'낱말방어'}
 export const sheetNames={reader:'주인공-동작모음',dokkaebi:'먹안개도깨비-동작모음',tiger:'뒤섞는호랑이-동작모음',fox:'헛소문여우-동작모음',seal:'호리병봉인-세단계',gourd:'호리병',icons:'기능아이콘-열두종','card-kinds':'카드종류표식-여섯종','card-frame':'카드틀-미사용초안'}
 const named={
+ 'LAYOUT-desktop-tablet':'컴퓨터와패드-레이아웃-제안',
  'UI-gourd':'호리병','UI-card-frame':'카드틀-미사용초안','KEY-title-poster':'시작화면-정지배경','KEY-title-loop':'시작화면-대기영상','UI-grading-badge':'채점상태배지',
  'KEY-v4-reference':'한국풍-키아트-4판','CH-reader-reference':'주인공-앞뒤-복식참고','UI-talisman-reference':'부적카드틀-참고','FX-tools-reference':'봉인도구-참고',
  'BG-floor1':'일층-서고배경-제안','BG-floor2':'이층-서고배경-제안','BG-floor3':'삼층-서고배경-제안',
